@@ -1,0 +1,8 @@
+{
+  "argv": ["/Users/lili/.local/bin/formsy", "birdview", "mcp"],
+  "knowledge_bridge": {"argv": ["/Users/lili/.local/bin/formsy", "birdview", "mcp", "--allow-verifier-submit"]},
+  "project_bridge": {"argv": ["/Users/lili/.local/bin/formsy", "mcp", "serve"]},
+  "project_id": "ca1e5b4a-ad55-40bb-a6c3-34d51612b882",
+  "repository_bridge": {"argv": ["/Users/lili/.local/bin/formsy", "project", "discover"]},
+  "worktree": "/Users/lili/msa-round2"
+}

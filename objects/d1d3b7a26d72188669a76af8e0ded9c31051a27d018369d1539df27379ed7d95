@@ -1,0 +1,42 @@
+{
+  "source": "SOP设计基准-0.2/技术文档SOP.md",
+  "source_sha256": "553fa812f99d794691ba2b3fbe427a1a85f0824ae6764a37ee18ae13ac2a5084",
+  "selected_section_patterns": [
+    "^## (13|15|16|17)\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "知识库模块接口与数据契约",
+      "original_reference": "知识库设计/模块接口与数据契约.md"
+    },
+    {
+      "label": "知识库规则 KB01–KB18",
+      "original_reference": "知识库设计/知识库自检规则.md"
+    },
+    {
+      "label": "技术自检方案",
+      "original_reference": "技术SOP自检研究/自检机制方案.md"
+    },
+    {
+      "label": "既有技术自检教学示例",
+      "original_reference": "技术SOP自检研究/示例/本地便签自检演示.md"
+    },
+    {
+      "label": "知识库流程演示",
+      "original_reference": "知识库设计/示例/文档知识库流程演示.md"
+    },
+    {
+      "label": "既有技术来源索引",
+      "original_reference": "技术SOP自检研究/参考资料/来源索引.md"
+    },
+    {
+      "label": "知识库来源索引",
+      "original_reference": "知识库设计/参考资料/来源索引.md"
+    },
+    {
+      "label": "新增技术来源清单",
+      "original_reference": "SOP设计参考资料-20260930/技术/来源清单.json"
+    }
+  ],
+  "exported_sha256": "24d397032303ba5c8ab25d4719cd1410c280cde5e4f430857a1325cd6d88d49a"
+}

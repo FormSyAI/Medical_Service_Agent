@@ -1,0 +1,65 @@
+# SOP document workflow
+
+Use this workflow for document-only tasks. Authorized development uses the workflow module from the same resources. Coordinate document work without creating a development run.
+
+This guide defines questions, decisions, and delivery. Read the appropriate module rules for product design, technical design, source references, review, and assembly. If an older snapshot calls for one-at-a-time initial questions, approval at every stage, or mandatory JSON, apply the current user decisions and shared conventions.
+
+## Language and templates
+
+Select the document locale once for the current version. Use the user's explicit selection, then the established language of the existing document, then the configured project preference for a new document. The legacy default without a selection is `zh-CN`. Use `en-US` for English and `zh-CN` for Simplified Chinese. Treat an unsupported selection as unresolved and clarify it before recording a final delivery language.
+
+Read the selected locale's product specification and technical design templates from their modules. Use that locale's self-check report and evidence cards, and the matching aggregate template from the assembly module. Follow the module's localized templates for other applicable outputs. Apply the selection to new headings, labels, findings, and summaries through review and export. Keep original quotations, source references, evidence, protocol fields, and stable IDs.
+
+Record the locale with the document's version basis. Use the same choice on resume. If the user requests another language for an existing deliverable, create a new draft version with its own review and confirmation. Keep the earlier approved version and evidence at their original identity. Report the connected workbench interface language independently of the document language.
+
+## Initial module questions
+
+Identify known answers, existing documents, and gaps that need an actual user decision. Present the known questions together. Give each decision a stable identifier such as `P-Q01` or `P-Q02`. Keep the choices distinct and explain each impact. A recommended option and an unsubmitted selection carry no decision.
+
+When `request_user_input_async` is available, send the initial questions for the current module in one `questions` array. If the host imposes a limit, present the full numbered list first, then send consecutive groups. In chat, allow one reply to answer several numbered questions. Keep one decision per question and group by module.
+
+Explain dependencies and mark questions to ask after an earlier answer. Save partial replies and continue independent document work. If replies conflict, retain their originals, explain the impact, and ask about the decision that needs resolution. Ask new questions one at a time as material scope, meaning, or requirements change.
+
+The document's decision section can hold the question ID, module, original answer, decision state, affected object, and replacement links. Preserve superseded answers. Use ordinary language with the user and put rule IDs in the review record.
+
+## Progress and confirmation
+
+1. **Scope confirmation.** Present the users, goals, initial scope and exclusions, key constraints, and decided rules. Ask for scope confirmation. An explicitly presented technical direction can be confirmed at the same point. Keep other directions as proposals.
+2. **Incremental design.** Read the module sources and draft product behavior, technical ownership, tasks, and acceptance design. Show progress and differences between modules. Continue routine saves under the current authorization. Ask about material unknowns or record needed verification. Record reversible details as proposals in the draft.
+3. **Review and revision.** Review normal paths, applicable boundaries, forward requirements-to-acceptance traceability, and reverse sources. Save document fixes and explain the differences. Return changes to confirmed business rules, scope, or key technical decisions to the user. Record a blocker with its actual recovery condition.
+4. **Assembly and final confirmation.** Deliver one readable SOP with version, checks, open issues, and attachment scope. When connected, follow the [Workbench guide](workbench.md) to check the current version, verify and publish the full summary, then open or deliver the main document. Confirm the exact version. Record a partial confirmation at its actual scope. When the user changes material, recheck the affected objects and keep earlier versions and decisions.
+5. **Finish.** After the requested document confirmation, deliver the file and remaining limits. If the user later requests development, verify its own entry conditions and authorization.
+
+For a draft, partial artifact, or read-only review, deliver the requested scope. Follow explicit stage-by-stage approval requirements and reuse earlier decisions for unchanged scope.
+
+## Document readiness
+
+Record the evidence and open issues for each applicable check.
+
+| Check | Questions to answer |
+| --- | --- |
+| Scope | Who is served, what problem is addressed, and what is included or excluded in the initial release? |
+| Behavior | Do key paths have clear entry and outcomes? Are applicable failures, cancellations, repetition, and save rules specified? |
+| Traceability | Does each key requirement map to behavior, design or tasks, and observable acceptance? Does each new capability have a source? |
+| Consistency | Do language, states, data, tasks, and acceptance agree? |
+| Handoff | Do tasks state deliverables, dependencies, and completion conditions? Which decisions or facts still need verification? |
+| Evidence and unknowns | Are decisions, external facts, proposals, and assumptions distinct? Do material unknowns have impacts and next actions? |
+| Version and confirmation | Can readers locate the version, changes, actual checks, and effective decision scope? |
+
+Read the relevant PC, TC, KB, and other rules before reporting their checks. Field or ID checks establish structural coverage. Semantic review identifies the objects and actual material examined. Attribute a same-conversation self-check accordingly. When the application has not run, record acceptance design and the unexecuted state separately.
+
+Record three distinct statuses. The document can be a draft, awaiting final confirmation, or confirmed. The handoff identifies ready tasks and tasks blocked on specific prerequisites. Software execution is unexecuted or supported by current build and run records. A confirmed document can retain open issues. Execution requires its own authorization.
+
+A draft can be delivered with unresolved conflicts or unknowns in core rules. Handoff readiness requires the applicable checks and the absence of critical blockers. The user decides final confirmation.
+
+Classify open issues by when they must be resolved. Include the next action and affected task for those blocking finalization, allowing conditional delivery, or blocking execution later. When a decision changes, check downstream effects on product behavior, technical state, tasks, acceptance, and citations. Retain the earlier decision and the reason for change. Record the impact in the configured workbench when connected.
+
+Bind final confirmation to the exact file, revision, and bytes the user confirmed. Keep a partial decision limited to its stated scope. After the file or recorded version changes, retain earlier confirmations in history and review the current version. Keep an unbound historical declaration with its original meaning and limits.
+
+## Document depth and reading order
+
+Start the main document with a one-page overview of goals, scope, open decisions, and next actions. Use sections 0–8 from the assembly module. Expand only the applicable parts. Keep detailed tables, sources, and checks in readable relative attachments when useful.
+
+Record goals, dependencies, deliverables, and completion criteria for the overall work. Add exact paths, commands, and steps to near-term tasks once the environment is known. Use verification tasks for unknown environments. Maintain one authoritative statement per business rule and reference its stable ID elsewhere.
+
+Deliver one Markdown document with necessary attachments. Add JSON and run the existing structural checker when a machine handoff consumer requires it.

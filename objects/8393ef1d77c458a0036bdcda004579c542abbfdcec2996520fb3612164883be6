@@ -1,0 +1,35 @@
+# [Defect and revision] Bug repair report
+
+Use the section for the current `bugfix-v1` stage and save it to the current report path in `flow context`. Preserve original request wording, quotation text, paths, digests, IDs and receipt references.
+
+## 1. Assessment (`assess`)
+
+| Field | Current evidence |
+| --- | --- |
+| Original symptom, expected behavior and impact | [Original report and observed behavior] |
+| Baseline, platform and reproduction steps | [Revision, environment, input, actual operation and evidence] |
+| Diagnosis and limits | [Evidence supporting `valid`, `likely_valid` or `invalid`] |
+| Proposed scope, risk and protected assertions | [Files, reason, risks and any exact proposed assertion change] |
+| Required checks and repair budget | [Check IDs, purpose, argv, requirements and budget] |
+
+| Objective ID and original source | Symptom and expected behavior | Reproduction or manual procedure | Runtime prerequisites and evidence |
+| --- | --- | --- | --- |
+| [Stable ID and exact source quote] | [Actual symptom and expected user-visible result] | [Required reproduction check or versioned manual procedure] | [Met, blocked, or inapplicable with source or reason] |
+
+## 2. Repair (`fix`)
+
+| Field | Current evidence |
+| --- | --- |
+| Accepted assessment version and affected scope | [Assessment reference and authorized paths] |
+| Change and observed diff | [Modified paths, behavior and scope review] |
+| Status and deviations | [Evidence for `applied`, `partial` or `not_applied`, with reasons] |
+| Remaining failures or unknowns | [Current gaps, prior failed attempts and next action] |
+
+## 3. Verification (`test`)
+
+| Objective or check | Current target and environment | Expected and actual behavior | Original failure, current receipt or gap |
+| --- | --- | --- | --- |
+| Original reproduction | [Revision and setup] | [Symptom and current behavior] | [Current receipt] |
+| Required regression and adopted checks | [Revision and setup] | [Expected and actual outcomes] | [Current receipts] |
+
+Record the assessment and repair report references, the evidence supporting `verified`, `partial` or `failed`, and any remaining gaps. Retain previous failures and the real user decision if applicable.

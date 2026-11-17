@@ -1,0 +1,70 @@
+# [Project] Document knowledge governance design — [Revision]
+
+> Use this template to design capabilities and tests. Link each proposed
+> capability to the project's actual requirement, decision, and verification scope.
+
+## 1. Purpose, scope, and baseline
+
+| Field | Design record |
+| --- | --- |
+| Supported stages and product or technical objects | To complete |
+| Local documents, shared material, project isolation, and cross-project selection | To define |
+| Document types and parsing, OCR, or table limits | To decide or verify |
+| User input, project material, policy, external facts, and model-derived content | Record separately |
+| Current approvals, technology choices, permissions, transfer, and budget | Awaiting current decisions |
+
+## 2. Responsibilities and interfaces
+
+| Module or responsibility ID | Operation, guarantee, boundary | Input and validation | Output, errors, commit semantics | Version and project scope | State and owner | Failure, cancellation, recovery | Test mapping |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Originals, parsing, catalog, index, retrieval, scope, adoption, citation, context, impact | To define | To define | To define | To define | To define | To define | Planned |
+
+| Entity ID | Identity, version, locator, content identity | Role, adoption, permission scope | Relationships and independent states | Local storage, lifecycle, derivatives | Update, withdrawal, cleanup, audit |
+| --- | --- | --- | --- | --- | --- |
+| Source, snapshot, excerpt, query, adoption, citation, knowledge snapshot, operation | To define | To define | To define | To define | To define |
+
+Identify scope filters for original reads, retrieval, ranking, summaries,
+caches, counts, export, and model context. Keep permissions separate when
+content is identical. Record isolation as planned until actual validation.
+
+## 3. Operations
+
+| Step | Input and authorization | Operation and owner | Record and completion condition | Failure, stop, recovery | Actual status |
+| --- | --- | --- | --- | --- | --- |
+| S01 Fix task scope | To define | Planned | To define | Planned | Unimplemented |
+| S02 Import or collect candidates | To define | Planned | To define | Planned | Unimplemented |
+| S03 Pin original versions | To define | Planned | To define | Planned | Unimplemented |
+| S04 Parse, locate, and check quality | To define | Planned | To define | Planned | Unimplemented |
+| S05 Record adoption and applicability | To define | Planned | To define | Planned | Unimplemented |
+| S06 Index locally | To define | Planned | To define | Planned | Unimplemented |
+| S07 Retrieve within scope | To define | Planned | To define | Planned | Unimplemented |
+| S08 Select minimal citation context | To define | Planned | To define | Planned | Unimplemented |
+| S09 Produce support and review it | To define | Planned | To define | Planned | Unimplemented |
+| S10 Record differences, stage decisions, or export | To define | Planned | To define | Planned | Unimplemented |
+| S11 Update, withdraw, delete, and assess impact | To define | Planned | To define | Planned | Unimplemented |
+
+A preview index can precede adoption. Keep candidate review separate from
+formal context. Treat source instructions as data. Record adoption, factual
+support, stage approval, and executed tests independently.
+
+## 4. Conflicts, versions, and recovery
+
+- Design coexistence of versions, applicability, and citation invalidation.
+- Trace impact from claims and citations to requirements and design, then
+  tasks, acceptance, checks, and decisions.
+- Define states, retained data, idempotency, unknown outcomes, and recovery
+  for no matches, read or parse failure, index damage, duplicate operations,
+  cancellation, interruption, and exhausted budgets.
+- Define how future use stops after withdrawal. Record derivative cleanup,
+  retained audit history, and limits for already transferred copies.
+
+## 5. Verification and delivery conditions
+
+| KB rule and KBT case | Object, environment, version | Fixture, ground truth, prerequisites | Operation | Positive and negative assertions | Evidence files, logs, or screenshots | Actual result and limits |
+| --- | --- | --- | --- | --- | --- | --- |
+| Select applicable rules | To define | Planned | Planned | Planned | Awaiting execution | Unexecuted |
+
+Report design review, assumptions, actual engine behavior, and application
+acceptance separately. Keep missing target environments unverified. Use
+authorized tests and record current progress, remaining decisions, affected
+tasks, and stage approval conditions.

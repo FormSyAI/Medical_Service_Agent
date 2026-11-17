@@ -1,0 +1,60 @@
+# Security supplement integration and handoff
+
+This English reference follows the security design supplement 0.1, dated 2026-10-08. The [Chinese export](../安全专项/整合说明.md) and its [provenance](../安全专项/整合说明.provenance.json) preserve the original wording and hashes. Apply the supplement through the existing Technical and Selfcheck modules and use actual project decisions for phase confirmation.
+
+## 1. Use the security references
+
+| Reference | When to read | Output |
+| --- | --- | --- |
+| [Security SOP](security-sop.md) | Draft, refine, or review security design | Boundaries, procedure, design depth, evidence levels, and prerequisites for actual execution |
+| Locale-matched security design template | Record or complete a particular project's design | AST/TB/DF, TH, CTRL, technical and task links, ST and evidence, questions, and issues |
+| [Security review rules](security-review-rules.md) | Review specific objects and versions | SEC01–SEC12 applicability and evidence levels, issues, and actual evidence gaps |
+| Integration guidance | Handoff among Technical, Knowledge, Selfcheck, and Assembly | Stable IDs, one authoritative state, version binding, and denominators without duplicated evidence |
+
+The installed Technical module contains the references and both template locales. External method references keep their original source identities. [English template](../../assets/security-design-template.en-us.md) and [Simplified Chinese template](../安全专项/安全设计模板.md)
+
+## 2. Existing design and supplement scope
+
+Technical design baseline 0.2 §9 already covered permission and trust boundaries, user-provided API keys, credential facilities, minimum egress, log redaction, source instructions as data, and revocation. §§7, 8, and 10 already covered storage lifecycle, dependencies and platforms, and failure and recovery. Continue to apply TC09, TC10, and applicable KB rules. Use the current shared applicability guidance to determine credential ownership.
+
+The supplement elaborates specific threats, responsible enforcement entries, protection choices, rejection assertions, actual evidence, and vulnerability and release maintenance. Keep the original 0.2 design and record any adopted scope and revision through the effective project decision.
+
+| Supplement | Existing Technical and TC | Knowledge and Product handoff |
+| --- | --- | --- |
+| SEC01 Assets, threats, and risk | Technical §§2, 3, 9 and TC01/TC02/TC03/TC09 | Product protection goal, authorized behavior, and scope. Record source material and decisions separately. |
+| SEC02/SEC03 Authorization, files, and tools | Technical §§4, 5, 6, 9 and TC03/TC04/TC06/TC09 | KB06 project scope. Product normal, denied, and failure paths and PC09/PC10. |
+| SEC04/SEC05 Inputs, knowledge, and egress | Technical §§5, 9 and TC04/TC09/TC14 | KB06/KB13/KB14. Record candidate adoption and phase confirmation separately. |
+| SEC06/SEC07 Credentials, protection, and lifecycle | Technical §§7, 9, 10 and TC05/TC09 | KB15 revocation and deletion. Product setup, recovery, and limits and PC09/PC10/PC14. |
+| SEC08 Logs and evidence | Technical §§9, 15 and TC09/TC12 | KB17. Apply current permission to screenshots and diagnostic exports. |
+| SEC09/SEC10 Components and release | Technical §§8, 10, 16 and TC10/TC11 | Platforms and delivery, license and maintenance tradeoffs, and user decisions. |
+| SEC11/SEC12 Cancellation, recovery, and actual evidence | Technical §§6, 10, 15 and TC06/TC12/TC13/TC15 | KB16/KB17/KB18. Keep PC12/PC15 review closure separate from actual acceptance. |
+
+Use these as handoff links. Judge SEC, TC, KB, and PC conditions independently against their exact meanings. Reuse a piece of evidence within its scope and count independent proof only once.
+
+## 3. Technical and Selfcheck integration
+
+For architecture, data, dependencies, security, recovery, and verification design, select the applicable security material. Keep AST, boundary, TH, and CTRL identities stable. Link existing MOD/API/DATA objects, tasks, and acceptance. Keep design within existing authority and record residual-risk acceptance through the actual decision.
+
+For TC09, TC10, or another check needing security depth, apply SEC conditions to the pinned objects and levels. Record each check, issue, and handoff. Actual L3 passing requires current execution evidence.
+
+Use the existing `sop-module-handoff-0.2` structure. Set `checks.rule_id` to `CUSTOM:SECxx` and declare actual TH/CTRL/ST objects in `objects` with their versions, sources, and requirements. Bind `object_revision` to the reviewed object version. Record missing MOD/API/DATA objects as real gaps in `issues.object_ids`.
+
+Record source version, reading scope, adoption and use in `sources` and actual confirmation state in `confirmations`. Keep future ST plans in the design. Include only actual execution in `runtime_results`. Verify evidence content independently of a locatable path. Issue closure needs current evidence at the required level, recheck, and applicable confirmation. Structural validation recognizes CUSTOM IDs. Verify encryption, permissions, credential deletion, and component risks through their own evidence.
+
+## 4. Sources and archive boundaries
+
+The original export identifies the historical reading archive. It contains brief notes, the source index, read scope, applicability limits, and comparison with the original design. Notes have their own hashes and source identity.
+
+The source used threat modeling for trace links, secure-development guidance for vulnerability and release lifecycle, version-specific Electron guidance where applicable, the ASVS project page for scope and reference conventions, and storage and logging guidance for their respective design areas. The supplement owns its IDs, fields, applicability, and blocking conditions. [OWASP Threat Modeling](https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html), [NIST SSDF 1.1](https://csrc.nist.gov/pubs/sp/800/218/final), [Electron Security](https://www.electronjs.org/docs/latest/tutorial/security), [OWASP ASVS](https://owasp.org/projects/asvs), [OWASP Cryptographic Storage](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html), and [OWASP Logging](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
+
+## 5. Obtain current project facts
+
+Verify current requirements and decisions, data types, modules and component and platform versions, credential facilities and data protection choices, release identity and channel, log retention and security maintenance, and synthetic data, test environment, permission and budget. Obtain applicable user decisions for changes in requirements, approach, or permission. Verify technical facts with version-specific primary sources and use authorized trials where the target environment is necessary.
+
+Keep Windows evidence tied to actual Windows execution. Treat candidate protections as proposals. Adopt libraries, authentication, master passwords, cloud storage, paid accounts, signing, or background updates only through applicable decisions. Record unknowns, blockers, and next actions and support readiness with actual evidence.
+
+## 6. Document delivery and runtime evidence
+
+The original supplement delivered method notes, a design procedure, a template, review rules, and document checks of files, IDs, and links. The design round did not modify a real application, run security tests, collect user secrets, make paid calls, or exercise attack behavior. Its runtime security test status is unexecuted. Record actual application results, retests, and scores only when the applicable project obtains evidence.
+
+Each project records its own L1/L2/L3 results and effective phase confirmation. The final aggregate SOP links the project's current findings, limitations, issues, and evidence.

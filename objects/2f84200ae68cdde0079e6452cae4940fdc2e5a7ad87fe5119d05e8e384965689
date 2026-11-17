@@ -1,0 +1,112 @@
+# Product SOP teaching example
+
+This English example follows section 7 of the Product Documentation SOP design baseline 0.2. All inputs, tasks, and decisions below are fictional and illustrate the structure. For real work, use the current workflow and effective project decisions. Keep the example's confirmation and test states as shown. [Chinese export](产品教学示例.md) and [provenance](产品教学示例.provenance.json)
+
+## 7. Full example structure for a local to-do list
+
+### 7.1 Initialization
+
+| Field | Fictional entry |
+| --- | --- |
+| Project, version, and state | DEMO-TODO / DEMO-v0.1 / draft, unconfirmed |
+| User and scenario U01 | An individual organizes tasks before starting work each day. This scenario is assumed. Actual users have yet to be observed. |
+| Problem P01 | Temporary tasks are written on paper. On returning to work, completed tasks are difficult to distinguish. Evidence for the existing method and problem is missing. |
+| Goal G01 | Proposed outcome is adding a task, marking it complete, and recognizing the result after reopening. A numerical efficiency claim would need evidence. |
+| Platforms and delivery | Proposed macOS and Windows delivery. Start from an empty project and plan source, installers for the named platforms, and a verification report. Actual environments are pending. |
+| Initial scope | Local add, completion state, and viewing after reopening. Accounts, cloud sync, sharing, charges, deletion, and bulk operations are outside this example. |
+| Data and effects | Candidate stores task text and completion state locally. Egress and external cost are outside this fictional scope. |
+| Sources and confirmation | DEMO-S01 is the fictional scenario. DEMO-S02 is the fictional design suggestion. Initialization confirmation is unprovided. |
+
+DEMO-Q01 asks whether a task added successfully before closing should remain on the next launch. Offer “Keep until the next launch” as the proposal, “Use for this session only,” and an open answer. Keep the data behavior and dependent tasks pending until an actual decision.
+
+### 7.2 Discovery
+
+| R-ID | Candidate behavior | Source and evidence state | Priority and scope | Goal and later acceptance |
+| --- | --- | --- | --- | --- |
+| DEMO-R01 | After the user adds valid task text, the list shows a matching incomplete task. | DEMO-S02, proposed design | Must, first release | G01 / DEMO-A01 |
+| DEMO-R02 | Changing the selected task's completion state leaves other tasks unchanged. | DEMO-S02, proposed design | Must, first release | G01 / DEMO-A02 |
+| DEMO-R03 | Successfully saved text and completion states remain when the app reopens. | DEMO-S02, pending DEMO-Q01 | Candidate Must, unconfirmed | G01 / DEMO-A03 |
+| DEMO-R04 | A failed save shows failure, keeps current input, and withholds success. | DEMO-S02, proposed failure behavior | Candidate Must, unconfirmed | G01 / DEMO-A04 |
+
+DEMO-C01 proposes that the feature reduces forgotten tasks. Keep it as an unverified value hypothesis. DEMO-C02 proposes that persistence works on both platforms. Hand it to Technical for verification and retain its unexecuted state. Obtain actual discovery answers about user problems, priorities, input limits, and retention in a real project.
+
+### 7.3 Modeling the journey, page, and functions
+
+DEMO-J01 is the candidate journey from first launch through adding a task, marking it complete, and reopening to view it.
+
+| Step | Prerequisite and page | User action | Visible feedback | Business data change | Next step or failure path | Function and acceptance |
+| --- | --- | --- | --- | --- | --- | --- |
+| DEMO-J01-1 | No tasks, DEMO-UI01 | Open the application. | Show the empty list, input, and add action. | No tasks yet. | Enter a task. Read failure follows DEMO-X03. | F01/F03, A01/A03 |
+| DEMO-J01-2 | Input available, UI01 | Enter “Prepare for the weekly meeting” and add. | Show recognizable progress, then the incomplete task on successful save. | Success adds one task. Failure leaves existing records. | Success goes to step 3. Failure follows X02. | F01, A01/A04 |
+| DEMO-J01-3 | An incomplete task exists, UI01 | Mark that task complete. | Show completion after save. On failure, retain the previous display and explain the failure. | Change only the selected task after successful persistence. | Continue or close. Failure follows X02. | F02, A02/A04 |
+| DEMO-J01-4 | A task was saved successfully, UI01 | Close and reopen the app. | Show the original text and completed state. | Preserve the original count and entries. | Reach a recognizable end. Read failure follows X03. | F03, A03 |
+
+DEMO-UI01 shows how to start when empty, an explicit loading state while reading, and the tasks and statuses in normal use. During writes, retain the current content and use the proposed guard against repeated submission. Show success after durable saving. Distinguish read failure from an empty list. On write failure, retain input and prior successful records and explain when retry is available. DEMO-ISS03 covers closing while a write is in progress. Keep full close and recovery readiness pending until it is decided.
+
+DEMO-F01 demonstrates a complete Add Task card.
+
+| Field | Fictional entry |
+| --- | --- |
+| Purpose and source | Fulfill the Add step in G01. R01/R04 trace to S02. An effective decision is pending. |
+| Actor, trigger, and prerequisites | The intended individual chooses Add on UI01 after the list loads and with no write in progress. |
+| Input and limits | `text` is a required string. Proposed validation trims surrounding whitespace, requires nonempty text, and limits input to 100 Unicode characters. The limit is an unconfirmed teaching suggestion. Validate before submission. |
+| Output and effects | On success, show one incomplete task and save its text and state locally. Egress is outside scope. Technical design owns the actual path and persistence method. |
+| Normal sequence | Enter, validate, show progress, wait for persistence, then insert the visible task and clear input on success. |
+| Rules and state | DEMO-B01 requires valid input and successful save for a new task. DEMO-B02 proposes suppressing a second submission during a write. |
+| Configuration and defaults | S02 proposes incomplete as the default. User configuration is outside this example. |
+| Duplicates and order | Keeping separate tasks with the same name is a candidate. Decide that rule independently of repeated clicks during one write. |
+| Errors and boundaries | X01 explains invalid or empty input in place and preserves input and data. X02 retains input and the previous list after write failure and shows failure and retry. X03 stops creation of a false empty list after read failure. See ISS03 for closing during a write. |
+| Data and retention | A successful save creates a durable record. Retention on reopen is proposed. Deletion and undo are outside scope. |
+| Permission and egress | Local use by the individual is assumed. Cross-project reading and egress are outside scope. Verify actual storage access in the target environment. |
+| Cost and stopping | External service fees are outside scope. Decide the retry limit and stop behavior with Technical and product feedback. |
+| Completion and acceptance | A01 checks valid add. A04 checks write failure. Success requires the visible page and durable data to agree. |
+| Technical handoff and questions | DEMO-H01 proposes a storage interface. Implementation, input length, duplicate names and actions, and close and recovery remain unresolved. |
+
+F02, Change Completion State, takes an existing task ID and target boolean. The individual triggers it on the selected task after a successful read with no write in progress. After durable save, change only the selected task's state and display. Repeating the same target state is proposed to preserve the count. Failure retains the previous state and follows X02. Configuration, permissions, and cost follow the local scope. A02 checks the intended change and that other tasks remain unchanged. H02 owns technical handoff. Confirm duplicate and failure rules through their own decisions.
+
+F03, View After Reopening, reads an authorized local list on startup. Show the previously saved text and state. Preserve data during the read. On read failure, follow X03 and stop creation of a false empty list. User configuration, egress, and cost are outside scope. A03 checks reopening and H03 owns technical handoff. File compatibility, corrupt-data recovery, and actual environments are unverified.
+
+| Rule or failure | Proposed before and after | Completion or stopping condition |
+| --- | --- | --- |
+| DEMO-B01 Valid add | No new task → one durably saved incomplete task. S02 supplies the proposed default and length. | Show success only after persistence succeeds. |
+| DEMO-B03 Completion update | Original selected state → saved target state. Other tasks remain unchanged. | Observe the selected task and the other tasks. |
+| DEMO-X01 Invalid input | Retain input and list and explain the problem. | Allow submission after correction. |
+| DEMO-X02 Write failure | Retain saved data and distinguish the new input or pending state change. | Retry when the prerequisite recovers. |
+| DEMO-X03 Read failure | Report inability to load and distinguish it from an empty list. | Stop affected writes. Recovery remains pending. |
+
+DEMO-QL01 proposes distinguishable “Saving,” “Save failed,” and “Saved” feedback so the next step is clear without reading logs. Plan observation of actual users and review the state wording. Participants, observation questions, and evidence are pending. The trial remains unexecuted.
+
+### 7.4 Acceptance and planning
+
+| Acceptance ID | Proposed setup and operations | Observable assertion | Evidence plan | Platforms and state |
+| --- | --- | --- | --- | --- |
+| DEMO-A01 Add | Launch with an empty list. Enter “Prepare for the weekly meeting,” add, and wait. | Exactly one incomplete task appears with matching text, and its saved record exists. | Actual UI operation, durable data comparison, and build identity | macOS and Windows separately, both unexecuted |
+| DEMO-A02 Complete | Start with two saved incomplete tasks. Complete one. | The selected task is complete, the other is unchanged, and storage agrees. | Operation and before/after data, plus failure screenshot and log if needed | Both platforms unexecuted |
+| DEMO-A03 Reopen | Successfully save the A01/A02 results. Close and launch again. | Preserve text, count, and completion state without duplicate additions. | Actual close and reopen record, durable data, and result screenshot | Both platforms unexecuted. Keep unavailable Windows evidence unverified. |
+| DEMO-A04 Write failure | Isolate test data. Use a predefined controlled write failure while adding or changing state. | Show failure, preserve input and previous data according to the rule, and withhold save success. Retry after recovery remains pending design. | Original failure, screenshot, before/after data, and recovery retest | Both platforms need actual environments and failure method. Unexecuted. |
+
+Complete cards also need platform version and architecture, artifact identity, permission, failure method, and observation tools, as described in §4.10. Four criteria on two platforms yield eight candidate pairs. Fix the complete applicable set before computing project pass rate or human-test ratio.
+
+| Handoff | Product commitment | Proposed technical work and task | Verification and unresolved work |
+| --- | --- | --- | --- |
+| DEMO-H01 | F01 visible success agrees with saving. Failure preserves earlier data. | Proposed local write interface, DEMO-T01 | Verify failure and atomicity in a real trial. Stack selection is pending. |
+| DEMO-H02 | F02 changes only the selected state. | Proposed update interface, DEMO-T02 | Design and test object identity, retries, and failure state. |
+| DEMO-H03 | F03 preserves successful data when reopened. | Proposed read interface and startup flow, DEMO-T03 | Verify installation, startup, and actual file results on both platforms. |
+
+Trace P01 → G01 → R01 → J01 step 2 → F01/B01 → A01 and platform → H01/T01. R02, R03, and R04 follow their corresponding flow and A02, A03, and A04. Short IDs refer to the DEMO objects. Reverse tracing identifies the 100-character limit, allowed same-name tasks, and duplicate suppression as S02 proposals. Confirm applicable requirements before assigning implementation.
+
+| Issue | Type and impact | Next action and closure | State |
+| --- | --- | --- | --- |
+| DEMO-ISS01 | User needs and scope are fictional. Affects the whole baseline. | Obtain actual user inputs and applicable confirmation for a real project. | Open |
+| DEMO-ISS02 | Length, same-name tasks, and repeats are undecided. Affects F01 and A01/A04. | Clarify, revise and recheck affected objects, then obtain the applicable decision. | Awaiting user decision |
+| DEMO-ISS03 | Close during a write and corrupt-read recovery remain undecided. Affects the journey and storage promises. | Specify product behavior, obtain technical verification evidence, then recheck and confirm where needed. | Open |
+| DEMO-ISS04 | Platform versions and actual environments are missing, especially Windows. | Retain platform rows and execute the original trials and any failure retest when the required environment is available. | Environment blocked |
+
+| Stage | Example revision | Document state | Actual approval and execution |
+| --- | --- | --- | --- |
+| Initialization | DEMO-v0.1 | Teaching draft | Unprovided / unexecuted |
+| Discovery | DEMO-v0.2 | Teaching candidate requirements | Unprovided / unexecuted |
+| Modeling | DEMO-v0.3 | Teaching functionality, journey, and acceptance. Key gaps remain. | Unprovided / unexecuted |
+| Planning | DEMO-v0.4 | Teaching handoff with tasks held | Unprovided / unexecuted |
+
+A real project can use this structure for a single aggregate SOP with phase history, Product and Technical objects, current outcomes by confirmed criterion and platform, findings, and evidence attachments. This fictional material contains eight candidate pairs. Deliverables, installers, observed PC/PM scores, a score of 95, and a human-test ratio of at most 10% all require actual project evidence.

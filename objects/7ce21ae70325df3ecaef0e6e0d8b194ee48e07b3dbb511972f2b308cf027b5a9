@@ -1,0 +1,9 @@
+{
+  "url": "http://127.0.0.1:50842/",
+  "project_directory": "/Users/lili/msa-round2",
+  "project_id": "0c8381e4-4d37-4293-804d-85dedec78d4d",
+  "instance_id": "6f0e0482d3b3497b89d09a35cd9a6c1c",
+  "runtime": "5fb84dd546953d08e4207771fb6b87427391a2f5998479ecd9f6ee9966bb5de3",
+  "pid": 44559,
+  "presentation": "loopback_live_workflow"
+}

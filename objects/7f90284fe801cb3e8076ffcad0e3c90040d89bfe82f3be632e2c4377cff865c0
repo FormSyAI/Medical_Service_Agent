@@ -1,0 +1,9 @@
+{
+  "source": "任务细化补充-0.1/任务拆分示例.md",
+  "source_sha256": "d268c85a72b758f62d568e70a35b871eb200a2693c9615b4dd500fa98317f554",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "bbe10e74235b4eb6af90aa0d3cf35d226fb087c33b3bba3ac450bc1fe6119c6d"
+}

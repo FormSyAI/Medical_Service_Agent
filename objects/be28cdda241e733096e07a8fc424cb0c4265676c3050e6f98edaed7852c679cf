@@ -1,0 +1,6 @@
+interface:
+  display_name: "FormSy SOP"
+  short_description: "Clarify, review, and assemble a project SOP"
+  default_prompt: "Use modules/formsy-sop/GUIDE.md to turn my project idea into an SOP in the selected document language. Group initial questions by module. Limit this request to document delivery."
+policy:
+  allow_implicit_invocation: true

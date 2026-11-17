@@ -1,0 +1,89 @@
+# [Project] consolidated SOP
+
+Use the `formsy-sop-0.2` section order. Keep evidence, effective decisions, and unresolved questions attributable to their original versions. Link to the original language of quotations and evidence. Omit inapplicable details with a reason.
+
+## 0. Document and stage baseline
+
+| Field | Current value |
+| --- | --- |
+| Project / document ID / revision | [identifiers] |
+| Target platforms and architectures | [platforms] |
+| Author, export time and time zone | [actual values] |
+| Content and execution status | [draft or observed status, with evidence] |
+| Stage versions, confirmations and gaps | [actual versions and applicable decisions] |
+
+## 1. Goals, scope, sources and decisions
+
+Record the audience, use cases, goals, measurable outcomes, included and excluded scope, constraints, and resource limits. For each source or decision, keep its ID, original location, version, scope, and effective status.
+
+## 2. Product design
+
+### 2.1 Requirements and scope
+
+Record requirement IDs, original wording, priorities, acceptance links, and applicable decisions.
+
+### 2.2 End-to-end user journeys
+
+Trace each actor, entry, action, visible response, exit, and applicable failure or recovery path to requirements and acceptance.
+
+### 2.3 Pages and states
+
+Record navigation, operations, empty and loading states, failure, retained input, and recovery.
+
+### 2.4 Feature card [F ID / name]
+
+Record preconditions, input constraints and defaults, normal steps, visible output, state changes, exceptions, side effects, and completion criteria.
+
+### 2.5 Business rules and product quality
+
+Retain stable rule IDs, trigger conditions, constraints, thresholds, source, measurement and observed results.
+
+## 3. Technical design
+
+### 3.1 Architecture and technical decisions
+
+Document boundaries, responsibilities, dependency direction, trust boundaries, flows, constraints, and decision status.
+
+### 3.2 Module card [MOD ID / name]
+
+Document providers and consumers, inputs, outputs, state, data ownership, commit boundaries, and failure recovery.
+
+### 3.3 Interface contract [API ID]
+
+Document versions, constraints, ordering, result semantics, permissions, errors, retries and compatibility.
+
+### 3.4 Data, state and failure matrix
+
+Document owners, readers and writers, success boundaries, recovery, migration and derived-data invalidation.
+
+### 3.5 Runtime, dependencies, security and delivery environments
+
+List each required platform, version, prerequisite, dependency, permission and security boundary. Mark unavailable or unverified environments.
+
+## 4. Planning, procedures and bidirectional traceability
+
+| Requirement / acceptance | Design object | Task / STEP | Dependencies and prerequisites | Check and evidence |
+| --- | --- | --- | --- | --- |
+| [stable IDs] | [MOD/API/DATA] | [stable IDs] | [actual dependencies] | [TEST ID and result reference] |
+
+### Implementation card [STEP ID]
+
+Link the full task packet. Record versions, allowed scope, ordered actions, intermediate outcomes, completion criteria, stop conditions and recovery.
+
+## 5. Acceptance design and observed results
+
+### Acceptance card [AC ID × platform / architecture]
+
+Record the original expectation, source, platform, setup, operation, assertion, counterexample, method, and evidence location. Separate planned checks, observed outcomes and missing evidence.
+
+## 6. Self-review, findings and entry criteria
+
+List the selected review items, actual findings, affected objects, pending fixes and entry criteria. Distinguish document review, application verification and user acceptance.
+
+## 7. Changes, stop conditions and delivery
+
+Record revisions and their reasons, observed user decisions, remaining blockers, recovery conditions, and delivered source, packages and instructions. Preserve earlier failed results.
+
+## 8. Appendices and document index
+
+Link each retained artifact, evidence record and authoritative source with its identifier, revision, applicability and availability.

@@ -1,0 +1,138 @@
+// Fixed renderer; optional persistence delegates only to an explicit CLI binary.
+import { readFile } from 'node:fs/promises';
+import { spawnSync } from 'node:child_process';
+import { isAbsolute } from 'node:path';
+
+const locales = {
+  'zh-CN': {
+    notice: '生成时的静态报告；结构校验不证明事实真实，不代表任务批准或当前代码验收。',
+    navigation: '报告分区',
+    findings: ['分析', '分析与来源'],
+    checks: ['检查', '检查结果'],
+    limitations: ['局限', '未解决事项与局限'],
+    source: '来源：',
+    kinds: { fact: '事实', user_statement: '用户陈述', inference: '推断', unknown: '未知' },
+    statuses: { pass: '通过', fail: '失败', missing: '缺证', not_applicable: '不适用' },
+    basis: { observed_tool_result: '观察到的工具结果', reported: '据报告', unavailable: '证据不可用' },
+  },
+  'en-US': {
+    notice: 'Static report as of generation. Structural validation does not establish factual accuracy, task approval, or acceptance of the current code.',
+    navigation: 'Report sections',
+    findings: ['Findings', 'Findings and sources'],
+    checks: ['Checks', 'Check results'],
+    limitations: ['Limitations', 'Open items and limitations'],
+    source: 'Source: ',
+    kinds: { fact: 'Fact', user_statement: 'User statement', inference: 'Inference', unknown: 'Unknown' },
+    statuses: { pass: 'Pass', fail: 'Fail', missing: 'Missing evidence', not_applicable: 'Not applicable' },
+    basis: { observed_tool_result: 'Observed tool result', reported: 'Reported', unavailable: 'Unavailable' },
+  },
+};
+function text(value) {
+  return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+}
+function validate(value, schema) {
+  if (schema.type === 'object') {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('invalid_report');
+    if (Object.keys(value).some(key => !Object.hasOwn(schema.properties, key))) throw new Error('invalid_report');
+    for (const key of schema.required) {
+      if (!Object.hasOwn(value, key)) throw new Error('invalid_report');
+      validate(value[key], schema.properties[key]);
+    }
+  } else if (schema.type === 'array') {
+    if (!Array.isArray(value) || value.length > schema.maxItems) throw new Error('invalid_report');
+    for (const item of value) validate(item, schema.items);
+  } else if (schema.type === 'string') {
+    if (typeof value !== 'string' || [...value].length < (schema.minLength ?? 0) || [...value].length > (schema.maxLength ?? Infinity)) throw new Error('invalid_report');
+    if (schema.pattern && !new RegExp(schema.pattern).test(value)) throw new Error('invalid_report');
+  } else if (schema.type === 'integer') {
+    if (!Number.isSafeInteger(value) || value < (schema.minimum ?? -Infinity) || value > (schema.maximum ?? Infinity)) throw new Error('invalid_report');
+  }
+  if (Object.hasOwn(schema, 'const') && value !== schema.const) throw new Error('invalid_report');
+  if (schema.enum && !schema.enum.includes(value)) throw new Error('invalid_report');
+}
+function parseJSON(input) {
+  const data = JSON.parse(input);
+  const stack = [];
+  for (const token of input.matchAll(/"(?:\\.|[^"\\])*"|[{}\[\]:,]/g)) {
+    const part = token[0];
+    if (part.startsWith('"') && !JSON.parse(part).isWellFormed()) throw new Error('invalid_report');
+    const frame = stack.at(-1);
+    if (part === '{' || part === '[') {
+      stack.push({ object: part === '{', key: part === '{', keys: new Set() });
+    } else if (part === '}' || part === ']') {
+      stack.pop();
+    } else if (part === ',') {
+      if (frame?.object) frame.key = true;
+    } else if (part === ':') {
+      if (frame?.object) frame.key = false;
+    } else if (frame?.object && frame.key) {
+      const key = JSON.parse(part);
+      if (frame.keys.has(key)) throw new Error('invalid_report');
+      frame.keys.add(key);
+    }
+  }
+  return data;
+}
+try {
+  const args = process.argv.slice(2);
+  let locale = 'zh-CN';
+  if (args[0] === '--stdin' && args[1] === '--locale') {
+    locale = args[2];
+    args.splice(1, 2);
+  }
+  if (!Object.hasOwn(locales, locale)) throw new Error('invalid_report');
+  const labels = locales[locale];
+  const persist = args.length === 5 && args[0] === '--stdin' && args[1] === '--persist' && isAbsolute(args[2]) && args[3] === '--owner' && args[4].trim();
+  if (!(args.length === 1 && args[0] === '--stdin') && !persist) throw new Error('invalid_report');
+  const chunks = [];
+  let size = 0;
+  for await (const chunk of process.stdin) {
+    size += chunk.length;
+    if (size > 2 * 1024 * 1024) throw new Error('invalid_report');
+    chunks.push(chunk);
+  }
+  const input = new TextDecoder('utf-8', { fatal: true }).decode(Buffer.concat(chunks));
+  const data = parseJSON(input);
+  const schema = JSON.parse(await readFile(new URL('../references/report-v1.schema.json', import.meta.url), 'utf8'));
+  validate(data, schema);
+  const [year, month, day] = data.generated_at.slice(0, 10).split('-').map(Number);
+  if (!Number.isFinite(Date.parse(data.generated_at)) || year < 1 || month < 1 || month > 12 || day < 1 || day > new Date(Date.UTC(year, month, 0)).getUTCDate()) throw new Error('invalid_report');
+  if (data.checks.some(item => item.status === 'pass' && item.basis !== 'observed_tool_result')) throw new Error('invalid_report');
+  const template = await readFile(new URL('../assets/development-report-v1.html', import.meta.url), 'utf8');
+  const fields = {
+    LANG: locale,
+    NOTICE: text(labels.notice),
+    NAVIGATION: text(labels.navigation),
+    FINDINGSLINK: text(labels.findings[0]),
+    FINDINGSHEADING: text(labels.findings[1]),
+    CHECKSLINK: text(labels.checks[0]),
+    CHECKSHEADING: text(labels.checks[1]),
+    LIMITATIONSLINK: text(labels.limitations[0]),
+    LIMITATIONSHEADING: text(labels.limitations[1]),
+    TITLE: text(data.objective),
+    CONTEXT: text(`${data.context.project_id} · ${data.context.server_id} · ${data.context.worktree}`),
+    VERSION: text(`${data.context.sop.id} v${data.context.sop.version} · ${data.context.sop.digest} · ${data.package.id}@${data.package.version} · ${data.package.template_id}@${data.package.template_version}`),
+    META: text(`${data.report_id} · ${data.generated_at}`),
+    FINDINGS: data.findings.map(item => `<li><strong>${text(labels.kinds[item.kind])}</strong> ${text(item.text)}<small>${text(labels.source)}${text(item.source)}</small></li>`).join(''),
+    CHECKS: data.checks.map(item => `<li><strong>${text(labels.statuses[item.status])}</strong> ${text(item.name)}<small>${text(labels.source)}${text(item.source)} · ${text(labels.basis[item.basis] ?? item.basis)}</small><p>${text(item.limitations)}</p></li>`).join(''),
+    LIMITATIONS: data.limitations.map(item => `<li>${text(item)}</li>`).join(''),
+  };
+  const html = template.replace(/\{\{([A-Z]+)\}\}/g, (_, key) => fields[key]);
+  if (Buffer.byteLength(html) > 5 * 1024 * 1024) throw new Error('invalid_report');
+  if (persist) {
+    const result = spawnSync(args[2], ['formsy', 'report', 'persist', '--supplied-context', '--owner', args[4]], {
+      input: JSON.stringify({ report_base64: Buffer.from(input).toString('base64'), html_base64: Buffer.from(html).toString('base64') }),
+      encoding: 'utf8', timeout: 15000, maxBuffer: 64 * 1024, shell: false,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+    if (result.error || result.status !== 0) throw new Error('invalid_report');
+    const artifact = parseJSON(result.stdout);
+    if (artifact.context_source !== 'supplied' || typeof artifact.json_path !== 'string' || typeof artifact.html_path !== 'string' || !isAbsolute(artifact.json_path) || !isAbsolute(artifact.html_path)) throw new Error('invalid_report');
+    process.stdout.write(JSON.stringify(artifact) + '\n');
+  } else {
+    process.stdout.write(html);
+  }
+} catch {
+  process.stderr.write('invalid_report\n');
+  process.exitCode = 1;
+}

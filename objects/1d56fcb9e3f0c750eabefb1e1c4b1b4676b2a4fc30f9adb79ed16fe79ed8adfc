@@ -1,0 +1,18 @@
+"""Locate the installed CLI; workflow logic stays in formsy_sop."""
+import json
+import os
+from pathlib import Path
+import shutil
+import sys
+
+
+def main():
+    config = Path(__file__).resolve().parents[1] / 'runtime.local.json'
+    executable = json.loads(config.read_text(encoding="utf-8"))['executable'] if config.is_file() else shutil.which('formsy-sop')
+    if not executable or not Path(executable).is_file():
+        raise SystemExit('未找到 FormSy SOP CLI。请在 Python 3.11+ 环境安装 formsy-sop，或配置本 Skill 的 runtime.local.json。')
+    os.execv(executable, [executable, *sys.argv[1:]])
+
+
+if __name__ == '__main__':
+    main()

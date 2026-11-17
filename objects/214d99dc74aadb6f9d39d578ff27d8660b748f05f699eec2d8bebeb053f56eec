@@ -1,0 +1,42 @@
+# Aggregate format and legacy section mapping
+
+Use `formsy-sop-0.2` for the aggregate. Record the project revision, source baseline, and format version separately. Preserve existing 1.0.0 packages and their historical confirmations.
+
+## Nine sections in the current format
+
+| Section | Content | Identities to retain |
+| --- | --- | --- |
+| 0 | Document, project, stage, confirmations, and versions | Project, module, and stage IDs, rule and source versions, confirmation scope |
+| 1 | Goals, scope, sources, and decisions | Original user wording, source role, adoption, locator, assumptions, and unknowns |
+| 2 | Product design | R/J/P/F/BR, inputs, outputs, states, rules, quality, and AC |
+| 3 | Technical design | MOD/API/DATA/ADR/U, operation, recovery, permissions, and feasibility |
+| 4 | Planning, steps, and traceability | T/STEP, dependencies, entry conditions, and links in both directions |
+| 5 | Acceptance design and observed results | AC by platform, planned and actual checks, builds, evidence, failures, and unverified cases |
+| 6 | Self-check, findings, and entry conditions | PC/TC/KB, conclusions by level, findings, rechecks, and required decisions |
+| 7 | Changes, stops, and delivery | History, impact, cancellation, recovery, delivery, and actual final user decisions |
+| 8 | Appendix and navigation | Attachment paths and identities, access limits, and source inventory |
+
+## Map the legacy 1.0.0 twelve-section format
+
+Legacy documents can be incomplete and use different headings. Map each passage by meaning and record any source you cannot locate. Establish approval and factual status from the original record.
+
+| Legacy content | New section | Preserve or recheck |
+| --- | --- | --- |
+| Document header, scope, and prerequisites | 0/1 | Project, version, platform, original measures, and sources |
+| Effective decisions | 0/1 | Verbatim text, exact version, scope, claim, and verification status |
+| Requirement, acceptance, and task chain, including feature cards | 2/4/5 | Authoritative wording, stable IDs, and traceability links |
+| Technical overview and interfaces | 3 | Original design and any gaps in modules, data, recovery, and feasibility |
+| Execution steps and dependencies | 4 | Order, prerequisites, authorization, outputs, and failure recovery |
+| Verification and delivery checks | 5/7 | Original acceptance criteria by platform, actual evidence, and delivery status |
+| Conflicts, limitations, and unanswered questions | 1/6/7 | Original question and impact, unresolved status, and next action |
+| Source versions and stage history | 0/1/7/8 | Earlier confirmations and their source bindings, change impact, and old and new records |
+| Procedures for the first four stages | 0/4/6 | Actual stage and task states, applicable checks, and entry conditions |
+| Other legacy sections | Matching section or 8 | Actual headings and contents, a mapping for each passage, and any unmapped material |
+
+Carry forward approval, requirements, and tests from their actual sources. Treat required fields missing in the new format as gaps even when the legacy document was exportable. Keep the draft status and any affected task blockers.
+
+## Conflict record
+
+| Original item, version, and location | Conflicting content | Affected behavior, module, task, or acceptance | Authorized edits | Required decision, evidence, or recheck |
+| --- | --- | --- | --- | --- |
+| Unavailable | Unavailable | Unavailable | Retain both versions and leave the conflict open | Unavailable |

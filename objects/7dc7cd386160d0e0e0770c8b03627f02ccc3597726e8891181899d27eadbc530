@@ -1,0 +1,25 @@
+# TraceAudit r11 完整审计规则
+
+本目录发布『SOP 审计误判』任务冻结到 TraceAuditWeb semantic-rerun-11 的公开规则。
+`rules/` 的 7 份文件逐字节来自 formsy-sop-verification 已冻结的 trace_audit/rules；
+`compiled-catalog.json` 使用 `resolve_catalog` 默认参考选择，并经 `ensure_contracts`
+编译，包含 33 条规则、144 个条件、184 个原子义务及完整来源引用。
+`release.json` 固定文件摘要、字节数、合同版本、合同摘要和上游来源；它不把发布动作当作审计验收。
+
+## 固定版本读取
+
+运行时使用本目录作为 `FORMSY_SOP_RULES_ROOT`，同时把发布提交 SHA 设为
+`FORMSY_SOP_RULES_COMMIT`。先验证 Git 提交、release 清单和逐文件 SHA256，
+再读取 compiled catalog；不能用移动中的分支名代替固定版本。
+清单 `files` 路径均相对于本目录，覆盖全部规则、编译目录和本说明；release 自身不自引用。
+
+## 审计边界
+
+这些规则属于版本明确的审计参考，不自动成为其他项目或历史任务当时生效的 SOP。
+满足、不满足、未核查、不适用分别记录；缺少直接证据保留未核查。
+矩阵完整不代表模型分析完整、判断正确、业务测试成功或正式关闭。
+本发布不执行模型、不执行业务代码、不认证上传 Trace 或 runner 回执，也不包含
+旧报告、模型输出、环境配置、凭据或历史业务 Trace。
+
+r11 仍有 TC14 提取/属性/路径范围、SEC06 理由事实支持、TC13 True 测试描述，
+以及 FIX03/FIX04 引用恢复、TC04/TC05 双侧合同复核等已知残余；发布规则不代表这些问题已解决。

@@ -1,0 +1,202 @@
+{
+  "compiler": "formsy-specify-layout-v1",
+  "files": {
+    ".agents/skills/speckit-analyze/SKILL.md": {
+      "installed_sha256": "f13a2b9f176bc07afbd367d7ad9571903dd6a28ad041b2b2d5d635caff8aeadd",
+      "source_path": ".agents/skills/speckit-analyze/SKILL.md",
+      "source_sha256": "0b3261b13cc33537f24b3e1f6d5320694c348302c385d0046dc6b958cf2db6cb"
+    },
+    ".agents/skills/speckit-bug-assess/SKILL.md": {
+      "installed_sha256": "00cf48a034355740ffe7952094dbc30ef2f9dd8f8176d6696894887d02322842",
+      "source_path": ".agents/skills/speckit-bug-assess/SKILL.md",
+      "source_sha256": "4d1b3f995cd5039ee7c29c73bc79b5973d5936f04e99722c4940a2a06af94dbc"
+    },
+    ".agents/skills/speckit-bug-fix/SKILL.md": {
+      "installed_sha256": "4ad9ece72ffa9dac1da12eafd4a7cfc2bd6212268354bc0c58ca586e04178f86",
+      "source_path": ".agents/skills/speckit-bug-fix/SKILL.md",
+      "source_sha256": "e6653ee84b769616c2e476b4be5f26162404858c7e57898b1222ff3af134f303"
+    },
+    ".agents/skills/speckit-bug-test/SKILL.md": {
+      "installed_sha256": "97e823794f19698133ca6064f15bbab7add8d75c5af80c48e23944b687806cf2",
+      "source_path": ".agents/skills/speckit-bug-test/SKILL.md",
+      "source_sha256": "1d358663b9fabea7f1c87ea881669975d6ce0509afc39dce27ec9b649e90e188"
+    },
+    ".agents/skills/speckit-checklist/SKILL.md": {
+      "installed_sha256": "3896717c0b3818c41486e85547cd04056379ee9324451fb2ca429493a6515699",
+      "source_path": ".agents/skills/speckit-checklist/SKILL.md",
+      "source_sha256": "7ac5cba31a27151a1a7b73f691bd478d42750ce2dd734701a07eb0e235ffbd94"
+    },
+    ".agents/skills/speckit-clarify/SKILL.md": {
+      "installed_sha256": "73fe3f387933a2e16e00aa08078e145afe1daca5132c8fc00647fe9ca18f9a66",
+      "source_path": ".agents/skills/speckit-clarify/SKILL.md",
+      "source_sha256": "f6acfbc82c96c0d91b2429fd0b51ce7df7f94b003d1b73acc54470d48bcc455e"
+    },
+    ".agents/skills/speckit-constitution/SKILL.md": {
+      "installed_sha256": "2a0cfaa014881d25231b84adc045c55207e38df289dc51e67dd1e44919001292",
+      "source_path": ".agents/skills/speckit-constitution/SKILL.md",
+      "source_sha256": "b2a6a979ef7511812b60cde4adb6f1c4a8b1b57314ea2f1861ebc3f4796bf377"
+    },
+    ".agents/skills/speckit-converge/SKILL.md": {
+      "installed_sha256": "ad1040d6f187efdd71f601efdaf639f183c5076ea9daf5648685ef53d85c76ba",
+      "source_path": ".agents/skills/speckit-converge/SKILL.md",
+      "source_sha256": "5859c9780ddc012f600e7d35a5691e032fe05861296f226b5665a0ec03135ccd"
+    },
+    ".agents/skills/speckit-implement/SKILL.md": {
+      "installed_sha256": "6878690f6ad98d7407df5131941a346f937a47b936e92bc8094725a47ed92135",
+      "source_path": ".agents/skills/speckit-implement/SKILL.md",
+      "source_sha256": "848a5c9eff7b99e348927cbde6c35378de9fea3fd317941f58fa0b0b79301eec"
+    },
+    ".agents/skills/speckit-plan/SKILL.md": {
+      "installed_sha256": "22717a9f7b09f21d1efca547beed0d2ce599620c3cadddda68c9b25e3ef63080",
+      "source_path": ".agents/skills/speckit-plan/SKILL.md",
+      "source_sha256": "db2406adfa50103fc04ca8109ac934cd715086fba64365fb404630a88c62bda5"
+    },
+    ".agents/skills/speckit-specify/SKILL.md": {
+      "installed_sha256": "e59b3cc5156e03d0cd9ab12542aa1a7047d88349b4b2c4c6e0a5dc3621a7189d",
+      "source_path": ".agents/skills/speckit-specify/SKILL.md",
+      "source_sha256": "a505028de7f6489878696d6656c7d057f3a66119ebb8c0cc82d69fabb7b344ff"
+    },
+    ".agents/skills/speckit-tasks/SKILL.md": {
+      "installed_sha256": "a201b2b31ea388252a936b37f90e4b6fb37303d676f38c0e57ccc2648c396af2",
+      "source_path": ".agents/skills/speckit-tasks/SKILL.md",
+      "source_sha256": "1086d7885df1188d00e7d5eb4715e678b4340b893e8f24ae748d823b13599a56"
+    },
+    ".agents/skills/speckit-taskstoissues/SKILL.md": {
+      "installed_sha256": "b0d56a1bbdc669eca094ef199a3d33717c6ac3ae7994a4f9bda9680ed64a9da1",
+      "source_path": ".agents/skills/speckit-taskstoissues/SKILL.md",
+      "source_sha256": "e149b5b337bfaf1d232af7304916bbe75f357c67c271f5e753f7a0179de240b1"
+    },
+    ".formsy-sop/specify/.gitignore": {
+      "installed_sha256": "0a61c5378b0bb2e0f85babff99c8b166f2170a2c12378cd17d929aa19296ec88",
+      "source_path": ".specify/.gitignore",
+      "source_sha256": "0a61c5378b0bb2e0f85babff99c8b166f2170a2c12378cd17d929aa19296ec88"
+    },
+    ".formsy-sop/specify/extensions.yml": {
+      "installed_sha256": "cc3f80daf3855f185cb36411414a8eea2ecedbbeb855f67bd71d58f51b44833a",
+      "source_path": ".specify/extensions.yml",
+      "source_sha256": "cc3f80daf3855f185cb36411414a8eea2ecedbbeb855f67bd71d58f51b44833a"
+    },
+    ".formsy-sop/specify/extensions/.registry": {
+      "installed_sha256": "ee92edd42094704b003f006930f8070cef92d24673c3cc21a9bb0932a46b6d78",
+      "source_path": ".specify/extensions/.registry",
+      "source_sha256": "cdf1e388a4ceb0752f273ea4d6806fccfe1cf778ae00e529d5a99fc8b1d807f7"
+    },
+    ".formsy-sop/specify/extensions/bug/README.md": {
+      "installed_sha256": "a1006e5d05c94354b87869032c617d50fb3407e1304acb3a96c212e8373e7c85",
+      "source_path": ".specify/extensions/bug/README.md",
+      "source_sha256": "8fc0d2edb50e09a9970abd7a6c1b854372abaa7e6cc8bfa374c92c3eee6d67d9"
+    },
+    ".formsy-sop/specify/extensions/bug/commands/speckit.bug.assess.md": {
+      "installed_sha256": "955653e7961f10e5ab66951b3a9d3199f408a92f2afc1a3e878b6f32889564c8",
+      "source_path": ".specify/extensions/bug/commands/speckit.bug.assess.md",
+      "source_sha256": "1cc7c1a8536dcd5a561384c2923b2820bc74b165210f208ad29d0b75c3ba8727"
+    },
+    ".formsy-sop/specify/extensions/bug/commands/speckit.bug.fix.md": {
+      "installed_sha256": "df50c7000bf162b6b0e4a1fad62f765c914b67e22af9591d96da4ca780c7881b",
+      "source_path": ".specify/extensions/bug/commands/speckit.bug.fix.md",
+      "source_sha256": "a4ff90ed1df640eaf3815dab40f26086450b6107cbf9b3ef360c39e7853450f2"
+    },
+    ".formsy-sop/specify/extensions/bug/commands/speckit.bug.test.md": {
+      "installed_sha256": "0b1d34e28319e77878a7936d9e0f5d25f27d92045b5af64c2bcaf3d4c151ad75",
+      "source_path": ".specify/extensions/bug/commands/speckit.bug.test.md",
+      "source_sha256": "d3570905746ed774e9975e921ed01b6e6f0aeb427b8e8da593d64ff88ee8bfe8"
+    },
+    ".formsy-sop/specify/extensions/bug/extension.yml": {
+      "installed_sha256": "c4d5264db7568fd10410471e11937d98713ad5e15ecce00043dc521c914b295d",
+      "source_path": ".specify/extensions/bug/extension.yml",
+      "source_sha256": "0f8ca9b828f8855be72a17cdef1f355fba81d7173b16f349d500d2ab367384fb"
+    },
+    ".formsy-sop/specify/init-options.json": {
+      "installed_sha256": "aae3759f99f24f9abf25d6318e9555fa77e10c12e69b5eb818e90ccaa1552f1d",
+      "source_path": ".specify/init-options.json",
+      "source_sha256": "aae3759f99f24f9abf25d6318e9555fa77e10c12e69b5eb818e90ccaa1552f1d"
+    },
+    ".formsy-sop/specify/integration.json": {
+      "installed_sha256": "629e7f133fe5c121519abf94c45a4f607b8a50bcaa70b58902fa649f8641442b",
+      "source_path": ".specify/integration.json",
+      "source_sha256": "629e7f133fe5c121519abf94c45a4f607b8a50bcaa70b58902fa649f8641442b"
+    },
+    ".formsy-sop/specify/integrations/codex.manifest.json": {
+      "installed_sha256": "80ee2f8b602ae24e70787df5c64388e0a2860fd41d6cfcdc3ab6fd0419f9f6e8",
+      "source_path": ".specify/integrations/codex.manifest.json",
+      "source_sha256": "e2cd8da4ed51310d93b04d029fc0cb85c02cf7cb3cb6604829bed81f7d3a7852"
+    },
+    ".formsy-sop/specify/integrations/speckit.manifest.json": {
+      "installed_sha256": "a7976dc7c52bea1b2fe1f71aace31821bdba8270da757c1102b4edcf92a5a0ca",
+      "source_path": ".specify/integrations/speckit.manifest.json",
+      "source_sha256": "359259c9759351bea96d260464fa4e9285838e82bb56453aa75bb6d3b0485d09"
+    },
+    ".formsy-sop/specify/memory/.constitution-template.json": {
+      "installed_sha256": "8fc4b39294bae0c10d59547ad7d415b6f0e890d656cbf7171dd567f4e9054711",
+      "source_path": ".specify/memory/.constitution-template.json",
+      "source_sha256": "8fc4b39294bae0c10d59547ad7d415b6f0e890d656cbf7171dd567f4e9054711"
+    },
+    ".formsy-sop/specify/scripts/bash/check-prerequisites.sh": {
+      "installed_sha256": "13be175548848bd84e96a90cf9be87665c2e68603b2eaa3e19187e7ca8b4fcb0",
+      "source_path": ".specify/scripts/bash/check-prerequisites.sh",
+      "source_sha256": "13be175548848bd84e96a90cf9be87665c2e68603b2eaa3e19187e7ca8b4fcb0"
+    },
+    ".formsy-sop/specify/scripts/bash/common.sh": {
+      "installed_sha256": "15d4f67056efebad9204046b7660532e6ace1b6ee3e4c80ba2602a2be58793cd",
+      "source_path": ".specify/scripts/bash/common.sh",
+      "source_sha256": "e3f72d571b8d27088a0aa6a96068eb6583175fbfa7a48bad465be62b9898f09c"
+    },
+    ".formsy-sop/specify/scripts/bash/create-new-feature.sh": {
+      "installed_sha256": "b46c21621277c7ceff49258f46457e27143a6cb5b94c3c6d44756faa1456d319",
+      "source_path": ".specify/scripts/bash/create-new-feature.sh",
+      "source_sha256": "972f03ed8ca5ee17b7baad6d56d821d46269d77abc337496beafb0fe85a725f2"
+    },
+    ".formsy-sop/specify/scripts/bash/resolve-template.sh": {
+      "installed_sha256": "829e227096abc8bf0889889ec9f792f503ca5d395b7836a8a7eb739ee75214e7",
+      "source_path": ".specify/scripts/bash/resolve-template.sh",
+      "source_sha256": "829e227096abc8bf0889889ec9f792f503ca5d395b7836a8a7eb739ee75214e7"
+    },
+    ".formsy-sop/specify/scripts/bash/setup-plan.sh": {
+      "installed_sha256": "d0bd298c026446f3c63167130d65e49e4aa4485de6bef18bcdfd57b19aa0de96",
+      "source_path": ".specify/scripts/bash/setup-plan.sh",
+      "source_sha256": "d0bd298c026446f3c63167130d65e49e4aa4485de6bef18bcdfd57b19aa0de96"
+    },
+    ".formsy-sop/specify/scripts/bash/setup-tasks.sh": {
+      "installed_sha256": "067d6f80649841cdac5db795876da33087766131895401311a78c0c7aa5eac55",
+      "source_path": ".specify/scripts/bash/setup-tasks.sh",
+      "source_sha256": "0350b2def158c4dc333cd888fc5a3b10785b3d5c2cf936f93e910242ea9d507d"
+    },
+    ".formsy-sop/specify/templates/checklist-template.md": {
+      "installed_sha256": "70bbc48e884fab372ffb09e83e78ff983e28b69caebf8cd9964a02b6836683ac",
+      "source_path": ".specify/templates/checklist-template.md",
+      "source_sha256": "70bbc48e884fab372ffb09e83e78ff983e28b69caebf8cd9964a02b6836683ac"
+    },
+    ".formsy-sop/specify/templates/constitution-template.md": {
+      "installed_sha256": "ce7549540fa45543cca797a150201d868e64495fdff39dc38246fb17bd4024b3",
+      "source_path": ".specify/templates/constitution-template.md",
+      "source_sha256": "ce7549540fa45543cca797a150201d868e64495fdff39dc38246fb17bd4024b3"
+    },
+    ".formsy-sop/specify/templates/plan-template.md": {
+      "installed_sha256": "a828ad6206526574ab3fc99be6d0154588cb1c9774c5919d71b81ab5b2dbffa0",
+      "source_path": ".specify/templates/plan-template.md",
+      "source_sha256": "a828ad6206526574ab3fc99be6d0154588cb1c9774c5919d71b81ab5b2dbffa0"
+    },
+    ".formsy-sop/specify/templates/spec-template.md": {
+      "installed_sha256": "3945437fc35cd30a5b2bf7beea680337c3516826d3efa5a6b92c4a7eca1ba28e",
+      "source_path": ".specify/templates/spec-template.md",
+      "source_sha256": "3945437fc35cd30a5b2bf7beea680337c3516826d3efa5a6b92c4a7eca1ba28e"
+    },
+    ".formsy-sop/specify/templates/tasks-template.md": {
+      "installed_sha256": "b0f527d41e546af0c31903e04f9b20965b6b497b573792198f663a64ce128863",
+      "source_path": ".specify/templates/tasks-template.md",
+      "source_sha256": "b0f527d41e546af0c31903e04f9b20965b6b497b573792198f663a64ce128863"
+    },
+    ".formsy-sop/specify/workflows/speckit/workflow.yml": {
+      "installed_sha256": "177761c5e7df28126beea043b5cb45aeaf7958090c022dc11ac71399422fcfbc",
+      "source_path": ".specify/workflows/speckit/workflow.yml",
+      "source_sha256": "177761c5e7df28126beea043b5cb45aeaf7958090c022dc11ac71399422fcfbc"
+    },
+    ".formsy-sop/specify/workflows/workflow-registry.json": {
+      "installed_sha256": "74f8e248d0cb2aa7fe61e1ddc262cf14df96396ca8e4343df4166949266ed5ad",
+      "source_path": ".specify/workflows/workflow-registry.json",
+      "source_sha256": "74f8e248d0cb2aa7fe61e1ddc262cf14df96396ca8e4343df4166949266ed5ad"
+    }
+  },
+  "schema": 1,
+  "specify_dir": ".formsy-sop/specify"
+}

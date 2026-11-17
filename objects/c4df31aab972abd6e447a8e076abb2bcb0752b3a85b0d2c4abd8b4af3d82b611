@@ -1,0 +1,229 @@
+# Task breakdown teaching example 0.1
+
+This English example follows the task refinement supplement dated 2026-10-08. Its inputs, revisions, tasks, and plans are fictional. Confirmation, application execution, project files, tests, and scores remain unobserved. Locate or plan actual paths before using the structure in a real project. Use the locale-matched task packet and the current workflow. [Chinese export](任务细化/任务拆分示例.md), [provenance](任务细化/任务拆分示例.provenance.json), and [English task packet](../assets/task-packet.en-us.md)
+
+## 1. Local saving from requirement to assignable tasks
+
+### 1.1 Fictional input and scope
+
+Project `DEMO-save` uses requirement input `SRC-save@input-v1` and planning draft `PLAN-save@draft-v1`.
+
+| Requirement and revision | Original behavior in this example | Product assertion |
+| --- | --- | --- |
+| R-save-01@input-v1 | Save a record. After success feedback, normal close and reopen reads the same content. | AC-save-01. Save → success feedback → normal restart → read. Fields agree. |
+| R-save-02@input-v1 | If saving fails, report failure, retain input, and preserve earlier saved content. | AC-save-02. After a controlled save failure, input and earlier data remain, and failure is recognizable. |
+| R-save-03@input-v1 | Repeating the same save operation preserves a single record. | AC-save-03. Resubmitting one operation ID leaves exactly one matching record. |
+
+`PLAT-demo` is an unverified platform placeholder. Stack, storage, code location, testing tools, fees, and abnormal shutdown or power-loss guarantees are unknown. The requirement concerns normal close and reopen. Obtain a user decision if feasibility affects scope, signing, permissions, or storage guarantees.
+
+All cards cover R-save-01–03. Accounts, networking, cloud sync, export, and other features are outside scope. Each card binds SRC-save@input-v1 and PLAN-save@draft-v1. Read, development, and run permissions are unrecorded. All planned actions remain unexecuted and lack an actual build, test environment, or completion evidence.
+
+### 1.2 Task dependency graph
+
+```mermaid
+flowchart LR
+  R[Save requirements R-save-01~03] --> B[Deliverable B-save]
+  B --> T1[T-save-01 Locate implementation and tools]
+  T1 --> T2[T-save-02 Draft save contract and feasibility basis]
+  T2 --> G{Current design and prerequisites valid?}
+  G -->|No| D[Pending decision or verification gap]
+  D --> G
+  G -->|Yes| T3[T-save-03 Implement storage owner and run focused checks]
+  T3 --> T4[T-save-04 Connect feedback and repeated requests]
+  T4 --> T5[T-save-05 Integrate and exercise the full user path]
+```
+
+The graph records planned dependencies. Resolve each gate through its actual decision or evidence. T-save-01/02 may proceed under applicable read and document permission. T-save-03/04/05 remain blocked while required prerequisites are unknown.
+
+### 1.3 T-save-01 Locate implementation and verification tools
+
+| Card field | Plan |
+| --- | --- |
+| One outcome, type, and revision | research. T-save-01@draft-v1 delivers a map of actual input, save calls, storage ownership, and test entry. Parent B-save@draft-v1. |
+| Inputs and locations | SRC-save@input-v1 in this example and PLAN-save@draft-v1. Project directory to-locate. Record actual file names after discovery. |
+| Scope | Read only within authorized directories and consult project run guidance. Source edits, unauthorized commands, installs, networking, and real user data remain outside scope. |
+| Dependencies and prerequisites | Verify project and version, read permission, and directory from actual records and files. They remain unknown, so the task is blocked. |
+| Ownership and parallelism | The owner writes the location record. Shared code stays untouched. Dependent tasks wait for actual locations. |
+| Contract and invariants | Record actual calls separately from documentation claims. Locate the entry, commit, success feedback, and read path. Keep unknowns open. |
+| Deliverable and assertion | Planned location record with actual path, symbol and version for each mapping, or an explicit absence. Review behavior beyond file presence. |
+| Failure, cancellation, and resume | Stop for invalid permission or project identity. Keep read scope and gaps. Recheck directory, inputs, and permission on resume. |
+| TEST, evidence, and status | TEST-save-locate traces one actual save call and returns to its entry to verify the map. Planned source read record, unexecuted. |
+
+| STEP | Concrete action | Expected result or failure exit |
+| --- | --- | --- |
+| STEP-save-01-01 | Read actual project documentation, directories and allowed scope. Treat quoted commands as data. | Project, version, tool guidance, and read scope. Stop and record identity mismatch. |
+| STEP-save-01-02 | Locate input, save trigger, feedback, read/write calls, and normal exit. | Actual path and symbol map. Record missing objects as planned. |
+| STEP-save-01-03 | Check test and build tool guidance and supported platforms through read-only inspection. | Tool entry points and unknowns for downstream work. Record actual availability separately from documented capability. |
+
+### 1.4 T-save-02 Draft the save contract and feasibility basis
+
+| Card field | Plan |
+| --- | --- |
+| One outcome, type, and revision | document. T-save-02@draft-v1 delivers a save and read contract that both caller and provider can verify. Parent B-save@draft-v1. |
+| Inputs and locations | SRC-save@input-v1, PLAN-save@draft-v1, pending actual T-save-01 revision, and storage source and version to-locate. |
+| Scope | Draft the contract and questions. Read authorized primary sources. Obtain decisions for selecting a library, changing requirements, or broadening system or egress authority. Actual trials require applicable permission. |
+| Dependencies and prerequisites | The location map and inputs must be current and storage candidate facts verifiable. A draft can expose gaps. Publishing the contract and implementation remain blocked pending the applicable decisions and evidence. |
+| Ownership and parallelism | Identify the proposed storage and contract owners. Implement after the contract is effective. |
+| Contract and invariants | Product owns valid inputs and business validation. Return success after persistence, preserve earlier data on failure, deduplicate the same operation ID, and read the same content after normal reopen. |
+| Deliverable and assertion | Planned contract, supporting facts and unknowns. Caller and provider agree on type, commit point, errors, duplicates and recovery. |
+| Failure, cancellation, and resume | Keep unsupported guarantees as unknowns and preserve the draft and gaps. Recheck source and object versions and permission before resuming. |
+| TEST, evidence, and status | TEST-save-contract walks success, write failure, and duplicate operation through state and data. Planned walkthrough and sources, unexecuted. |
+
+| STEP | Concrete action | Expected result or failure exit |
+| --- | --- | --- |
+| STEP-save-02-01 | Use the effective requirements and location map to identify input, result, errors and owner. Link unknown fields to H-save-fields. | Draft contract and unknowns. Missing field decisions block the relevant implementation. |
+| STEP-save-02-02 | Verify the applicable candidate version's completion, failure, duplicate, and normal-restart guarantees. Record facts that need a target-environment trial. | Source conditions and controlled trial plan. Record feasibility at its actual evidence level. |
+| STEP-save-02-03 | Trace both sides of the contract against the three requirements, then record differences and the next tradeoff. | Current draft and decision or research prerequisites. Hold dependent development pending an effective decision. |
+
+### 1.5 T-save-03 Implement the save owner and run focused checks
+
+| Card field | Plan |
+| --- | --- |
+| One outcome, type, and revision | development. T-save-03@draft-v1 delivers a save owner conforming to the effective contract. Parent B-save@draft-v1. |
+| Inputs and locations | SRC-save@input-v1, PLAN-save@draft-v1, pending T-save-01 map and T-save-02 effective contract revisions. Write paths to-locate. |
+| Scope | Edit only the designated save owner and its focused tests. Preserve form behavior, acceptance, platforms, signing, permissions, and files owned by other executors. Networking is outside scope. |
+| Dependencies and prerequisites | Verify effective phase, design and implementation permission, paths and tools, fields and contract, feasibility basis, controlled data, and environment. They remain missing, so the task is blocked. |
+| Ownership and parallelism | One executor owns writes to storage. Pin the shared contract. The UI owner can prepare a draft from it and coordinate shared-file changes through the storage owner. |
+| Contract and invariants | Validate input at the boundary and report success after commit. Preserve earlier data on failure and deduplicate the same operation. Keep guarantees within the original requirement. |
+| Deliverable and assertion | Planned save implementation and focused TEST records with actual diffs and versions. Observe success, failure, duplicates, earlier data, and record count. |
+| Failure, cancellation, and resume | Retain failed checks and block dependent work. On cancel, leave partial results clearly marked. Verify an unknown commit outcome before retrying. Recheck input, data, contract and permission on resume. |
+| TEST, evidence, and status | TEST-save-store-01 verifies readback. TEST-save-store-02 verifies preservation after a controlled write failure. TEST-save-store-03 verifies one record after a repeated operation. Plan raw data and test output. All are `not_run`. |
+
+| STEP | Concrete action | Expected result or failure exit |
+| --- | --- | --- |
+| STEP-save-03-01 | Recheck prerequisites and locations. Record original values and count in controlled data. | Valid inputs and prior state. Keep critical gaps blocked. |
+| STEP-save-03-02 | Implement validation, durable completion, failure preservation, and repeat detection under the effective design. | A traceable input-to-commit result. Stop and record any design that fails the contract. |
+| STEP-save-03-03 | Use verified tools for success, failure, and duplicate assertions and save output and actual data. | Focused evidence for the current implementation. Preserve failures and use bounded repair and retest. |
+
+### 1.6 T-save-04 Connect user feedback and repeated requests
+
+| Card field | Plan |
+| --- | --- |
+| One outcome, type, and revision | development. T-save-04@draft-v1 delivers one call path with feedback that matches the save result. Parent B-save@draft-v1. |
+| Inputs and locations | SRC-save@input-v1, PLAN-save@draft-v1, pending T-save-02 contract and T-save-03 implementation and evidence revisions. UI and state paths to-locate. |
+| Scope | Edit the located save trigger, feedback, and relevant checks. Preserve the persistence contract, product scope, other behavior, and system and egress authority. |
+| Dependencies and prerequisites | Require current storage implementation and TEST evidence, effective contract and fields, development and UI test permission, tools, and environment. They remain missing, so the task is blocked. |
+| Ownership and parallelism | One executor owns UI changes and T-save-03 owns storage. Integrate against the common contract and verify semantic compatibility. |
+| Contract and invariants | Show waiting before completion. Failure keeps input and shows failure. Repeated triggers for one operation use its contract-defined identity. |
+| Deliverable and assertion | Planned call and feedback change and controlled UI checks. Compare waiting, success, failure and duplicate feedback with actual records. |
+| Failure, cancellation, and resume | Preserve state and logs on a UI/data mismatch and hold integrated acceptance. Cancellation prevents new operations. Apply the contract to commit races. Recheck committed state, inputs, and permission on resume. |
+| TEST, evidence, and status | TEST-save-ui-01 checks waiting without early success. TEST-save-ui-02 checks retained input after failure. TEST-save-ui-03 checks no duplicate record. Use controlled data, output, and redacted screenshots if needed. All are `not_run`. |
+
+| STEP | Concrete action | Expected result or failure exit |
+| --- | --- | --- |
+| STEP-save-04-01 | Check UI and business state against the save contract and locate the actual caller. | Caller states and location. Record field or state conflicts as pending H items. |
+| STEP-save-04-02 | Connect waiting, success, failure and repeat detection to the actual result. | State and call agreement. Errors take the failure path. |
+| STEP-save-04-03 | Exercise controlled delay, failure, and repeats and inspect feedback and records. Record actual actor and tool. | Focused current-version evidence. Preserve failures, repair, and retest as needed. |
+
+### 1.7 T-save-05 Integrate and exercise the full user path
+
+| Card field | Plan |
+| --- | --- |
+| One outcome, type, and revision | research through a controlled actual trial. T-save-05@draft-v1 assesses AC-save-01–03 on PLAT-demo for the current build. Parent B-save@draft-v1. |
+| Inputs and locations | SRC-save@input-v1, PLAN-save@draft-v1, pending T-save-03/04 outputs and contract. Application, build, and platform to-locate. |
+| Scope | Exercise only authorized controlled UI, close/reopen, and failure trials. Keep real user data outside scope. Bind results to the actual platform and leave final acceptance to the user. |
+| Dependencies and prerequisites | Locate the current build, integrate interfaces, verify real UI, storage and restart tools and permission, and obtain authorized failure injection scope. They remain missing, so the task is blocked. |
+| Ownership and parallelism | Integration and test owner binds build, platform, operations and raw data. Freeze related implementation during testing and record a new revision and retest scope after repair. |
+| Contract and invariants | Judge each original acceptance criterion independently. Verify normal restart through actual behavior. Retain failures and unknowns in the denominator. |
+| Deliverable and assertion | Planned platform report and evidence with passed, failed, unverified, and inapplicable with reason. All three PLAT-demo checks are unexecuted, with zero actual passes. |
+| Failure, cancellation, and resume | Preserve failure screenshots, logs, and data where applicable. Keep missing environments unverified and preserve run and unrun rows on cancel. Rebind to current build and inputs before resuming. |
+| TEST, evidence, and status | TEST-save-e2e-01 covers AC-save-01, TEST-save-e2e-02 covers AC-save-02, and TEST-save-e2e-03 covers AC-save-03. Plan real UI, before/after storage, and restart evidence. All are `not_run`. |
+
+| STEP | Concrete action | Expected result or failure exit |
+| --- | --- | --- |
+| STEP-save-05-01 | Verify current build, both sides of the contract, and controlled data. Register each acceptance and applicable platform pair. | Fixed denominator and actual prior state. Keep rows with missing prerequisites unverified. |
+| STEP-save-05-02 | Save through real UI, observe success, close normally, reopen, and compare all applicable fields. | Actual AC-save-01 result and evidence. Observe both UI and stored behavior. |
+| STEP-save-05-03 | Exercise failure and repeated operation independently. Compare feedback, input, prior data, and count. | Actual AC-save-02/03 results and failure evidence. Record unrun checks as such. |
+| STEP-save-05-04 | Review relevant leaf changes and report original failure, repair, current retest, and remaining blockers. | Findings for the current build. Obtain final acceptance from the user. |
+
+### 1.8 T-decision-save Obtain an effective design decision
+
+| Card field | Plan |
+| --- | --- |
+| One outcome, type, and revision | decision. T-decision-save@draft-v1 obtains one current storage decision. Parent B-save@draft-v1. |
+| Inputs and locations | SRC-save@input-v1, PLAN-save@draft-v1, pending T-save-02 candidates and evidence revision, location to-locate. |
+| Scope | Show the facts, options, cost, and consequences of one tradeoff. Keep code, permissions, acceptance, and paid or egress actions outside this decision task. |
+| Dependencies and prerequisites | Have current candidates, explain actual impact, and use a valid user channel. A recommendation can be drafted while awaiting the decision. Dependent development remains blocked. Current prerequisites are unknown. |
+| Ownership and parallelism | The decision-record owner preserves the original wording and revision. The contract owner integrates the effective decision. Dependent work waits for it. |
+| Contract and invariants | Record the actual decision and scope and preserve rejected and unchosen candidates. Show a new version and obtain the applicable confirmation for material changes. |
+| Deliverable, assertion, and TEST | Planned current decision record. TEST-save-decision verifies the real original response, object revision, and scope. An actual locatable current decision is required. Unexecuted. |
+| Failure, cancellation, and resume | Preserve candidates, impact, and prior confirmation if the user declines, gives no answer, or prerequisites change. Cancel dependent waiting actions. On resume, check candidate and basis revisions and reuse effective answers. |
+
+**STEP-decision-save-01.** Verify candidates and sources and present one choice and its impact. The expected result is an answerable question. Keep missing facts as research gaps.
+
+**STEP-decision-save-02.** Bind the actual response to its original wording and revision, then assess confirmation impact. The expected result is an effective decision record or a renewed confirmation gap. Keep unanswered decisions pending.
+
+## 2. Product SOP generation as document work
+
+### 2.1 Fictional input
+
+Project `DEMO-doc` uses `SRC-doc@input-v1`: “Design a local record app for one person. Let them add a record and retain their input when saving fails. Start with a Product SOP draft. Leave technology selection and coding for later.” Fields, ordering, editing, and deletion are unspecified. The fictional target is one Product SOP draft with its actual confirmation state.
+
+Deliverable `B-doc@draft-v1` covers `R-doc-01` add, `R-doc-02` retain input on failure, `R-doc-03` local single-user scope, and `R-doc-04` draft-only delivery. `N-doc@rule-snapshot-v1` is a teaching identifier for the Product fields and PC rules. A real project needs verified source locations.
+
+All cards cover the requested draft and document review. Deletion, cloud sync, login, changes to requirements or decisions, app execution, paid calls, and user research are outside scope. Each card binds SRC-doc@input-v1, B-doc@draft-v1, and N-doc@rule-snapshot-v1. Locations are planned, actual read scope, permission, directory, and actor remain unverified, and every task is unexecuted. The draft owner integrates changes serially. Other executors can propose nonconflicting sections.
+
+### 2.2 Global and near-term task cards
+
+| T, revision, and type | One outcome and dependencies | Owner, coordination, and state |
+| --- | --- | --- |
+| T-doc-01@draft-v1 / document | Preserve original requirements and pin scope and unknowns. Requires valid inputs and document permission. | Source-record owner. Blocked pending actual prerequisites. |
+| T-doc-02@draft-v1 / document | Draft a continuous behavior card from entry to save result or failure. Requires current T-doc-01. | Behavior-card owner. Coordinate shared draft serially. Blocked. |
+| T-doc-03@draft-v1 / document | Write assessable acceptance and technical H items. Requires current T-doc-02. | Acceptance owner. Bind to the behavior revision. Blocked. |
+| T-doc-04@draft-v1 / document | Assemble one Product draft and perform PC content checks. Requires the three prior outputs. | Assembly and review owner. Preserve blockers. Blocked. |
+
+### T-doc-01 Record scope and unknowns
+
+- **Sources and planned location.** R-doc-01–04@input-v1 and SRC-doc@input-v1 above. Scope record planned. Locate the real project version and writable destination.
+- **Prerequisites and permission.** Obtain actual input, version and draft permission. Edit scope, sources, and unknowns only. An authorized draft can proceed while formal implementation remains held.
+- **Contract.** Record original requirements, proposals, and unknowns separately. Keep unprovided fields pending.
+- **STEP-doc-01-01.** Record original text and IDs. Expect a source link for each requirement and explicit gaps where material is missing.
+- **STEP-doc-01-02.** Record included and excluded scope and missing input. Expect the current draft boundary and separate proposals.
+- **STEP-doc-01-03.** Prioritize the next question. The example asks “What should each user record contain?” Keep unrelated tradeoffs separate.
+- **Deliverable, assertion, and TEST.** Planned scope and unknowns table. TEST-doc-01 traces every original requirement back to its source and checks that additions are candidates. Planned model walkthrough and source locations, unexecuted.
+- **Failure, cancellation, and resume.** Preserve conflicting originals, current sources and questions. Recheck inputs and document permission before continuing. Keep unresolved material in draft state.
+
+### T-doc-02 Draft the full user behavior card
+
+- **Sources and planned location.** R-doc-01/02/03@input-v1, SRC-doc@input-v1, B-doc@draft-v1, N-doc@rule-snapshot-v1, and pending T-doc-01 result. Behavior card planned.
+- **Prerequisites and permission.** Verify document inputs and permission. Draft known scope and mark missing fields. This task is document design.
+- **Scope and ownership.** Cover add, save feedback, and failure exits. Preserve scope for deletion, editing, and egress. The draft owner integrates serially. Record technical H items as pending.
+- **Contract.** Keep field and limit unknowns explicit. Distinguish durable success from display. Preserve input on failure. Leave persistence design to Technical.
+- **STEP-doc-02-01.** Trace entry → input → save → wait → success. Expect a continuous path with field questions visible.
+- **STEP-doc-02-02.** Add failure → retained input → recognizable failure → next action. Expect the failure exit. Automatic or manual retry remains undecided.
+- **STEP-doc-02-03.** Walk both paths. Expect no orphan state or unsupported capability. Route feasibility unknowns to H.
+- **Deliverable, assertion, and TEST.** Planned behavior and state card. TEST-doc-02 compares both paths to original text, checking input, result, next action, and accurately recorded unknowns. Planned model walkthrough, unexecuted.
+- **Failure, cancellation, and resume.** Keep an unsupported choice in the draft with its next question. Preserve the current card and unknowns on cancellation. Recheck scope, inputs, and permission on resume.
+
+### T-doc-03 Write acceptance and technical handoff gaps
+
+- **Sources and planned location.** R-doc-01–04@input-v1, SRC-doc@input-v1, B-doc@draft-v1, N-doc@rule-snapshot-v1, and pending T-doc-02 revision. Acceptance and handoff table planned.
+- **Prerequisites and permission.** Verify the behavior card and document permission. Keep unresolved field assertions within acceptance scope and pending refinement. Implementation is outside scope.
+- **Scope and ownership.** Write Product assertions and H items. Use planned or missing status for unknown MOD/API/DATA, tests, and technical choices. The acceptance owner resolves conflicts with the behavior owner while preserving requirements.
+- **Contract.** Observe the user's outcome and retained input after failure. Preserve local storage scope. Keep technical handoff pending.
+- **STEP-doc-03-01.** Trace add from requirement through operation to visible result. Expect a Product AC draft and separate field gap.
+- **STEP-doc-03-02.** Define prior state, controlled failure, feedback, and data assertion for retained input. Expect AC-doc-failure draft. Technical owns the failure simulation method.
+- **STEP-doc-03-03.** Record H-doc-fields, H-doc-save, and H-doc-failure with their behavior, AC, and technical questions. Expect a handoff table with actual object status.
+- **Deliverable, assertion, and TEST.** Planned AC and H. TEST-doc-03 traces requirements and behavior and checks assertions distinguish correct and incorrect outcomes while keeping guarantees within evidence. Planned walkthrough, unexecuted.
+- **Failure, cancellation, and resume.** Preserve any assertion conflict and return it to the behavior owner. Keep prior AC/H versions when cancelling. Recheck inputs, behavior, and permission before resuming. Application tests remain unexecuted.
+
+### T-doc-04 Assemble the draft and review its content
+
+- **Sources and planned location.** SRC-doc@input-v1, B-doc@draft-v1, N-doc@rule-snapshot-v1, and pending revisions from the first three tasks. Aggregate document planned, actual directory to-locate.
+- **Prerequisites and permission.** Verify prior documents and sources and the draft owner's write permission. Deliver an authorized draft with marked unknowns. Confirm phases and authorize development through their own conditions.
+- **Scope and ownership.** One owner assembles the requested Product draft and review. Preserve original IDs, unresolved questions, and failures. Record PC review with its actual method and reviewer.
+- **Contract.** Maintain one authoritative draft. Keep original text, proposals, technical handoff, and confirmation consistent. Verify actual value, feasibility, and run results separately.
+- **STEP-doc-04-01.** Merge current sources, scope, paths, functionality and states, AC, and H into applicable template sections. Expect one draft. Hold affected sections on version conflicts.
+- **STEP-doc-04-02.** Pin PC01–PC15 objects and applicability and check normal and failure paths, sources and traces at L1/L2. Expect actual review records. Keep unperformed L3 unchecked.
+- **STEP-doc-04-03.** Review task cards against TASK01–TASK10 and deliver the draft, unresolved items, impact, and next question. Expect material ready for further revision.
+- **Deliverable, assertion, and TEST.** Planned Product SOP, review, and clarification record. TEST-doc-04 walks both paths, traces all requirements, and verifies sources, states, and acceptance meanings. Planned model walkthrough and file locations, unexecuted.
+- **Failure, cancellation, and resume.** Record missing, conflicting, or unsupported confirmation as failure or blocked as applicable, then revise and recheck. Preserve current draft and open issues when cancelled. Recheck versions, scope, ownership, and permission on resume. The draft awaits actual user review.
+
+## 3. Example review and boundaries
+
+The cards demonstrate refinement. Their actions remain unexecuted and required prerequisites unknown. The TASK01–10 mapping is a design example. Actual review needs current inputs, permission, locations, and appropriate evidence.
+
+- Local saving separates discovery, contract, implementation, integration, and full-flow verification. Focused checks accompany each implementation. Keep all three original acceptance criteria, including unrun cases, in the integration denominator.
+- Document generation separates input scope, behavior, acceptance and technical handoff, and assembly and review. Keep undecided fields open for actual decisions.
+- Before a stack is selected, detailed planning can be reviewed and dependent implementation remains blocked. Record permission, confirmation, and test results only from their actual sources.
+- Record longer-term ideas at summary and trigger level. Break down future login, sync, migration, or other development only when the project adopts it.

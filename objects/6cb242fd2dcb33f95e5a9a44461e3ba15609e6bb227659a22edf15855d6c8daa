@@ -1,0 +1,9 @@
+{
+  "source": "知识库设计/需求与设计基线.md",
+  "source_sha256": "ac771ae81f07c38cee1c2d00bd6e7c4487bab2c9f7ebebaaae9848e7ad5fe8ab",
+  "selected_section_patterns": [
+    "^## [12]\\."
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "ccc0684585dccc97b59f7bc88e00dfaf3e9ef3392777d3bf1d0580acb549f318"
+}

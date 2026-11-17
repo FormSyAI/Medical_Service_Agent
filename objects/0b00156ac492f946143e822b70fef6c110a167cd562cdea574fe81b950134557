@@ -1,0 +1,421 @@
+> This guide is an internal module of formsy-development-kit. Use the Kit entry to select it for the current task.
+
+# Development workflow in the current conversation
+
+Follow the [built-in workflow and optional project supplements](references/optional-project-context.md)
+for entry, unavailable Server data, project supplements, and Verifier
+acceptance. That contract governs current behavior when historical guides
+describe a mandatory online connection. The built-in method and actual checks
+continue locally.
+
+The current Codex conversation authors documents and code. `formsy-sop flow`
+records stages and execution evidence, and FormSy CLI owns native capture and
+synchronization. The release uses seven stages in order: project principles,
+requirements, technical planning, task breakdown, execution preview,
+implementation, and acceptance. Acceptance includes checks, repair, and
+retesting in the same stage. Bind check results to current code and retain
+failure history and repair budgets. The requirements stage retains the
+`specify` ID. Update a single specification through clarification, then review
+it together. See [the requirements phase](references/requirements-phase.md).
+Resume old flows using their saved stages. Reading a flow preserves its saved
+profile. Confirmation, upload, and Verifier checks stay within their owning
+operations.
+
+Retained `versioned-v1` runs keep their exact adopted principle pin and task
+applicability document. Never replace that basis with today's author document.
+If an incompatible runtime invalidated unchanged inputs, use the installed
+`flow recover-inputs PROJECT --request FILE` entry with `operation_id`, `run_id`,
+`expected_revision`, saved `input_digests` and the actual recovery `reason`.
+The native operation validates the retained inputs, execution snapshot,
+candidate and original check evidence, then resumes the saved stages without
+replaying them. It preserves invalidation/failure history and repair budgets;
+recovery does not approve or complete acceptance. Changed inputs or evidence
+continue through ordinary review or affected checks. Never edit run state.
+When the same installation changed only managed method inventories and the
+pinned engine version, provide `installation_before` with absolute
+`project_config` and `runtime_config` paths to the installer's original bytes.
+The engine verifies them against the frozen hashes, permits only that exact
+installer delta and proves the original whole-workspace check fingerprint.
+It retains the original hashes and records an explicit compatibility proof;
+application, assertion and execution-setting changes remain ineligible.
+
+## Read and resume efficiently
+
+At the start of semantic work, including a stage change or new work within the
+same stage, describe the next work in a
+small JSON request containing `goal`, `expected_output`, and `nature` (nonempty
+text, at most 2048 characters each). Pass it to the existing runtime prefix with
+`flow context PROJECT --view agent --current-work FILE`. For example, drafting
+requirements aims to produce a specification; clarification aims to resolve
+specific ambiguities and produce questions or confirmed boundaries; semantic
+self-check aims to compare the current draft with its obligations and produce
+findings. Use the actual goal and materials. Keep these facts stable through
+file reads and structural checks in the same work. Reuse the same request when
+retrieving context during that work. Change the facts for substantive
+work, not for each tool invocation. The first `task_context` in normal command
+output carries the supplied facts and the saved request, plan and current-task
+facts. It adds no routing labels, stage approval or checkpoint analysis. The
+option projects this invocation only; it does not save another workflow state.
+
+Use the actual paths and SHA-256 values in `flow context.method_reading` to
+locate the current stage's resources. Reuse already read sections while path
+and content version match. After a context refresh, stage transition, or
+conversation compaction, read only missing, truncated, or changed sections
+needed for the next operation. A directory listing establishes availability.
+
+Keep the paths, content digests, and sections already read in handoff or
+compaction summaries. Keep the current official documents, preparation, draft
+and receipt paths, pending `condition_id` and `item_id`, and the next action.
+On resume, inspect existing drafts and receipts before preparing a check.
+Reading records track reading. Record semantic checks and approval through
+their owning operations.
+
+Save the current stage draft before checking its applicable obligations. Read
+native rule text as needed and defer rules that become due in later stages.
+Review actual cross-module dependencies and any execution, delivery, or
+closure claims introduced by the material. Rule, material, scope, and dependency
+changes invalidate affected evidence under the existing reuse contract.
+
+## Start or continue
+
+When the independent acceptance Stop hook is installed, actual
+`flow enter/start/select` binds the current host session to the exact
+project and run. Read-only browsing leaves binding unchanged. To attach an
+existing task, use `flow stop-bind PROJECT --run-id RUN_ID` with the verified
+session and run. The Stop gate follows the saved stage. For features it covers
+`implement`, `finish`, and `reverify`. For Bugs it covers `fix` and `test`.
+Principles, requirements, clarification, planning, task breakdown, preview,
+and Bug assessment can pause for input or review, including when revisited.
+
+Once in an execution or acceptance stage, Stop reads the saved acceptance
+state and its validity. Missing, stale, or unreadable completion requires
+continuation. Read the saved state even when `stop_hook_active` is set. Explicit
+refresh and formal acceptance observe changes to sources, materials, and
+receipts. Stop itself only reads the saved observation. A saved result awaiting
+review can return to the user with that status. The user can interrupt at any
+time. Preserve bindings, recorded state, and check requirements. Verify
+installation, exact-definition trust, and a real host callback separately
+using the packaged SOP installation guide.
+
+Read [the stage contract](references/workflow.md) and follow the actual stage in
+`flow context`. Technical planning, task breakdown and consistency analysis,
+local impact preview, and self-check are built in. Run them when due and keep
+drafts separate from executed receipts. Read Birdview, project SOP, knowledge,
+and Verifier as optional project supplements under the current stage and
+configuration. Record missing configuration, authorization, or reads as
+specific gaps and complete the built-in local flow.
+
+When the user is testing, rehearsing, or accepting FormSy itself, treat the
+workflow product as the deliverable and its sample requirement as test input.
+Keep the sample run and interpret continuation against the test objective.
+Record defects against the workflow product. Verify the distributed Skill,
+CLI, and MCP, and repair missing behavior at the actual entry point.
+
+For authorized development, identify the real repository and scope. The CLI
+prepares local resources and attempts online project matching. Verify each
+candidate separately using [repository candidates and Server matching](references/repository-candidates.md).
+Record online availability gaps. Save the original request to a real local file,
+then run `formsy-sop flow enter PROJECT --feature specs/FEATURE --request-file FILE --worktree TARGET`.
+Use `--title TITLE` when a title is needed. Reuse the run for the same feature and
+request. For a separate request when a current run exists, verify the old run
+and use `enter --switch-from OLD_RUN_ID`. Resume a paused request with
+`flow select PROJECT --run-id RUN_ID --worktree TARGET` using its original ID. Entry stores the
+request, checks the project binding, and reads the initial architecture
+context. Entry creates or resumes the native Task and associates the actual
+execution worktree. PROJECT retains workflow materials; TARGET is the existing
+worktree used for this operation. For manual entry of
+an existing target, use `flow start`. For continuation, use
+`flow context PROJECT --json`.
+
+Use the explicit feature, paths, `current_stage`, `revision`, input digests,
+and instructions in that context. Ordinary questions, explanations, and
+read-only browsing stay outside `enter/start`. The current conversation owns
+editing authority.
+
+The default is guided review. Complete one step at a time and show its
+deliverables and action card. At `awaiting_review`, present artifacts and
+check results, then ask for the decision with the Codex
+`request_user_input_async` dialog. The workbench provides reading and status.
+Bind the question to the actual project, run, stage, revision, input digests,
+and artifact versions. Keep the real question ID and answer source. A shown
+dialog, default option, timeout, dismissal, or deferral leaves approval
+pending. For read-only requests or a request to hold the stage, keep the
+stage and its decision pending. A
+`revise` needs actual user feedback on the current version. If the native
+question tool is unavailable, state the gap and ask in the conversation.
+See [presentation](references/presentation.md).
+
+After `flow interact` accepts actual confirmation, continue in the same
+conversation through the new current stage and stop at its next
+`awaiting_review`. Keep actual stage reviews and reuse the user's existing
+execution authorization. Select automatic mode only when the user explicitly
+requests automatic continuation. User approval comes from the user's actual
+decision. Read the [common contract](references/共同约定.md) and the
+[workflow operation contract](references/workflow.md).
+
+## Execute through the current conversation
+
+Read the target project's `.formsy-sop/runtime.json`. When configured, append
+full CLI arguments to its exact `cli_argv` array. Use argument arrays and
+keep host paths local. The packaged `scripts/run_flow.py` reads the setting
+and delegates. If it is absent, use the project's `tools/formsy-flow.py` or
+the installed `formsy-sop` on PATH. The suffix
+`flow context PROJECT --json` is the same for each. Report actual dependency
+or configuration errors and leave PATH changes to explicit setup.
+
+1. For new work, call `flow enter PROJECT --feature specs/FEATURE --request-file FILE --worktree TARGET`.
+   Keep request identity and feature stable so replay selects the existing run.
+   To continue, call `flow context PROJECT --json`. For the same target in another
+   worktree or a retained run, use `flow select PROJECT --run-id RUN --worktree TARGET`.
+   Keep PROJECT's workflow materials and the original Task; prepare a missing TARGET
+   before entry and verify the returned receipt before operating there.
+2. Follow the current stage's returned `prompt` and read the applicable product,
+   technical, and self-check methods. When available at `constitution`, use
+   `flow shared-refresh PROJECT` for the actual bound architecture supplement.
+   When configured, `flow context` attempts project SOP and current-stage
+   knowledge reads. Missing project setup, binding, or read authorization
+   leaves those sources unchecked. Use `flow knowledge-refresh PROJECT` for
+   an explicit retry.
+3. Write the real documents or code in the current conversation. Keep the
+   initial `revision` and `input_digests` and list the completed outputs.
+   Submit a result only when the work it describes exists.
+4. Save the result JSON to
+   `.formsy-sop/runs/<actual-run-id>/requests/<stable-operation-key>.json`
+   and call `flow advance PROJECT --result PATH`. See the
+   [workflow operation contract](references/workflow.md) for fields and
+   Preview execution parameters. Verify the engine receipt before reporting
+   advancement. For stale versions, refresh and inspect actual changes.
+5. At `finish/reverify`, verify retained check receipts against the current
+   target. Run `flow check PROJECT --operation-id KEY --expected-revision N`
+   for missing, failed, stale, or affected checks. Keep valid results when
+   entering `reverify`. Read exit codes and logs. On failure, repair the actual
+   appended tasks, retry with a new operation key, and retain failure history.
+   After completing the review, submit `findings:[]` as the current model
+   review conclusion. Independent audit and actual execution have their own
+   evidence.
+6. After each successful operation, read fresh context. The Kit starts the
+   independent local Web workbench; open its URL in the right browser panel
+   and let it poll the saved artifacts, following
+   [presentation and interaction](references/presentation.md). Report an
+   unavailable local view as a gap. In guided mode, show the latest deliverables
+   and checks at `awaiting_review`, ask the version-bound native question, and
+   wait for an actual response before `interact`. Once real confirmation is
+   accepted, follow the receipt's continuation using fresh `revision` and
+   `input_digests` in the same conversation. Knowledge refresh can increment
+   revision. Preserve run, original confirmation operation, and designated
+   next stage. Stop at its `awaiting_review`. Replay, a pending review, and a
+   completed final stage without an eligible continuation preserve existing
+   work and approvals. Guided mode leaves adoption, publication, and upload
+   to their own authorization. Use the user's conversation language for
+   user-facing text and controls, retaining necessary terms.
+
+For a legacy workbench operation, verify actual
+`project_directory/worktree/run_id/expected_revision/input_digests`. The
+visible action and request link identify the intent. Full arguments stay
+in the backend request file. Use the target as `--request-ref` and the
+visible action as `--request-action`. For `confirm`, `revise`, `rerun`, or
+`guided`, call `flow interact PROJECT --request-ref REF --request-action ACTION`.
+For other actions, first call
+`flow context PROJECT --request-ref REF --request-action ACTION --json`
+to validate and read `workbench_request` internally, then use the existing
+operation. Knowledge reads may change revision. Keep the original run and
+action and use the latest context version for stage work. Require original
+byte SHA-256, exact project, current run, request directory, operation, and
+matching action and version. Reject mismatches. Keep internal instructions,
+JSON, and digests out of visible replies. Refresh a legacy card without a
+digest before using its request. `continue` runs the current step, `refresh`
+updates context and display, and a user declaration on an atomic document
+item records that item's status. Stage confirmation follows the stage
+decision contract.
+
+For an older saved page request, verify the actual
+`worktree/run_id/revision/input_digests` and call
+`flow interact PROJECT --request FILE` for `confirm`, `revise`, `rerun`,
+or `guided`. Retain the actual user action. Refresh stale cards, reuse
+`operation_id` for exact replay, and preserve materials, history, and
+repair budgets during revise or rerun. Ordinary questions leave stage
+execution idle.
+
+`flow check` holds the project lock during checks. Read-only
+`flow context` and workbench show, status, and detail can read a
+versioned snapshot during execution without refreshing supplements or
+advancing. Check commands must stay outside same-project writer operations
+such as render, advance, or check while the lock is held. Use `--version`,
+`flow --help`, or an independent read-only validator for an entry point
+check. Configure actual business checks for the project. Navigation is
+read-only. Verify real context before executing a workbench continuation.
+
+Follow [Server project data](references/server-project-data.md) for
+knowledge and Verifier. Recall experience during requirements and planning,
+carry the original Verifier only when the corresponding experience is
+adopted, and show the association in Preview. Read its original definition
+and run it during acceptance or reverification. Preserve original responses,
+applicability, execution results, and history separately. Review the
+adopted scope instead of selecting an independent verification set.
+
+## Stage work
+
+Use the coordinator's fixed outputs. Principles go in `constitution.md`,
+requirements and clarification in one `spec.md`, technical design in
+`plan.md`, and task breakdown and consistency in `tasks.md` and
+`analysis.md`. Keep technical research, data, and interface decisions in
+`plan.md`. Use the existing scope, impact, and check views for Preview.
+Implementation delivers code. Acceptance delivers actual check and repair
+results. Keep internal preview JSON and process notes in their owning
+workflow records.
+
+List official stage outputs only in `flow advance.outputs`. Use temporary
+directories for outlines, command responses, query snapshots, review drafts,
+and coverage calculations. Store runtime requests, check receipts, and
+recovery state under `.formsy-sop/runs/<run>/`. Put conclusions in the
+corresponding document. At cleanup, remove only unreferenced working drafts
+and preserve records that support current review or execution.
+
+After drafting or substantially changing principles, requirements, or
+technical documents, compare applicable atomic conditions to current
+evidence, save the result, and recheck it according to
+[presentation and interaction](references/presentation.md). Inspect
+`context.document_selfcheck` for gaps. Check when each document is written.
+Use formal receipts for those checks. If Server rules are unavailable,
+complete the common document checks and report project and full-method
+coverage gaps separately.
+
+During domain screening, use the [numeric precision rule](references/numeric-precision-domain.md)
+only for applicable tasks. Keep its domain card linked to the principles or
+scope decision, requirements, plan, tasks, and the original checks carried
+from Preview through Acceptance.
+
+- **`constitution`**. Use the original Spec Kit constitution template,
+  user requirements, and existing README and docs to generate project principles
+  when the declared file is missing or still a template. Reuse existing principles
+  for ordinary tasks; revise them only when the user requests a principle change.
+  Keep task-specific scope and checks in the feature documents. Read available
+  principles in later stages; missing principles or adoption records do not block
+  specification. Complete the local document when Birdview is missing and record
+  the shared-data gap. Active required material from the actual project binding
+  supplements those principles. Read the pinned published Birdview architecture and
+  rules catalog and record publication independently of adoption.
+  `stage_recall` at this stage reads native project principles and the
+  published Birdview rule catalog. Task-relevant business experiences,
+  their bodies, and their Verifiers become relevant in later stages.
+  Separately configured active required context follows its existing read
+  contract. Keep the published-rule count separate from experience recall.
+  Report experience recall as inapplicable at this stage.
+- **`specify` (legacy `clarify`)**. Follow
+  [the requirements phase](references/requirements-phase.md) and update a
+  single `spec.md` through clarification. Read the product fields, template,
+  PC rules, and sources. Use the [product mapping](references/spec-product-mapping.md).
+  Recall relevant project experience using the actual requirements.
+  Record selections and reasons for conflicts and exclusions. Keep one
+  specification and one requirements state. Cover boundaries and acceptance,
+  clarify material unknowns individually, and state when none block progress.
+  Save the first draft and revise it as answers arrive.
+- **`plan`**. Use technical methods for modules, interfaces, data, scope, and
+  real checks. Recall experience relevant to the technical questions.
+  Locate active rules in the actual knowledge entries and `source_refs`.
+  Keep Birdview proposals identified as proposals. Outline work areas and
+  leave executable task checkboxes to `tasks_analyze`.
+- **`tasks_analyze`**. Write executable checkbox tasks with dependencies and
+  acceptance conditions in `tasks.md`. Check consistency in `analysis.md`.
+  When available, read the complete project supplement snapshot and record
+  adopted items. Always save built-in atomic document self-check receipts
+  covering requirements, design, tasks, and principles. Record semantic
+  judgments as model judgments, and obtain runtime evidence separately.
+- **`preview`**. Carry forward existing requirement acceptance items and the
+  original Verifiers of adopted experience. Show source, stage, version, and
+  association. Read exact Verifier definitions during acceptance. Guidance
+  without a Verifier remains guidance. Follow
+  [acceptance scope](references/acceptance-scope.md) for the retained list.
+  Save `preview.json` with actual material versions, adopted rules, planned
+  checks, and unresolved points. Use `flow preview-local` to record
+  source-backed local predicted impact. When available, add the pinned
+  Birdview baseline and diagram comparison. Identify predictions and gaps,
+  and use separate authorization for publication.
+- **`implement`**. After the engine saves execution context, complete the
+  current tasks within the authorized scope. Preserve requirements, plan,
+  original task definitions, and existing acceptance assertions. Mark task
+  progress with checkboxes and record each batch with `flow progress`.
+  Update the workbench using the [operation contract](references/workflow.md).
+  Continue remaining tasks and isolate blocked dependencies. Submit this
+  step after its tasks are complete.
+- **`finish` (legacy `reverify`)**. Review pending, failed, unknown,
+  missing-evidence, and actually affected items using existing findings,
+  repair tasks, requirement acceptance, and adopted original Verifiers.
+  At first acceptance, cover all requirements without current evidence.
+  Preserve valid unaffected evidence and failure history. Changed targets
+  or assertions need revalidation. Explicit audits retain their own
+  obligations. Run actual checks through `flow check`. The program appends
+  repair tasks from supported failures. Repair within budget in the current
+  conversation and retest. Completion validates native execution evidence
+  mechanically and records `acceptance_basis`. Do not require a model verdict
+  or complete inline logs to confirm commands, targets, exit codes or hashes.
+  Keep optional semantic advice and caller-reviewed manual observations
+  separate from program facts; neither replaces missing or failed checks.
+  Program-only requirements with exact frozen commands use native check
+  results directly. Do not require an additional caller or model pass.
+
+For knowledge governance or aggregate documents, read the corresponding
+knowledge or assemble module. They are built-in SOP methods. Server project
+knowledge is a stage-specific supplement. TraceAudit is an independent
+candidate review with its own evidence.
+
+Use the knowledge phase `understand` for `constitution/specify/clarify`,
+`plan` for `plan/tasks_analyze/preview`, `execute` for `implement`, and
+`verify` for `finish/reverify`. The first read in a stage caches the
+result, including failures. Use an explicit retry to read again. Retain the
+actual response snapshot, digest, read scope, and `updated_at`. Use stable
+versions for identity. Re-review affected materials when adopted required
+content changes in ways that affect this run. Completed-run browsing
+preserves the original completion evidence and avoids new supplemental reads.
+
+## Identity and capture
+
+A Session is the actual capture session. A Task is a native deliverable
+within it. Native lifecycle receipts attribute activities. The workflow
+run organizes stages, documents, and review. Verify context and actual
+trigger references under the Kit capture contract. Workflow enter/select creates
+or resumes the native Task and associates its execution worktree. Reuse the Task
+for the same target across worktrees. Stage transitions and `tasks.md` checkboxes
+do not create native Tasks. Project knowledge and rules use project-level
+read authorization. Retain historical business bindings and failure
+receipts as history and use current authorization for new actions.
+
+## Record and hand off
+
+Record key outcomes as `handoff`, decisions as `decision`, actual reviews
+or checks as `verification`, and blockers as `blocked`. Ordinary
+conversation and navigation use the native event log. Once designated
+artifacts are saved, follow the existing authorized capture and sync
+contract. If native state or the bridge is missing, report that files are
+saved and archiving is pending. After interruption, inspect actual side
+effects before replaying an operation.
+
+## Unified workbench
+
+For a new task, follow [presentation and interaction](references/presentation.md)
+to preserve questions, decisions, document versions, and self-check detail.
+Record the current change in each reply and save actual answers before
+continuing long work. Keep question tracking separate from the stage
+summary. Built-in templates and modules provide methods. The general
+profile uses original common SOP review methods and the actual machine
+subset. The server profile uses rules actually adopted from independently
+read project sources. Keep their sources, versions, receipts, and gaps
+separate. Full PC, TC, KB, TASK, security, quality, and domain review each
+require applicable evidence.
+
+## Independent Bugs
+
+Use `flow enter --profile bugfix` for an independent Bug and follow the
+[three-stage Bug contract](references/bugfix-workflow.md) and pinned Spec
+Kit instructions for `assess`, `fix`, and `test`. Retain the three
+reports, actual original reproduction, current regression evidence, and
+adopted original Verifiers. Repair inside feature development uses the
+existing run. Existing runs keep their saved profile.
+
+When the user requests merging the older completion and reverification
+stages, and neither has started, use
+`flow merge-acceptance PROJECT --input REQUEST.json`. Include the actual
+`run_id`, `expected_revision`, original `input_digests`, a stable
+`operation_id`, and the user's original reason. Preserve history, checks,
+failure budgets, and the current stage and decision. Keep the original
+sequence when acceptance has already started.

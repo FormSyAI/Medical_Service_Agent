@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "worktree": "/Users/lili/msa-round2",
+  "project_id": "0c8381e4-4d37-4293-804d-85dedec78d4d",
+  "run_id": "07331b188f674de098670acd1af015c1",
+  "required": true,
+  "owner": "01a1e900-d36d-7253-8e04-85df96bdc0e8",
+  "generation": 1,
+  "paused": false,
+  "events": [
+    {
+      "event_id": "f5cd6f7afe45e92aac60b50bf8433297a3733ff8f4aa2c77a4da646651db3a32",
+      "binding": {
+        "worktree": "/Users/lili/msa-round2",
+        "project_id": "0c8381e4-4d37-4293-804d-85dedec78d4d",
+        "run_id": "07331b188f674de098670acd1af015c1",
+        "stage": "constitution",
+        "attempt": 1,
+        "revision": 1,
+        "workflow_status": "ready",
+        "input_sha256": "fcc82b3c69d70b312185bb9ea5c8fe14adba07215141c0b9af4919f27464166d",
+        "owner": null,
+        "generation": 0
+      },
+      "reason": "flow_started",
+      "created_at": "2026-11-17T10:49:56.359743+00:00",
+      "status": "pending",
+      "attempts": [],
+      "superseded_at": "2026-11-17T10:49:56.363248+00:00"
+    },
+    {
+      "event_id": "fb1f4023bf9f5721ffe9ee58c0a55bb9c119d5e689612331efaba19c52db063e",
+      "binding": {
+        "worktree": "/Users/lili/msa-round2",
+        "project_id": "0c8381e4-4d37-4293-804d-85dedec78d4d",
+        "run_id": "07331b188f674de098670acd1af015c1",
+        "stage": "constitution",
+        "attempt": 1,
+        "revision": 1,
+        "workflow_status": "ready",
+        "input_sha256": "fcc82b3c69d70b312185bb9ea5c8fe14adba07215141c0b9af4919f27464166d",
+        "owner": "01a1e900-d36d-7253-8e04-85df96bdc0e8",
+        "generation": 1
+      },
+      "reason": "runtime_entry",
+      "created_at": "2026-11-17T10:49:56.363251+00:00",
+      "status": "pending",
+      "attempts": [],
+      "superseded_at": "2026-11-17T10:50:31.798659+00:00"
+    },
+    {
+      "event_id": "794e6de80c3d6f00a48c032f73d39432db7858292de2642844aee4e08e145cd4",
+      "binding": {
+        "worktree": "/Users/lili/msa-round2",
+        "project_id": "0c8381e4-4d37-4293-804d-85dedec78d4d",
+        "run_id": "07331b188f674de098670acd1af015c1",
+        "stage": "constitution",
+        "attempt": 1,
+        "revision": 3,
+        "workflow_status": "ready",
+        "input_sha256": "ff0c245b1e4392669eed5982ec078139b31bccf43895a64dbc569aa5230f6ded",
+        "owner": "01a1e900-d36d-7253-8e04-85df96bdc0e8",
+        "generation": 1
+      },
+      "reason": "context_recovery",
+      "created_at": "2026-11-17T10:50:31.798662+00:00",
+      "status": "pending",
+      "attempts": []
+    }
+  ],
+  "lifecycle": []
+}

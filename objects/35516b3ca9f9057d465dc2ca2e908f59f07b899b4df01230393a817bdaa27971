@@ -1,0 +1,14 @@
+{
+  "source": "知识库设计/知识库自检规则.md",
+  "source_sha256": "ecc51ac143bd93cd8bf565188d96d8f8a1593bbdd8de734cfa8b464b850ec4cc",
+  "selected_section_patterns": [
+    "^## [567]\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "文档知识库流程演示",
+      "original_reference": "知识库设计/示例/文档知识库流程演示.md"
+    }
+  ],
+  "exported_sha256": "82236a9e44f54fa9536299b0f3c4f9b7e205ccdd18466083be3d753d9b5e9f03"
+}

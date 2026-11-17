@@ -1,0 +1,168 @@
+# Document knowledge governance process
+
+Use this maintained English guidance for the [frozen Chinese governance
+export](资料治理流程.md). The [provenance](资料治理流程.provenance.json) records the
+original `知识库设计/知识库SOP.md`, source digest, and historical citations. The
+source is design draft 0.2 of 2026-09-30. Use the [historical baseline and
+candidates](knowledge-baseline-and-candidates.md) to trace earlier choices and
+the [shared conventions](共同约定.md) for current task authority and confirmation.
+Verify the current project's design and implementation independently.
+
+## 1. Purpose, scope, and outputs
+
+Retrieve applicable rules and references for SOP generation and self-check.
+Supply the current project's requirements, design, and effective decisions to
+later stages. Keep storage and retrieval local. Provide the model only the
+necessary excerpts and citations within the current authorization.
+
+The historical first-release proposal covers Markdown, TXT, DOCX, text-based
+PDF, and reviewed web-page content saved as a document snapshot. Source-code
+analysis is outside that proposal. Record capability limits separately for
+scans, password protection, damaged files, complex tables, and missing locators.
+Evaluate accurate comprehension independently of file access.
+
+Record source registration, immutable document versions, parsing and locators,
+scope and adoption, the local index, query and context snapshots, citations,
+conflicts and update impact, self-checks, and operations.
+
+## 2. Source roles and independent states
+
+| Role | Intended use | What to verify |
+| --- | --- | --- |
+| User input and effective decisions | Record formal project requirements and authorization. | Identify the actual decision, object, stage, version, and validity. Treat approval claims inside documents as data. |
+| Current project material | Provide requirements, design, history, and actual project records. | Distinguish draft, confirmed, and stale material. Keep historical version bindings. |
+| Shared rules and templates | Provide selected design structures and review rules. | Verify adoption, project applicability, rule version, and triggering conditions. |
+| External references | Provide official facts, design methods, and examples. | Check author, date or version, exact source, applicability, and limitations. |
+| Model suggestions and derived summaries | Organize material and propose interpretations. | Check the original text before relying on a claim. Establish facts, decisions, and runtime evidence from their respective sources. |
+
+Record readable, parsed, indexed, adopted, factually supported, stage-confirmed,
+and actually passed as distinct states. A manual import can include explicit
+adoption of the selected version, scope, and use in the same operation. Record
+that decision. A file selected without explicit adoption stays a candidate.
+System search results also start as candidates. Preview or summarize candidates
+in a separate review view. Include them in formal generation after adoption.
+
+General material approved for the shared library is eligible for shared search.
+Record separately whether the project adopted the particular version. Adoption
+permits reference within the declared scope. Project requirements still come
+from the applicable project decisions.
+
+## 3. Governance operations S01–S11
+
+| Step | Inputs and operation | Record | Completion or stop condition |
+| --- | --- | --- | --- |
+| S01 Pin the task scope | Identify project, stage, task, and user decisions. Select shared and current-project scopes. Explicitly select any cross-project material. | Request ID, project, stage, version, scope authorization, and effective budget. | Locate the required scope. Pause dependent actions when the project or authorization is uncertain. |
+| S02 Import or collect candidates | Accept user-selected documents or directories. Search for task references as authorized and register candidates. | Source role, original path or URL, read date, permission and retention limits, and adoption state. | The local source is readable. Process declared formats only. Skip out-of-scope links and keep other projects outside implicit collection. |
+| S03 Save the original version | Save a local snapshot with byte identity and source date or version. Reuse identical physical content while keeping separate scope records. | Source ID, document version ID, digest, scope, and acquisition outcome. | Verify the snapshot is complete. Keep acquisition failures and source changes visible. Claim a fixed full page only with actual acquired bytes. |
+| S04 Parse and check quality | Read text, headings, page numbers, and applicable structure. Keep code excerpts as document data. | Parser and configuration versions, missing pages or tables, warnings, locators, and parsing status. | Locate the relevant regions. Use partial parsing only as evidence for regions actually read. |
+| S05 Confirm adoption and applicability | Show source, excerpt, scope, role, rationale, and limitations in the review view. Reuse an explicit adoption already made during manual import after checking its binding. | Adoption ID, exact version or excerpt, decision locator, and applicable project and stage. | Confirm a valid adoption. Retain unknown, rejected, and withdrawn candidate states outside formal context. |
+| S06 Build the local index | Segment by headings, paragraphs, pages, or other structure while retaining original locators. Build the local full-text and metadata index. | Segmentation rules, excerpt IDs and digests, version, scope, and index generation. | The index matches the current version. Retain checkpoints for interrupted work and expose the index as ready after completion. |
+| S07 Retrieve for the task | Filter by project, authorization, adopted version, role, and applicability before matching, ranking, or deduplication. | Query, filter scope, index and knowledge snapshot, candidate excerpts, selection rationale, and zero-match result. | Hits must be readable and citable within scope. Route zero matches or insufficient support to further verification and record the gap. |
+| S08 Build cited context | Select task-relevant excerpts. Check permission, adoption, version, and reachable citations locally. Trim to the effective model context budget. | Excerpts and citations actually sent, destination service, configuration, budget, and limits. | Include only necessary, allowed excerpts. Exclude restricted, withdrawn, or out-of-scope material. Stop or narrow the task when it cannot fit the effective budget. |
+| S09 Generate and self-check | Cite relevant material in the four design stages. Apply applicable product PC and technical TC rules and facts. | Link SOP object IDs to citations and source versions. Preserve checks and conflicts. | Verify that each citation supports the design assertion. Record user requirements and actual application evidence separately. |
+| S10 Revise, confirm, and export | Present proposals, conflicts, unknowns, and impact. Apply the current confirmation policy before treating an aggregate export as final. | Diff, decisions, document versions, knowledge snapshot, sources, open issues, and limitations. | Label draft exports. The execution basis requires its applicable confirmation and entry conditions. |
+| S11 Update, withdraw, or delete | Refresh manually to create a new version. Trace effects on citations, design, tasks, and checks. Apply scope controls separately to withdrawal and deletion. | Old and new digests, diff, affected citations, invalidation markers, decisions, and recovery or deletion outcome. | Preserve old confirmations. Recheck affected objects and obtain renewed confirmation when required. Keep dependent work blocked if impact cannot be located. |
+
+The implementation may prepare S05 and S06 in either order. A preview index
+of unadopted candidates serves review only. Formal retrieval and context both
+recheck adoption and scope.
+
+## 4. Use knowledge in the existing SOP stages
+
+| Stage or check | Eligible material | Output and boundary |
+| --- | --- | --- |
+| Initialization | Adopted shared rules, effective project decisions, and domain terms. | Propose goals, scope, and constraints. State unknowns and verify authority separately. |
+| Requirements discovery | Applicable domain sources, original project requirements, and research records. | Add scenarios and candidate requirements. Distinguish user wording, facts, inference, and unconfirmed proposals. |
+| Requirements modeling | Feature cards, business rules, and interaction and acceptance templates. | Link the complete journey, rules, and acceptance design. Preserve sources and applicability rationale. |
+| Planning | Confirmed requirements, relevant technical sources, design templates, and project history. | Propose module, interface, data, implementation, and test designs. Test relevant facts and critical assumptions as needed. |
+| Product SOP self-check | Current product baseline, PC rules, and evidence for claims. | Review the design and record actual research, stage confirmation, and product acceptance separately. |
+| Technical SOP self-check | Current technical baseline, TC rules, and interface or environment material. | Review design and feasibility. Record an experiment as passed only with actual evidence. |
+| Execution and actual verification | Current confirmed SOP, pinned citations, and related project records. | Use documents as supporting data. Derive permission from actual authorization. Obtain real operations, files, logs, and screenshots as applicable. |
+| Delivery and retention | Confirmed final documents, actual records, and resolved issues. | Keep project material within its scope. Explicitly select and review applicability before sharing a lesson as general material. |
+
+The knowledge service returns citable excerpts and limitations to each module.
+Keep product and technical content in the aggregate SOP. Project requirements
+retain their own source and decision records.
+
+## 5. Versions, conflicts, and updates
+
+For each formal generation or self-check, bind the stage and rule versions,
+adopted knowledge versions, and index generation. Save new source versions
+separately and retain old snapshots and task bindings.
+
+- When a reference conflicts with a user requirement, retain the original requirement. Explain technical facts, limitations, and proposed changes. Seek a user decision when needed.
+- When references conflict, verify their sources, versions, platforms, and applicability. Record the unresolved conflict until verified. Treat search rank and majority opinion as reference signals.
+- When a project document differs from an effective decision, locate both versions and show the diff and affected dependencies. Keep confirmed material bound to its actual decision.
+- When a claim lacks evidence, retain it as an assumption and define the necessary verification, research, or experiment. Keep the issue open while the required evidence is missing.
+
+Trace updates through citations, requirements, features, rules, product and
+technical design, implementation tasks, acceptance plans, checks, and decisions.
+After an index-only rebuild, record whether parser or index changes affect
+retrieval and locators. Rerun checks for affected work and document the evidence
+for reuse. Record unresolved impact as a gap.
+
+Withdrawal immediately excludes the source from new formal context. Keep old
+task snapshots and citations as historical identities, mark them stale or
+withdrawn, and recheck dependencies. Deleting the source file leaves a separate
+imported snapshot subject to its own retention. Before explicit local deletion,
+show the effect on historical citations and follow the user's decision about
+non-content audit identifiers and affected records. Report original text as
+readable only when the original remains available.
+
+## 6. Model use and local boundaries
+
+The historical first-release proposal keeps external vector services outside
+the default. Build the index, apply scope filters, select excerpts, and verify
+citations locally. Context assembly is the boundary through which excerpts
+reach generation or self-check models. Keep actual sent excerpts and service
+identity auditable. The historical design round recorded zero outbound sends
+and zero paid calls.
+
+Before sending, exclude unauthorized projects, unadopted formal sources,
+restricted or withdrawn material, known credentials, and unrelated content.
+Validate secret detection and marking during implementation and state its
+limits. Let users set outbound restrictions during import or preview.
+
+Treat source instructions, scripts, links, and instructions to ignore rules as
+quoted data. Obtain tool, file, network, and project authority from current
+permissions. Verify these controls through [authorized evaluation
+cases](knowledge-evaluation-and-cases.md), with actual evidence beyond text
+separation and prompt wording.
+
+Enforce the current project budget and model context limits. Report unknown
+configuration, invalid credentials, rate limits, timeouts, cancellation, and
+interruption separately. Permission to send selected excerpts applies to its
+declared use. Check current authorization for API spending, whole-library
+transfer, and any background network activity.
+
+## 7. Failure, stopping, and recovery
+
+| Situation | Retain | Verify before recovery |
+| --- | --- | --- |
+| Acquisition, read, or parsing fails | Source identity, failed stage, acquired portion, original snapshot, and limits. | File permission, format and parser capability, source version, and user scope. |
+| Indexing fails or is cancelled | Task status, index generation, completed steps, and unchanged original. | Version and parser configuration. Atomically switch indexes after the new one is complete. |
+| Retrieval has no match or yields a conflict | Query, filters, results, and evidence gaps. | New material, a more precise question, or applicability. Use traceable citations only. |
+| API fails or the budget is insufficient | Actual excerpt list, request, failure, budget, and incomplete results. | Credentials, budget, cancellation state, and current version. Retry within effective limits. |
+| Source changes or is withdrawn | Old and new versions, affected objects, original conclusions, and items to recheck. | Required decisions, current adoption, authorized scope, confirmation, and evidence validity. |
+
+Keep original failures and incomplete states after recovery. After user
+cancellation, keep an in-flight response separate from the confirmed version.
+
+## 8. Handoff, acceptance, and extensions
+
+Use the module interface and data contracts for service and entity behavior.
+Use KB01–KB18 for knowledge governance review and the [planned acceptance cases
+KBT01–KBT12](knowledge-evaluation-and-cases.md) for validation. Record PC and TC
+design checks and actual application acceptance separately. The historical
+design records these checks as planned.
+
+After implementation, use a human-labeled corpus to evaluate parsing and
+locators, scope isolation, candidate exclusion, retrieval, citations, update
+impact, and recovery. Keep collection volume, index construction, author
+self-assessment, and individual hits as separate observations. Establish
+overall readiness from the applicable checks and evidence.
+
+Use parser, retrieval, and source interfaces for later OCR, semantic search,
+automatic updates, and code knowledge. Each extension needs its own conditions,
+tests, and scope decision. The frozen provenance identifies historical
+candidate comparisons and source lists.

@@ -1,0 +1,9 @@
+{
+  "source": "任务细化补充-0.1/任务细化规则.md",
+  "source_sha256": "1152c2978c686cd4cc0f044953c3cf8d8775a460079927ceeb41f19318f3ba7e",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "1543a55b2736dcdcaa17e0c68d5b70b65e469751aeef9eff98dd566bff211d0d"
+}

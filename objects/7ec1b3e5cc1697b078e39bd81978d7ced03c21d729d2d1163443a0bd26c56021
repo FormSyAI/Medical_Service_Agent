@@ -1,0 +1,16 @@
+{
+  "family": "project_sop",
+  "status": "unavailable",
+  "reason": "sop_not_selected",
+  "adopted": false,
+  "retrieved_at": "2026-11-17T10:50:31.759816+00:00",
+  "config_digest": "db7c105b61b3db203b28a55393da766c5be5b7aae6c669c5542873b5a7537af2",
+  "source_refs": [
+    {
+      "path": ".formsy-sop/runs/07331b188f674de098670acd1af015c1/project-sop/03ae780d30184066b4b1b8202d39163d/project_context.mcp.json",
+      "sha256": "539794ec2cc19f116b8c764ec3299f05a2f4876ee4ce354d93109d10ffd9bbbc",
+      "tool": "project_context",
+      "retrieved_at": "2026-11-17T10:50:31.791346+00:00"
+    }
+  ]
+}

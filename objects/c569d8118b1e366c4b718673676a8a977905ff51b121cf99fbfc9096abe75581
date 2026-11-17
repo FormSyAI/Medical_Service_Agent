@@ -1,0 +1,136 @@
+# Technical review rules
+
+This English reference follows sections 1, 4, and 5 of the technical self-check design at baseline 0.2. The [Chinese export](TC规则.md) and its [provenance](TC规则.provenance.json) retain the original wording, source and export hashes, section selection, and identities of the unbundled source index and scoring proposal. Apply the [shared conventions](共同约定.md), current task, and effective decisions to determine scope.
+
+## 1. Purpose of technical self-check
+
+Check whether a reader can identify the intended work, responsible modules, data handling, recovery actions, completion criteria, and prerequisites. Report concrete findings and the evidence behind each conclusion. Use the technical summary for orientation and retain the details of modules, runtime scenarios, decisions, quality, and risks. [arc42 solution strategy](https://docs.arc42.org/section-4/) and [runtime view](https://docs.arc42.org/section-6/)
+
+### 1.1 Evidence levels and supported conclusions
+
+| Level | Review object and method | Supported conclusion | Evidence boundary |
+| --- | --- | --- | --- |
+| L1 Structure | Check fields, IDs, references, versions, dependencies, and trace links. Use repeatable rules and inspect false positives. | Whether a stated structural condition is satisfied. | Design soundness, core feasibility, and actual behavior require their own evidence. |
+| L2 Semantics | Trace requirement meanings, module responsibilities, both sides of interfaces, data and states, and consistency between tasks and acceptance. Verify sources and obtain independent review where needed. | A supported design judgment or concrete conflict within the stated scope. | Model accuracy, trial completion, and user approval require their own evidence. |
+| L3 Feasibility verification | Verify the platform, version, and environment needed to establish a core hypothesis. Read official material and examine actual prototypes, operations, files, or logs where required. | Evidence for the exact hypothesis. Record the observed trial as passed, failed, or unverified. | Limit findings to the actual hypothesis, version, platform, and environment. |
+
+Specify the necessary levels for each rule. Official documentation can establish its stated version facts. Use actual project evidence for implementation behavior and execute trials where the original rule requires them. Keep design review status **satisfied / unsatisfied / unchecked / inapplicable with reason** separate from actual trial status **passed / failed / unverified / inapplicable with reason**.
+
+### 1.2 Source methods and project rules
+
+Use arc42 for document structure and representative scenarios, NASA for design review, traceability, and prototype verification, MADR for recording decisions, and Google SRE for actionable readiness checks that can be scaled to scope. The technical review IDs, severity, state transitions, and stop conditions are project design proposals. Obtain actual user approval and budget independently. The original source index records source versions and the scope of adoption. [Google SRE launch readiness](https://sre.google/sre-book/reliable-product-launches/)
+
+Determine cancellation, retry, upgrade, and failure coverage from confirmed goals, actual capabilities, and risk. Give reasons for exclusions and retain critical risks in the review.
+
+## 4. Technical checklist
+
+Use **satisfied / unsatisfied / unchecked / inapplicable with reason** and record the exact location and basis for each result. Keep placeholders, deferred work, and unverified model statements at their actual status.
+
+| ID | Object and question | Required record | Main basis |
+| --- | --- | --- | --- |
+| TC01 | Are the baseline, effective decisions, scope, and platforms clear? | Baseline and applicability table | Existing Q05/Q06/Q22 |
+| TC02 | Does each requirement have design, tasks, and acceptance, and does each design item trace back to a source? | Traceability and orphaned-object inventory | S05/S07, existing Q03/Q13 |
+| TC03 | Are module responsibilities, boundaries, data ownership, calls, and responsibility for failure clear? | Module cards and dependency diagram | S01/S05/S10 |
+| TC04 | Do interface inputs, outputs, errors, permissions, versions, and expectations agree on both sides? | Interface contracts and conflicts | S06/S09, existing Q10 |
+| TC05 | Are data types, constraints, lifecycle, save failure, and recovery concrete? | Data dictionary and storage rules | S06/S11 |
+| TC06 | Does the design cover key normal operations, startup and exit, cancellation, partial failure, duplicates, and recovery? | Applicable scenarios and state or sequence records | S01/S13 |
+| TC07 | Are core technical unknowns classified, and have required facts and trials produced evidence? | Unknowns, decisions, and verification cards | S02/S03/S07 |
+| TC08 | Are quality requirements assessable, with units, scale, and sources for numerical targets? | Quality scenarios and measurement method | S01, existing Q09/Q17 |
+| TC09 | Are trust boundaries, credentials, permissions, outbound data, and deletion rules clear? | Security and side-effect design | S09 |
+| TC10 | Have external dependency versions, licenses, supported environments, limitations, and substitution impacts been verified? | Dependency and risk register | S04/S08 |
+| TC11 | Does the design cover applicable installation, upgrade, data compatibility, rollback, and environment differences? | Deployment and recovery design and platform matrix | S04/S13 |
+| TC12 | Does each applicable acceptance criterion have operations, assertions, environment, data, and an evidence plan? | Acceptance cards and coverage gaps | S04/S07, existing Q16/Q18 |
+| TC13 | Do the cases verify the requirements and their actual behavior? | Review of requirement and assertion substance | S07, existing Q13/Q21 |
+| TC14 | Are sources locatable, applicable, and consistent with the current version, with conflicts retained? | Source register and verification records | S02/S03, existing Q05/Q06 |
+| TC15 | Were revisions rechecked, with impacts and prior records retained? | Issue ledger and closure evidence | S07/S08, existing Q20/Q23 |
+
+The source index identified in provenance defines the S references. They support design methods. The review IDs and handling rules are proposed for this project.
+
+### 4.1 Applicability and exact satisfaction conditions
+
+Pin the full object set and applicable conditions at the start. Give a reason for each excluded subcondition. Keep applicable items in the denominator when data or environments are missing. A small local application may combine module and data records and scale organization to the actual design.
+
+| ID | Applicability | Specific satisfaction conditions |
+| --- | --- | --- |
+| TC01 | All projects | Object and rule versions and scope are locatable. Effective decisions and target platforms are clear. Draft and confirmed content are distinguishable, and baseline conflicts are visible. |
+| TC02 | All projects | Each applicable requirement links to a substantively correct design, task, and acceptance criterion. Design traces back to a requirement or delivery purpose. Gaps and orphaned objects have handling records. |
+| TC03 | All projects, at the appropriate scale | Responsibilities, boundaries, input and output, data ownership, dependencies, and failure handling are clear. Necessary operations have an unambiguous owner. Dependencies satisfy declared constraints. |
+| TC04 | Boundaries across modules, processes, files, or services. Explain when there is no distinct boundary. | Input types and constraints, outputs, errors, permissions, and versions agree on both sides. Define applicable call order, timeout, duplicate, and compatibility behavior. Triage key unknowns under TC07. |
+| TC05 | Check data for every project. Apply persistence, sensitive data, and migration requirements within scope. | Specify types, constraints, ownership, lifecycle, reads, and writes. For persistence, define preservation on failure and recovery. For deletion or migration, specify scope and effects. Obtain required evidence for key hypotheses. |
+| TC06 | Key normal operations always apply. Other scenarios follow capabilities and risk. | Specify starting state, event, state or data change, visible result, and failure responsibility. Define the exits from each critical reachable state and the boundaries of unsupported behavior. |
+| TC07 | Identify unknowns for every project and verify key hypotheses. | Classify each unknown, impact, and next action. Obtain the predeclared source or actual trial evidence for hypotheses that affect core implementation. Keep failed or unverified hypotheses open. |
+| TC08 | Stated quality requirements and constraints necessary to scope | Specify trigger, environment or scale, response, and evaluation method. Give units and sources for numbers. Record unsupported thresholds as pending decision or measurement. |
+| TC09 | Permissions and side effects always apply. Scope credentials and outbound data to actual capabilities. | Define trust boundaries, necessary permissions, data flows, protections, and lifecycle. Bind side effects to effective decisions. Obtain authority for new or unresolved permissions. |
+| TC10 | External libraries, tools, services, or reused code | Verify versions, license obligations, target environments, and important limits. Record impact and feasible handling of critical dependency failures. Scale fallback design to actual risk. |
+| TC11 | Delivery environment always applies. Scope installation, upgrade, and rollback to commitments. | Define runtime and delivery prerequisites per platform and applicable compatibility, failure, and recovery behavior. Keep environment gaps visible. State the boundary where the first release has no upgrade commitment. |
+| TC12 | Every applicable acceptance criterion and platform pair | Define prerequisites, environment, data, operations, assessable assertions, and evidence plan. Match automated and manual methods to what they can observe. Design the check even if the environment is unavailable and record actual execution separately. |
+| TC13 | All acceptance designs and critical trials | Assertions test the original behavior or outcome and cover material counterexamples according to risk. Assess behavior beyond the existence of files, buttons, or implementation. |
+| TC14 | External sources and inherited evidence. Bind local decisions to versions too. | Identify source, version, date, location, and applicability. Limit claims to the supported scope. Retain conflicts and expired evidence. Record impact before reusing evidence. |
+| TC15 | All findings. A review with no findings still needs a record. | Each issue has impact, status, and next action. Closure has supporting evidence and a recheck. Changes or counterexamples trigger reopening or expiry assessment. Preserve unresolved issues across pause or cancellation. |
+
+Record L1, L2, and L3 independently. A complete check requires every applicable level. Redact credential findings and keep actual secrets out of reports.
+
+Use L1 and L2 primarily for TC01/TC02/TC03/TC12/TC14/TC15. Use L2 primarily for TC08/TC09/TC10/TC11 and add L1 for structural fields as needed. For TC04/TC05/TC06/TC07, use L3 where a key hypothesis requires evidence beyond design review. TC13 primarily uses L2. Applicable sources can establish facts they cover. Run a target-environment trial when the hypothesis depends on that environment.
+
+## 5. Issue records and closure criteria
+
+Record issue ID, check ID and level, object version and location, expected rule, actual finding and evidence, affected objects and tasks, severity and reason, blocking decision and reason, response type and owner, next action and completion criteria, state, before and after difference, recheck results and evidence, and history.
+
+Use **open → verifying / awaiting user decision / environment blocked / revising → awaiting recheck → closed**. Update triage as facts change. After a failure or insufficient evidence, return to the applicable open or blocked state and preserve the attempt history.
+
+For closure, require a concrete revision or verification of the original issue, applicable evidence, satisfaction of the related rule, review of affected objects, and effective confirmation for changes that require it. Keep the issue record and supporting results. Cite source IDs and exact locations without duplicating source summaries.
+
+Match closure evidence to the issue. Check an invalid reference against the current file, review a corrected design conflict against the contract and its meaning, and retest an actual feasibility failure in the required environment. Select the level of evidence required by the original issue.
+
+TC15 checks whether the issue and recheck records accurately reflect the current state. An accurately documented open issue can satisfy that record obligation. Keep required revisions or rechecks that have yet to occur unsatisfied or unchecked, with dependent tasks unready. Report record quality, completed remediation, and project readiness separately.
+
+### 5.1 Severity and dependent work
+
+| Severity | Basis | Handling |
+| --- | --- | --- |
+| Critical | An effective requirement or permission is violated, core design is infeasible or depends on an unverified key hypothesis, important data could be lost or accessed without authority, or a baseline conflict leaves the execution target unclear. | Block affected tasks and their actual dependencies. Obtain user decisions for changes in requirements, approach, or permissions. A baseline conflict across stages can affect a full stage. |
+| Important | A specific, locatable interface, data, state, or acceptance gap prevents reliable implementation or judgment. | Block dependent tasks and allow independent work. Record the boundary and rationale. |
+| General | Wording, maintenance, or a non-critical detail with sufficient existing design and evidence to continue. | Record the revision plan and basis for continuing. Honor any required gate confirmed by the user. |
+
+Set severity from actual consequences. Preserve authorization boundaries for new permissions or side effects. When evidence is incomplete, leave severity pending and keep work tied to critical risks unready.
+
+Trace blocking from the finding to requirements, modules, interfaces, data, platforms, and tasks, then through actual dependencies. Record uncertain impact for analysis. Continue independent source work, design review, or other authorized work. Clear blockers only with the current-version recheck and applicable confirmation.
+
+### 5.2 State transitions, reopening, and false positives
+
+| Transition | Required record and boundary |
+| --- | --- |
+| Open → verifying or revising | Next action, owner, authority, budget, and completion criteria. |
+| In progress → awaiting recheck | Actual revision or verification, difference, impact, and evidence. |
+| Awaiting recheck → closed | Original issue answered, applicable evidence, original rule satisfied, related objects rechecked, and required confirmation effective. |
+| Closed → reopened | New fact or counterexample, version change, or erroneous closure. Link the prior record and return to the applicable open state. |
+| Review paused or cancelled | Preserve reason, open items, artifacts, budget consumption, and recovery conditions. Preserve actual issue states. |
+| False positive or duplicate | Preserve the rule, facts, and scope rationale or the link to the original issue, with a recheck record. Keep unanswered gaps visible. |
+
+Track related gaps separately where useful. A complete feasibility plan can close a missing-plan issue. The key hypothesis remains open until its required evidence is obtained.
+
+### 5.3 Version impact and evidence validity
+
+Bind checks, issues, sources, trials, and decisions to object versions, platforms, and environments. Assess changes even when a filename stays the same.
+
+| Change | Impact and recheck |
+| --- | --- |
+| Wording or locator | Check whether the change preserves behavior, conditions, boundaries, and commitments. Record the difference and reason for reusing trials. |
+| Interface, data, state, or dependency | Trace callers, consumers, scenarios, tasks, and acceptance. Recheck affected conclusions and rerun trials according to impact. |
+| Material requirement, approach, or permission change | Keep the new material pending confirmation and preserve the prior version and decision. Obtain applicable phase confirmation before dependent execution. |
+| Platform, environment, dependency, or rule version | Re-evaluate applicability and supported findings. Obtain actual evidence for the new platform and recalculate any affected rule measures. |
+| New material overturns earlier evidence or reveals an omission | Preserve conflict, impact, and reopening rationale. Recheck against the current effective baseline. |
+
+Assess design conclusions, user confirmation, and actual evidence independently. Reuse prior evidence after recording impact. Keep older runs tied to their actual version and environment. Assess readiness across the applicable scope of the new baseline.
+
+### 5.4 Budget, stop, and recovery
+
+Stop affected actions once applicable checks are complete and reported, a user decision is required, an effective call, output, time, cost or resource limit is reached, the next step could exceed remaining budget, a bounded retry rule produces no new evidence, the user pauses or cancels, or a key prerequisite becomes invalid.
+
+Use limits authorized for this work. Verify how failed requests, retries, and other calls are counted and charged from the effective decision and service records. Treat unknown costs or counting as unresolved. On stopping, preserve drafts, issues, attempt history, and the reason. The source research round did not call a user-configured model API.
+
+Before resuming, read the stop record and current baseline. Verify decisions, permissions, environment, and budget, including remaining allowance. Analyze changes and recheck expired evidence. Obtain current authority where budget or permission expired or work was cancelled. Keep critical trials without a target environment unverified.
+
+Report baseline and rule versions, applicable and excluded scope, results by level, scoring denominators, issues and affected tasks, actual trials and platform gaps, decisions pending, budget, and next action. Proposed readiness depends on cleared blockers, satisfied required checks, evidence for core hypotheses, and effective confirmation for the current stage. Obtain user confirmation for formal gates. Track completed revisions and trials separately from report completeness.
+
+Use self-check to support user review. User confirmation, requirements changes, and final acceptance each need their actual decision or evidence. Blocking issues retain their effects at every score. The scoring proposal is identified in source provenance.

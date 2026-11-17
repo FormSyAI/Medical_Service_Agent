@@ -1,0 +1,183 @@
+# Native task and milestone recording
+
+Use this contract for engineering work with an explicitly selected native capture
+state. Record tasks and milestones in the native Session by default. Use the
+[legacy progress contract](legacy-progress-recording.md) only when the legacy
+Evidence workflow was explicitly selected. Pick one recording path per milestone.
+
+## Verify the binding
+
+For an installation that uses native capture by default, run this from the
+current code worktree:
+
+```sh
+formsy capture context --repo <absolute-code-worktree>
+```
+
+This command resolves the current session from the private installation
+configuration and host `CODEX_THREAD_ID` or `CODEX_SESSION_ID`. It can establish
+separate local state for an authorized new source. Task creation and upload are
+separate operations. Use the current session's identity. If resolution fails,
+retain the gap. Use `--config <absolute-path>` only with configuration supplied
+by the user or identified by a trusted installation receipt. Upload authorization
+must come from the user.
+
+On `status=bound` or `status=awaiting_binding`, retain `state`, `source_session_id`, `session_id`,
+`repository`, `repository_identity`, `worktree_id`, and `context_revision`
+from the receipt. Use those values in subsequent calls. `awaiting_binding` means
+the execution target is not yet selected; Task entry associates it automatically.
+
+For workflow development, enter a new request with
+`formsy flow enter PROJECT --feature specs/FEATURE --request-file FILE --worktree TARGET`.
+For the same target in another worktree or a retained run, use
+`formsy flow select PROJECT --run-id RUN --worktree TARGET`.
+PROJECT retains the run's workflow materials; TARGET is the existing Git worktree
+used for this operation. Prepare a missing worktree before passing its path.
+The entry creates or resumes the original Task and associates TARGET. Read back
+the same source and Task before continuing. Do not create a separate Task before
+flow entry or add a separate capture bind/task-scope-attach step.
+Keep the original Task across A→B→A for the same deliverable; use the lifecycle
+contract for a separate deliverable. A worktree switch within the active Task
+does not require a new user Activity reference. Complete entry and receipt
+verification in a separate tool call before operating on the target. Each tool
+call operates on one worktree; combining entry and target operations in one call
+leaves that call and its late results attributed to its original scope.
+
+Outside the workflow, run `formsy context` as shown below and follow the task
+lifecycle contract. To continue the same Task in another worktree, use
+`task-switch --task TASK --repo TARGET`; that entry also handles association.
+Read back the successful task selection before implementing, testing, or committing.
+
+If capture lacks configuration, the source conflicts, or the repository differs,
+report the safe error code and attribution gap. Preserve the installation scope
+and existing history. Verify the actual Session, Task, revision and operation target
+provided by the Hook. When no target is recorded, select it from the actual operation;
+the Session's startup directory does not establish its execution target.
+
+Use the standalone `formsy` executable, private state directory, and actual
+Codex source session ID supplied by the user or trusted project configuration.
+Use a capture directory already enabled for this session. Across containers,
+reuse the same state and original log mounts. Preserve source identity, cursor,
+and logs. Skill installation, login, and AWR handoff data each carry their own
+scope. Verify native capture authorization and project binding separately.
+
+Run `formsy context --state <directory> --source-session <actual-source-session-id>`.
+Match the source to this session and inspect `active_task_id`, task title,
+`context_revision`, and `tasks`. Keep tool output to this safe context. If the
+trusted state or executable is unavailable, report the gap and continue the
+user's authorized work.
+
+## When to record
+
+- Before starting engineering work, switching to a separate deliverable, or
+  returning to paused work, compare the actual target to the active task. Follow
+  [task boundaries and lifecycle](task-lifecycle.md) and check the action receipt.
+  A TaskSegment tracks the specific deliverable. Reuse it for implementation,
+  tests, repairs, and commits within that deliverable.
+- Record material decisions as `decision`, executed checks and limitations as
+  `verification`, real blockers as `blocked`, and stage handoffs as `handoff`.
+- The native log collector already records routine conversation and tool events.
+
+```sh
+formsy record --state <directory> --source-session <source-id> \
+  --id <milestone-retry-key> --kind verification --text '<actual-checks-and-limitations>'
+```
+
+A retry key starts with an ASCII letter or digit and can contain up to 128 bytes
+of ASCII letters, digits, and `_.:-`. Reuse the key and content for the same
+retry. Use a new key for a correction or a new milestone. The same key with
+different content fails. An exact retry preserves the active task. Retain the
+receipt and match task identities directly. Before writing a declaration, task
+transitions and `record` drain the fully written source log through the source
+watermark. Late tool results retain the original call's attribution. A partial
+line or read failure prevents the declaration.
+
+The declaration remains `caller_asserted`. Include the executed command,
+observed result, and scope. Report unknown source quotations or code versions
+as gaps. Keep historical task starts and AWR progress separate from the native
+receipt. Summarize the actual target, progress, and gaps to the user.
+
+## Authorized tool bodies
+
+Task transitions, `record`, and `milestone-context` drain the source log.
+When the user expressly authorizes capture of tool arguments and return bodies
+for this call, verify the code repository scope and add
+`--repo <code-repository> --allow-tool-body`. Authorization applies to the
+individual call. Server reading controls, Skill installation, and earlier
+approvals carry separate scope.
+
+Use metadata mode when this approval is unavailable. Previously omitted
+historical bodies stay omitted. Results keep the original call's task
+attribution. A host message can leave execution state unknown. Use an actual
+exit code or test result as execution evidence.
+
+## Attach exact source references
+
+After recording a milestone, use the newer CLI to look up any exact captured
+user or assistant messages it refers to:
+
+```sh
+formsy activity-index --state <directory> --source-session <source-id> --after <sequence> --limit 50
+```
+
+The default `after` is 0 and the maximum `limit` is 100. Continue while
+`next_after` is present. This query returns identity, sequence, source event
+position, type, and task identity. It leaves source bodies and capture state
+alone. Choose the Activity ID using the actual message's source position or a
+verified original Web activity link. Leave the reference missing if the exact
+message cannot be established.
+
+```sh
+formsy milestone-context --state <directory> --source-session <source-id> \
+  --id <reference-retry-key> --milestone <record-receipt-activity-id> \
+  --source-activities <exact-message-id[,exact-message-id]> --repo <code-repository>
+```
+
+Here `--repo` identifies the code repository used to read origin identity.
+Supply up to 32 `source_recorded` user or assistant message references from the
+same session. The command drains fully written source events, then rejects
+missing references, wrong types, or conflicting retries. A failure leaves the
+original declaration intact. Each reference is stored in a separate immutable
+MilestoneContext. The current version supports message references and preserves
+source text. After migration to state version 3, continue using the newer CLI.
+
+The declaration and referenced source have separate navigation. A reference
+records identity. Verify relevance, execution, and task completion independently.
+Until the Server ingests the reference, report it as pending synchronization.
+
+## Upload and confirmation
+
+A local receipt proves persistence. After the user expressly authorizes native
+session upload and the destination repository has been verified, run:
+
+```sh
+formsy sync --state <directory> --repo <dedicated-data-git-directory> --remote <authorized-destination> --allow-upload
+```
+
+Sync exports existing activities and transfers data refs. Collect subsequent
+messages separately. Use the existing Git credential helper and preserve the
+authorized destination and scope.
+
+If private state contains tool observations, synchronization also requires
+express authorization to upload tool bodies for this call and the
+`--allow-tool-upload` flag. Collection and upload require separate approval.
+If upload approval is missing, keep the state local and report the pending
+authorization.
+
+Use foreground `watch` when the user expressly requests continuous collection
+or upload. Use `--capture-repo <code-repository>` for the code capture scope
+and `--repo <dedicated-data-git-directory>` for data transfer. Tool body capture
+requires `--allow-tool-body`. Transfer uses `--remote <authorized-destination>
+--allow-upload --allow-tool-upload` with the corresponding approvals. These
+approvals apply to that foreground run. Installing background work or widening
+historical coverage requires a separate explicit request.
+
+Watch detects reference-only changes and keeps references separate from
+declarations. After an exit, verify the binding and authorization before
+restarting. Retain queue receipts and run a single collector.
+
+`git_uploaded=true` records Git OID confirmation. Verify Server ingestion using
+the authorized project's sync result and the original Web task or milestone
+view. If the Server receipt is unavailable, report upload as complete and
+ingestion as pending. Keep local records on failure and report the failure.
+Background upload requires explicit setup. Skill invocation varies by turn.

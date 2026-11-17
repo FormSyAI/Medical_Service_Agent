@@ -1,0 +1,9 @@
+{
+  "source": "安全设计补充-0.1/安全设计模板.md",
+  "source_sha256": "62c6b2a4b41a7b3bdeab3c0a1a3c24637709755064ba8e91dc1714364ddfb053",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "541d83e234883b2598d91153c3876a3709844ef49ce7a37f76a6a3749c91d41c"
+}

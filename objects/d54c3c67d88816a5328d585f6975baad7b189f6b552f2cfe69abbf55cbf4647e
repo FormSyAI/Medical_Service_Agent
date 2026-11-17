@@ -1,0 +1,124 @@
+# [Project] Technical SOP · [Revision]
+
+> Record project facts, proposals, unknowns and actual evidence. Replace placeholders with findings or a reason why the section does not apply. Keep design, self-review, user approval and observed runtime results separate.
+
+## 1. Baseline and scope
+
+| Field | Details |
+| --- | --- |
+| Project ID / document ID / revision / stage | To document |
+| Current requirements, product behavior, acceptance IDs and versions | Record exact source locations |
+| Scope of this design or review / out of scope | To document |
+| Target platforms, operating systems and architectures | List each platform and confirm unknowns |
+| Candidates / selected technology / effective decisions | Record separately |
+| Source snapshots, rule versions and materials read | To document |
+| Stage approval and original record | No record supplied. Attribute any user statement whose original has not been verified. |
+| Permissions, external transfers, costs and stop conditions | Verify scope and limits |
+
+## 2. Bidirectional traceability and architecture
+
+| Requirement / version | Product behavior | Acceptance text / ID | Module / interface / data / scenario | Decision / trial | Implementation task | Platform | Gap |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To document | To document | To document | To document | To assess |
+
+Describe system boundaries, actors, external systems, runtime placement, trust boundaries, data flows, ownership, dependency direction and failure propagation. Link diagram boundaries to the cards below. Trace each new technical action to its requirement or delivery purpose.
+
+## 3. Module [MOD ID] card
+
+Copy the card for each relevant module.
+
+| Field | Details |
+| --- | --- |
+| Source, primary responsibility, guarantees and exclusions | To document |
+| Provider, caller and process or environment | To document |
+| Inputs, sources, required and nullable fields, values, size and validation failures | To document |
+| Outputs and visible feedback for success, waiting or partial completion | To document |
+| Provided and called interfaces, versions and order | To document |
+| State and lifecycle, entry and exit conditions | To document |
+| Data IDs, ownership, sole writer and commit boundary | To document |
+| Actor, permissions, scope, credentials and side effects | To document |
+| Normal processing, errors and ownership of partial failures | To document |
+| Cancellation, duplicates, unknown outcomes, recovery and exit | Document unsupported cases and their boundaries |
+| Dependencies, configuration, resource constraints and sources | Leave unknown parameters explicit |
+| Feasibility evidence, decisions, tasks, assertions and tests | To document |
+| Open questions, affected objects and closure criteria | To document |
+
+## 4. Interface and data contracts
+
+| API ID / version | Provider / caller | Input constraints | Output and commit semantics | Preconditions / postconditions / order | Error and caller action | Timeout / cancel / duplicate | Permissions / compatibility | Verification |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To document | To document | To document | To document | To document | Unverified |
+
+| DATA ID / version | Fields / constraints / relationships | Owner / readers / writers / scope | Temporary / persistent / cache / backup locations | Consistency / success boundary | Create / update / delete | Corruption / storage exhaustion / denied access | Migration / recovery / derived data invalidation |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To document | To document | To document | To document | To document |
+
+Compare expectations on both sides of each interface. Verify storage guarantees with an authoritative source or an experiment.
+
+## 5. Scenarios, states and recovery
+
+| Scenario ID / requirement / acceptance | Prior state / environment / input | User action → module call | Intermediate state / data / commit | Success and feedback | Error / cancel / duplicate | Restart recovery / failure exit |
+| --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To document | To document | To document | To document |
+
+| Current object state | Event / condition | Validation and calls | Next state | Data / side effects | Visible feedback | Failure exit |
+| --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To document | To document | To document | To document |
+
+| Interruption point | Committed changes / side effects | Preserved source data / checkpoint | Cancellation confirmation and feedback | Recovery prerequisites (version / permissions / budget) | Resume or rollback | Failure exit / evidence |
+| --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To document | To document | To document | No evidence yet |
+
+## 6. Environment, dependencies, permissions and quality
+
+| Platform / architecture | Build and runtime prerequisites | Installation / signing / compatibility | Environment availability | Observed verification |
+| --- | --- | --- | --- | --- |
+| List every user-specified platform | To verify | To verify or decide | Not supplied | Unverified |
+
+| Dependency / version | Purpose / module | Primary source / date / location | License and distribution impact | Platform constraints / failure impact | Evidence status |
+| --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To verify | To document | Unverified |
+
+| Actor / module / trust boundary | Permissions and decision | Data scope | External destination / data | Credential ownership and lifecycle | Failure / revocation / deletion / logging | Verification method |
+| --- | --- | --- | --- | --- | --- | --- |
+| To document | To verify | To verify | Explain exclusions | To document | To document | Planned |
+
+For an external API, document request and response contracts, configuration entry, secure credential handling, missing or invalid credentials, loss of connectivity, rate limits, timeouts, billing, budget, bounded retries, ambiguous outcomes and prerequisites for a real call. Keep real credentials out of source, packages, logs and reports.
+
+| Quality requirement | Trigger / environment / scale | Response / unit / threshold | Source or decision | Measurement method | Behavior beyond the limit | Actual result |
+| --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To decide or measure | Not supplied | To design | To document | Not run |
+
+## 7. Decisions, unknowns and feasibility
+
+Use the [security design template](security-design-template.en-us.md) for the security appendix. In a complete design, record assets, data flows, trust boundaries, applicable risks and unknowns. Link TH/CTRL to MOD/API/DATA/TEST and distinguish proposed design, implementation and observed verification.
+
+| ADR ID | Question / object | Constraints and sources | Alternatives / recommendation | Costs and risks | Current state / effective decision | Revisit condition |
+| --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To review | To document | Undecided | To document |
+
+| U ID / type | Assumption or gap | Affected task / object | Prior research / trial prerequisites | Environment / permission / budget | Next action | Closure evidence / actual status |
+| --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To design | To verify | To document | Unverified |
+
+## 8. Implementation, acceptance and delivery design
+
+List the complete set of goals and dependencies. For each task about to start, complete the [task packet](task-packet.en-us.md) with input versions and locations, allowed changes, dispatch readiness and entry criteria, STEP actions and expected intermediate results, contracts, invariants, outputs, concrete TEST assertions, stop and recovery conditions, and actual evidence. Record unknown decisions or file locations as blockers or discovery tasks.
+
+| T/STEP ID | Requirement / module / output | Dependencies and entry criteria | Environment / allowed scope | Steps and intermediate results | Completion assertion / test | Stop and recovery | Actual status |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To verify | To refine | To document | To document | Not run |
+
+| TEST ID / original acceptance text | Platform / build / configuration | Data / prior state | Operation design | Assertions and key counterexamples | Automated or manual method and rationale | Planned files / logs / screenshots | Actual result |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| To document | To document | To document | To design | To document | To select | No evidence yet | Not run |
+
+List deliverables such as source, packages for the user-specified platforms, configuration and operating instructions, and the actual verification report, as applicable. Plan post-install startup, save, export and key-path checks. Record unavailable target environments as gaps.
+
+## 9. Current self-review, findings and approval
+
+Apply TC01–TC15 and attach actual review records. Identify same-session self-review and record any required independent review as pending. List findings, affected tasks, revision differences, rechecks and the next open question. Record user approval and runtime results only when observed and locatable.
+
+## Domain applicability and current supplementary rules
+
+Use the current supplement (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-workflow/references/sop-rules-addendum-20261016/applicability-and-version.md`) for rule revisions, approval policy and applicability. For each applicable domain, link the existing object to its check card (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-workflow/references/sop-rules-addendum-20261016/domain-check-card.md`) and record open decisions and actual evidence separately.

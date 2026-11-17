@@ -1,0 +1,22 @@
+{
+  "source": "SOP设计基准-0.2/技术文档SOP.md",
+  "source_sha256": "553fa812f99d794691ba2b3fbe427a1a85f0824ae6764a37ee18ae13ac2a5084",
+  "selected_section_patterns": [
+    "^## [3-7]\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "技术资料索引",
+      "original_reference": "技术SOP自检研究/参考资料/来源索引.md"
+    },
+    {
+      "label": "RS04 工程评审",
+      "original_reference": "SOP设计参考资料-20260930/技术/RS04-Google工程评审阅读笔记.md"
+    },
+    {
+      "label": "RS05 真实提案",
+      "original_reference": "SOP设计参考资料-20260930/技术/RS05-GitLab消息层提案阅读笔记.md"
+    }
+  ],
+  "exported_sha256": "44585eb0b723003a59b72842c2bcc35826af4b63e63f360a6a594721db33c690"
+}

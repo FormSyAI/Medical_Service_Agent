@@ -1,0 +1,201 @@
+"""Check frozen rule bytes and candidate reference structure; no semantic/identity proof."""
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+RULES = Path(__file__).resolve().parents[1] / 'references/traceaudit-r12'
+RELEASE_SHA256 = 'f749e17f38821844b3c5322f3b295bae25c37f1011d91887e608a84c6202ef08'
+SCHEMA = 'traceaudit-candidate-0.1'
+STATUSES = {'satisfied', 'unsatisfied', 'unverified', 'not_applicable'}
+TRIGGERS = {'design_full', 'formal_closure', 'full_security'}
+CAPABILITIES = {'source_identity_checked', 'runtime_identity_checked', 'execution_performed'}
+LIMITS = 'Byte integrity, registered structure and exact local-text references only; no semantic, provenance, runtime identity or acceptance proof.'
+
+
+def sha(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def validate_release(root=RULES):
+    errors = []
+    try:
+        release = json.loads((root / 'release.json').read_text(encoding="utf-8"))
+        if sha(root / 'release.json') != RELEASE_SHA256:
+            errors.append('Frozen release.json SHA256 mismatch')
+        if release.get('release_id') != 'traceaudit-r12' or release.get('interpretation_revision') != '1.9.1' or release.get('reference_only') is not True or release.get('source_authenticated') is not False:
+            errors.append('Frozen release identity/boundaries mismatch')
+        entries = release['files']
+        if len(entries) != 9 or len({entry['path'] for entry in entries}) != 9:
+            errors.append('Expected nine unique release file entries')
+        for entry in entries:
+            path = (root / entry['path']).resolve()
+            if not path.is_relative_to(root.resolve()) or not path.is_file():
+                errors.append('Missing/unsafe release path: ' + entry['path'])
+            elif sha(path) != entry['sha256'] or path.stat().st_size != entry['bytes']:
+                errors.append('Frozen file mismatch: ' + entry['path'])
+        catalog = json.loads((root / 'compiled-catalog.json').read_text(encoding="utf-8"))
+        conditions = [condition for rule in catalog['rules'] for condition in rule['conditions']]
+        items = [item for condition in conditions for item in condition['contract']['items']]
+        counts = (len(catalog['rules']), len(conditions), len(items))
+        if counts != (33, 144, 184):
+            errors.append('Expected compiled counts 33/144/184')
+        for records, kind in ((catalog['rules'], 'rule'), (conditions, 'condition'), (items, 'atomic item')):
+            if len({record['id'] for record in records}) != len(records):
+                errors.append('Duplicate compiled ' + kind + ' IDs')
+        if catalog['contract_version'] != '1.9' or catalog['contract_sha256'] != release['catalog']['contract_sha256'] or sha(root / 'compiled-catalog.json') != release['catalog']['sha256']:
+            errors.append('Compiled interpretation contract mismatch')
+        return {'valid': not errors, 'errors': errors, 'counts': dict(zip(('rules', 'conditions', 'atomic_items'), counts)), 'limits': LIMITS}, catalog
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        return {'valid': False, 'errors': errors + ['Malformed/unreadable frozen release: ' + str(exc)], 'limits': LIMITS}, None
+
+
+def validate_report(doc, report_path, catalog):
+    errors = []
+
+    def need(test, message):
+        if not test:
+            errors.append(message)
+
+    def text(value):
+        return isinstance(value, str) and bool(value.strip())
+
+    def array(value, label):
+        need(isinstance(value, list), label + ' must be a list')
+        return value if isinstance(value, list) else []
+
+    def integer(value):
+        return type(value) is int
+
+    if not isinstance(doc, dict):
+        return {'valid': False, 'errors': ['Candidate report must be an object'], 'limits': LIMITS}
+    need(doc.get('schema_version') == SCHEMA, 'Wrong candidate schema_version')
+    for key in ('task_id', 'target_version', 'round_id'):
+        need(text(doc.get(key)), key + ' is required')
+    need(doc.get('profile') in ('code_fix', 'full_sop'), 'Invalid frozen profile')
+    release = json.loads((RULES / 'release.json').read_text(encoding="utf-8"))
+    expected_binding = {'release_id': 'traceaudit-r12', 'release_sha256': RELEASE_SHA256,
+                        'interpretation_revision': '1.9.1',
+                        'compiled_sha256': release['catalog']['sha256'], 'contract_version': '1.9',
+                        'contract_sha256': catalog['contract_sha256'], 'reference_only': True, 'source_authenticated': False}
+    binding = doc.get('rule_binding')
+    need(isinstance(binding, dict) and all(type(binding.get(k)) is type(v) and binding.get(k) == v for k, v in expected_binding.items()), 'Rule binding must preserve frozen versions/hashes/boundaries')
+    capabilities = doc.get('capabilities')
+    need(isinstance(capabilities, dict) and set(capabilities) == CAPABILITIES and all(v is False for v in capabilities.values()), 'Candidate capabilities must remain false')
+    need(doc.get('formal_closed') is False, 'Candidate cannot formally close an audit')
+    need(type(doc.get('analysis_complete')) is bool, 'analysis_complete must be boolean')
+    failures = array(doc.get('analysis_failures'), 'analysis_failures')
+    limits = array(doc.get('known_limits'), 'known_limits')
+    need(bool(limits) and all(text(v) for v in limits), 'known_limits must preserve explicit limitations')
+    need(all(text(v) for v in failures), 'analysis_failures entries must be nonempty text')
+
+    registered = {c['id']: c for r in catalog['rules'] for c in r['conditions']}
+    scope = doc.get('scope') if isinstance(doc.get('scope'), dict) else {}
+    selected = array(scope.get('condition_ids'), 'scope.condition_ids')
+    need(scope.get('mode') in ('selected_conditions', 'all_registered_conditions'), 'Invalid scope.mode')
+    need(all(isinstance(i, str) and i in registered for i in selected), 'Unknown selected condition ID')
+    selected_ids = {i for i in selected if isinstance(i, str)}
+    need(len(selected_ids) == len(selected), 'Duplicate/malformed selected condition ID')
+    if scope.get('mode') == 'all_registered_conditions':
+        need(selected_ids == set(registered), 'Full registered scope must retain all 144 conditions')
+
+    sources = {}
+    for source in array(doc.get('sources'), 'sources'):
+        if not isinstance(source, dict) or not text(source.get('id')):
+            errors.append('Malformed source')
+            continue
+        label = source['id']
+        need(label not in sources, 'Duplicate source ID: ' + label)
+        for key in ('path', 'revision', 'task_id', 'target_version', 'sha256'):
+            need(text(source.get(key)), label + ': missing ' + key)
+        need(source.get('task_id') == doc.get('task_id') and source.get('target_version') == doc.get('target_version'), label + ': task/target binding mismatch')
+        need(source.get('role') in ('user', 'assistant', 'source', 'test', 'commit_diff', 'context', 'runtime'), label + ': unknown source role')
+        try:
+            path = report_path.parent / source['path']
+            content = path.read_text(encoding='utf-8')
+            need(sha(path) == source['sha256'], label + ': source SHA256 mismatch')
+            lines = content.splitlines()
+        except (OSError, ValueError, TypeError, KeyError) as exc:
+            errors.append(label + ': unreadable source: ' + str(exc))
+            lines = []
+        extent = source.get('read_extent') if isinstance(source.get('read_extent'), dict) else {}
+        start, end = extent.get('start_line'), extent.get('end_line')
+        valid_extent = integer(start) and integer(end) and 1 <= start <= end <= len(lines)
+        need(valid_extent, label + ': invalid read_extent')
+        sources[label] = (source, lines, (start, end) if valid_extent else None)
+
+    def check_refs(value, label, required=False, original_roles=False):
+        refs = array(value, label + '.source_refs')
+        need(not required or bool(refs), label + ': determined judgment requires source_refs')
+        for ref in refs:
+            if not isinstance(ref, dict) or not isinstance(ref.get('source_id'), str) or ref['source_id'] not in sources:
+                errors.append(label + ': dangling/malformed source_ref')
+                continue
+            source, lines, extent = sources[ref['source_id']]
+            for key in ('revision', 'task_id', 'target_version'):
+                need(ref.get(key) == source.get(key), label + ': reference ' + key + ' mismatch')
+            if original_roles:
+                need(source.get('role') in ('user', 'assistant'), label + ': trigger must cite original user/assistant')
+            start, end = ref.get('start_line'), ref.get('end_line')
+            coordinates = extent is not None and integer(start) and integer(end) and extent[0] <= start <= end <= extent[1]
+            need(coordinates, label + ': reference outside declared read_extent')
+            quote = ref.get('quote')
+            need(text(quote) and coordinates and quote in '\n'.join(lines[start-1:end]), label + ': quote not present at exact coordinates')
+
+    triggers = doc.get('triggers') if isinstance(doc.get('triggers'), dict) else {}
+    need(set(triggers) == TRIGGERS, 'All three trigger records are required')
+    for name, trigger in triggers.items():
+        if not isinstance(trigger, dict):
+            errors.append('Malformed trigger: ' + name)
+            continue
+        need(trigger.get('status') in ('triggered', 'not_requested', 'uncertain'), name + ': invalid trigger status')
+        need(text(trigger.get('reason')), name + ': trigger reason is required')
+        check_refs(trigger.get('source_refs'), name, trigger.get('status') != 'uncertain', True)
+
+    seen = set()
+    for row in array(doc.get('conditions'), 'conditions'):
+        if not isinstance(row, dict) or not isinstance(row.get('condition_id'), str) or row['condition_id'] not in registered:
+            errors.append('Unknown/malformed candidate condition')
+            continue
+        cid = row['condition_id']
+        need(cid not in seen, 'Duplicate candidate condition: ' + cid)
+        seen.add(cid)
+        item_definitions = {i['id'] for i in registered[cid]['contract']['items']}
+        item_ids = set()
+        for entry, key in [(row, 'condition_id')] + [(v, 'item_id') for v in array(row.get('items'), cid + '.items')]:
+            if not isinstance(entry, dict) or not text(entry.get(key)):
+                errors.append(cid + ': malformed judgment row')
+                continue
+            identifier = entry[key]
+            need(entry.get('status') in STATUSES, identifier + ': invalid status')
+            need(text(entry.get('reason')), identifier + ': reason is required')
+            check_refs(entry.get('source_refs'), identifier, entry.get('status') != 'unverified')
+            if key == 'item_id':
+                need(identifier not in item_ids, cid + ': duplicate item ' + identifier)
+                item_ids.add(identifier)
+        need(item_ids == item_definitions, cid + ': all registered atomic items must be retained')
+    need(seen == selected_ids, 'Candidate rows must exactly match selected conditions')
+    if doc.get('analysis_complete') is True:
+        need(scope.get('mode') == 'all_registered_conditions' and seen == set(registered) and not failures, 'analysis_complete requires full registered coverage and no analysis failures')
+    return {'valid': not errors, 'errors': errors, 'selected_conditions': len(selected_ids),
+            'not_reviewed_condition_ids': sorted(set(registered) - selected_ids), 'limits': LIMITS}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('report', nargs='?', type=Path)
+    args = parser.parse_args()
+    result, catalog = validate_release()
+    if result['valid'] and args.report:
+        try:
+            candidate = validate_report(json.loads(args.report.read_text(encoding="utf-8")), args.report.resolve(), catalog)
+        except (OSError, ValueError) as exc:
+            candidate = {'valid': False, 'errors': [str(exc)], 'limits': LIMITS}
+        result['candidate'] = candidate
+        result['valid'] = candidate['valid']
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+    return 0 if result['valid'] else 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

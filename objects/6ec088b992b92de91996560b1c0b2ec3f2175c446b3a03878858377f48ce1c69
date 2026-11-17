@@ -1,0 +1,90 @@
+# Runtime evidence and evaluation
+
+Use this maintained English guidance for sections 9 and 10 of the [frozen
+Chinese self-check export](实际证据与评测.md). The [export provenance](实际证据与评测.provenance.json)
+records the original `SOP设计基准-0.2/自检SOP.md`, source digest, and selected
+sections. The export describes the historical measurement design. Apply the
+[shared conventions](共同约定.md) and the current project's decisions. Use the
+[stage review interface](stage-review-contract.md) for the separate document
+review, evidence citations, and execution audit trigger.
+
+## 9. Actual application acceptance
+
+Before acceptance, pin the current artifact and build, effective requirements
+and design, every acceptance condition, target platforms and environments, test
+data and permission to use it, initial state, operations, observable assertions,
+evidence methods, failure and recovery paths, current permissions, costs and
+resource budget, and stage decision. Keep an unavailable required Windows
+environment unverified or environment-blocked in the denominator. Bind macOS
+results to macOS.
+
+Exercise the user's complete task. Cover normal behavior and applicable empty
+or invalid input, repetition, cancellation, interruption, failure, recovery,
+data damage, and side effects. For implemented behavior, operate the real UI
+and observe the application. Collect the persistent files or exports, restart
+or recovery results, logs, and screenshots called for by the assertions. Retain
+failure evidence. Treat button and file presence, static checks, scripts, and a
+successful build as structural evidence. A pass requires the outcome evidence
+specified by each applicable assertion.
+
+| Measure | Fixed counting rule |
+| --- | --- |
+| Applicable combinations (`Aapp`) | Every acceptance condition paired with each applicable target platform in the confirmed scope. Include missing implementations, environments, or permissions and combinations that have yet to run. |
+| Automated design coverage | Combinations with a complete automated design for operations, assertions, and evidence / `Aapp`. Report this as planned coverage. |
+| Automated execution completion | Combinations for which this round's automation completed every required operation and assertion and captured valid evidence / `Aapp`. Include completed checks that failed an assertion. |
+| Actual pass rate | Combinations with valid passing evidence for every required assertion on the current build and environment / `Aapp`. A partially executed combination remains unpassed. |
+| Required manual participation | Combinations that require a person to make any part of the judgment / `Aapp`. Include mixed automated and manual checks and give the reason per combination. Apply the historical target of at most 10% only where the user explicitly adopts it for the project. |
+| Failure, unverified status, and platform blockers | Report each count, cause, impact, and next action separately. You may report assertion-level detail alongside the fixed combination counts. |
+| Repair and retest | Trace the original failure to the change and build, affected scope, and actual retest and evidence. Keep unrun retests, recurrences, and remaining failures alongside passing results. |
+
+Use the same combination denominator throughout. Keep SOP fields, static rules,
+and repeated attempts outside the manual participation calculation. Report
+design coverage, actual execution, and actual passes separately. Report each
+required platform's result before drawing a conclusion about all delivery platforms.
+
+Perform bounded automated repair within the current confirmation, permissions,
+cost limits, and resource budget. Preserve the original failure, change the
+affected objects, recheck the design, and retest the actual behavior. When the
+repair changes requirements or the confirmed design, needs new permissions or
+outbound data transfer, or would exceed the budget, show the proposed diff and
+its consequences. Obtain the necessary decision before proceeding. Keep the
+original assertions and denominator. Obtain required user approval directly
+from the user.
+
+## 10. Evaluate self-check effectiveness independently
+
+Define an independent evaluation before reporting detection rates. Pin the
+rule, scale and engine versions, samples and document versions, ground-truth
+defect categories and severity, alert matching and deduplication rules,
+reviewer identities, denominators, and stopping conditions. Have actual
+reviewers validate the ground truth and semantic matches. Retain disagreements
+and samples held out of rule adjustment. Treat model self-assessments,
+synthetic users, and example scores as inputs that require independent ground
+truth.
+
+| Measure | Numerator, denominator, and boundary |
+| --- | --- |
+| Recall of known defects | Unique known defects correctly found / all unique known defects in the fixed evaluation set. Deduplicate multiple alerts for one defect under the agreed rules and report critical categories separately. |
+| Confirmed finding rate | Unique findings independently confirmed as actual issues / all unique findings. Verify unmatched alerts before counting them as valid. |
+| Missed critical defects | Report the count of known critical defects missed and the total count of known critical defects. Report this measure separately from recall for other defects. |
+| Incorrect blocking rate | Decision cases wrongly blocked even though work could proceed / evaluated decision cases marked as eligible to proceed in the fixed ground truth. State the scope of each judgment. |
+| Incorrect closure rate | Issues wrongly closed despite missing required evidence, recheck, or confirmation / evaluated issues with those missing prerequisites. Sample pauses, new plans without further evidence, and source updates without recheck. |
+| Detection of invalidated versions | Objects whose stale reference, evidence, or confirmation was correctly identified / all known stale objects in the fixed set. Report false positives on current objects separately. |
+| Recall of affected objects | Correctly identified affected objects / all actual affected objects in the human-established set. Report impact on document checks, confirmation, and application acceptance separately. |
+| Stop and resume compliance | Scenarios with expired prerequisites, insufficient budget, or cancellation in which side effects stopped correctly, state was preserved, and prerequisites were rechecked before resuming / executed stop and resume scenarios of those kinds. Establish effective limits before treating execution as safe. |
+| Knowledge retrieval, citation, and isolation | Use the distinct KB measures for Recall@k, citation accuracy, unauthorized leakage, incorrect closure, and zero matches. Establish human annotations and the ability to retrieve the isolation fixture within its authorized scope. Report these measures separately from PC and TC quality. |
+
+Report a zero denominator as not calculable or not run. Report failures,
+unexecuted cases, and limitations by sample category, version, and severity.
+Limit claims from seeded defects to the measured cases. Confirm thresholds
+against the baseline and cost of errors. Treat the proposed document score of
+95 and the review engine's measured detection rate as separate measures.
+
+Include missing required objects, semantic conflicts, orphan requirements or
+tasks, plans with no experiments, candidates or adoption presented as ground
+truth, mixed platform evidence, updated sources with old confirmation,
+unauthorized outbound data, incorrect closure or recurrence, and budget stops
+and recovery. For knowledge isolation, first verify that a term unique to
+project B is retrievable within B. Then check the content, metadata, cache,
+exports, and model payload available within project A without access to B for
+leakage. Establish that the authorized retrieval works before judging isolation.

@@ -1,0 +1,19 @@
+{
+  "files": {
+    ".formsy-sop/specify/.gitignore": "0a61c5378b0bb2e0f85babff99c8b166f2170a2c12378cd17d929aa19296ec88",
+    ".formsy-sop/specify/scripts/bash/check-prerequisites.sh": "13be175548848bd84e96a90cf9be87665c2e68603b2eaa3e19187e7ca8b4fcb0",
+    ".formsy-sop/specify/scripts/bash/common.sh": "15d4f67056efebad9204046b7660532e6ace1b6ee3e4c80ba2602a2be58793cd",
+    ".formsy-sop/specify/scripts/bash/create-new-feature.sh": "b46c21621277c7ceff49258f46457e27143a6cb5b94c3c6d44756faa1456d319",
+    ".formsy-sop/specify/scripts/bash/resolve-template.sh": "829e227096abc8bf0889889ec9f792f503ca5d395b7836a8a7eb739ee75214e7",
+    ".formsy-sop/specify/scripts/bash/setup-plan.sh": "d0bd298c026446f3c63167130d65e49e4aa4485de6bef18bcdfd57b19aa0de96",
+    ".formsy-sop/specify/scripts/bash/setup-tasks.sh": "067d6f80649841cdac5db795876da33087766131895401311a78c0c7aa5eac55",
+    ".formsy-sop/specify/templates/checklist-template.md": "70bbc48e884fab372ffb09e83e78ff983e28b69caebf8cd9964a02b6836683ac",
+    ".formsy-sop/specify/templates/constitution-template.md": "ce7549540fa45543cca797a150201d868e64495fdff39dc38246fb17bd4024b3",
+    ".formsy-sop/specify/templates/plan-template.md": "a828ad6206526574ab3fc99be6d0154588cb1c9774c5919d71b81ab5b2dbffa0",
+    ".formsy-sop/specify/templates/spec-template.md": "3945437fc35cd30a5b2bf7beea680337c3516826d3efa5a6b92c4a7eca1ba28e",
+    ".formsy-sop/specify/templates/tasks-template.md": "b0f527d41e546af0c31903e04f9b20965b6b497b573792198f663a64ce128863"
+  },
+  "installed_at": "2026-11-17T10:41:06.532871+00:00",
+  "integration": "speckit",
+  "version": "1.1.4.dev0"
+}
