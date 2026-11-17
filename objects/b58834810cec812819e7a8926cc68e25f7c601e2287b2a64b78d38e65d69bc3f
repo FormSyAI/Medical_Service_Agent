@@ -1,0 +1,252 @@
+"""Offline structural checks for SOP handoffs. Never certifies truth or readiness."""
+import argparse
+import json
+import re
+from pathlib import Path
+from typing import Any, Iterable, TypedDict
+
+SCHEMA = 'sop-module-handoff-0.2'
+CONTRACT = 'formsy-sop-contract-0.2'
+MODULES = {'workflow', 'product', 'technical', 'knowledge', 'selfcheck', 'assemble'}
+STAGES = {'initialization', 'discovery', 'modeling', 'planning', 'execution', 'verification', 'delivery', 'cross-stage'}
+ARRAYS = ('basis', 'objects', 'artifacts', 'sources', 'confirmations', 'checks', 'issues', 'runtime_results')
+FIELDS = {
+    'basis': ('id', 'revision', 'role', 'locator'),
+    'objects': ('id', 'kind', 'revision', 'source_ids', 'requirement_ids', 'description'),
+    'artifacts': ('path', 'revision', 'status'),
+    'sources': ('id', 'revision', 'role', 'adoption', 'scope', 'locator', 'read_extent'),
+    'confirmations': ('stage', 'revision', 'status', 'record'),
+    'checks': ('id', 'rule_id', 'object_id', 'object_revision', 'level', 'status', 'evidence', 'reason'),
+    'issues': ('id', 'description', 'object_ids', 'status', 'blocks', 'next_action'),
+    'runtime_results': ('id', 'acceptance_id', 'platform', 'build_id', 'status', 'evidence'),
+}
+
+
+def nonempty(value: object) -> bool:
+    if isinstance(value, str):
+        return bool(value.strip())
+    if isinstance(value, (list, dict)):
+        return bool(value)
+    return False
+
+
+def allowed(value: object, choices: Iterable[str]) -> bool:
+    return isinstance(value, str) and value in choices
+
+
+class Diagnostic(TypedDict):
+    file: str
+    location: str
+    message: str
+
+
+class HandoffReport(TypedDict):
+    valid: bool
+    errors: list[Diagnostic]
+    warnings: list[Diagnostic]
+    limits: list[str]
+
+
+def validate_documents(documents: Iterable[tuple[str, Any]]) -> HandoffReport:
+    errors, warnings = [], []
+
+    def add(bucket, file, location, message):
+        bucket.append({'file': file, 'location': location, 'message': message})
+
+    seen_projects = set()
+    versions = {}
+    for file, doc in documents:
+        if not isinstance(doc, dict):
+            add(errors, file, '$', 'Root must be a JSON object.')
+            continue
+        required = ('schema_version', 'contract_version', 'skill_name', 'skill_version', 'module', 'project_id', 'revision', 'mode', 'stage', 'next_question') + ARRAYS
+        for field in required:
+            if field not in doc:
+                add(errors, file, field, 'Required field missing.')
+        for field, expected in (('schema_version', SCHEMA), ('contract_version', CONTRACT), ('skill_version', '0.2.0')):
+            if doc.get(field) != expected:
+                add(errors, file, field, f'Expected {expected}.')
+        module = doc.get('module')
+        if not allowed(module, MODULES):
+            add(errors, file, 'module', 'Unknown module.')
+        if doc.get('skill_name') != f'formsy-sop-{module}':
+            add(errors, file, 'skill_name', 'Skill name and module differ.')
+        for field in ('project_id', 'revision'):
+            if not isinstance(doc.get(field), str) or not nonempty(doc.get(field)):
+                add(errors, file, field, 'Must be a nonempty string; explicit temporary identity is allowed.')
+        if isinstance(doc.get('project_id'), str):
+            seen_projects.add(doc['project_id'])
+        if not allowed(doc.get('mode'), {'generate', 'organize', 'review', 'assemble'}):
+            add(errors, file, 'mode', 'Unknown mode.')
+        if not allowed(doc.get('stage'), STAGES):
+            add(errors, file, 'stage', 'Unknown stage.')
+        if doc.get('next_question') is not None and not isinstance(doc.get('next_question'), str):
+            add(errors, file, 'next_question', 'Must be null or one question string.')
+        arrays = {}
+        for name in ARRAYS:
+            value = doc.get(name)
+            if not isinstance(value, list):
+                add(errors, file, name, 'Must be an array.')
+                arrays[name] = []
+                continue
+            arrays[name] = []
+            ids = set()
+            for i, entry in enumerate(value):
+                loc = f'{name}[{i}]'
+                if not isinstance(entry, dict):
+                    add(errors, file, loc, 'Entry must be an object.')
+                    continue
+                arrays[name].append((loc, entry))
+                for field in FIELDS[name]:
+                    if field not in entry:
+                        add(errors, file, loc + '.' + field, 'Required field missing.')
+                if 'id' in FIELDS[name]:
+                    identity = entry.get('id')
+                    if not isinstance(identity, str) or not nonempty(identity):
+                        add(errors, file, loc + '.id', 'ID must be a nonempty string.')
+                    elif identity in ids:
+                        add(errors, file, loc + '.id', 'Duplicate ID within array.')
+                    else:
+                        ids.add(identity)
+        declared = {}
+        for name in ('basis', 'objects', 'sources'):
+            for loc, entry in arrays[name]:
+                identity, revision = entry.get('id'), entry.get('revision')
+                if not isinstance(identity, str):
+                    continue
+                if revision is not None and (not isinstance(revision, str) or not nonempty(revision)):
+                    add(errors, file, loc + '.revision', 'Revision must be a nonempty string or null with an explicit gap.')
+                if identity in declared and declared[identity] != revision:
+                    add(errors, file, loc, 'Same declared ID has conflicting revisions.')
+                declared[identity] = revision
+                key = (doc.get('project_id') if isinstance(doc.get('project_id'), str) else file, identity)
+                if key in versions and revision is not None and versions[key] is not None and versions[key] != revision:
+                    add(errors, file, loc, 'Cross-file object/basis/source revision conflict; reconcile before merge.')
+                if revision is not None:
+                    versions[key] = revision
+        gap_ids = set()
+        for loc, issue in arrays['issues']:
+            for field in ('object_ids', 'blocks'):
+                value = issue.get(field)
+                if not isinstance(value, list) or any(not isinstance(x, str) or not nonempty(x) for x in value):
+                    add(errors, file, loc + '.' + field, 'Must be an array of nonempty strings.')
+                elif field == 'object_ids':
+                    gap_ids.update(value)
+            for field in ('description', 'status', 'next_action'):
+                if not isinstance(issue.get(field), str) or not nonempty(issue.get(field)):
+                    add(errors, file, loc + '.' + field, 'Must be a nonempty string.')
+            if allowed(issue.get('status'), {'closed', '已关闭'}):
+                closure = issue.get('closure')
+                if not isinstance(closure, dict) or not nonempty(closure.get('evidence')) or not isinstance(closure.get('recheck_ids'), list) or not closure.get('recheck_ids'):
+                    add(errors, file, loc + '.closure', 'Closed issue needs closure evidence and recheck_ids; stopping is not closure.')
+                else:
+                    check_ids = {e.get('id') for _, e in arrays['checks'] if isinstance(e.get('id'), str)}
+                    if any(not isinstance(x, str) or x not in check_ids for x in closure['recheck_ids']):
+                        add(errors, file, loc + '.closure.recheck_ids', 'Recheck reference does not resolve in this handoff.')
+
+        def reference(identity, loc):
+            if not isinstance(identity, str) or not nonempty(identity):
+                add(errors, file, loc, 'Reference must be a nonempty string.')
+            elif identity not in declared:
+                if identity in gap_ids:
+                    add(warnings, file, loc, 'Unresolved reference is explicitly recorded as a gap; it is not satisfied.')
+                else:
+                    add(errors, file, loc, 'Unresolved reference without a corresponding issue object_id.')
+
+        for loc, entry in arrays['objects']:
+            for field in ('kind', 'description'):
+                if not isinstance(entry.get(field), str) or not nonempty(entry.get(field)):
+                    add(errors, file, loc + '.' + field, 'Must be a nonempty string.')
+            for field in ('source_ids', 'requirement_ids'):
+                if not isinstance(entry.get(field), list):
+                    add(errors, file, loc + '.' + field, 'Must be an array of reference IDs.')
+                else:
+                    for identity in entry[field]:
+                        reference(identity, loc + '.' + field)
+        for loc, entry in arrays['sources']:
+            if not allowed(entry.get('adoption'), {'candidate', 'adopted', 'rejected', 'revoked', 'input'}):
+                add(errors, file, loc + '.adoption', 'Unknown adoption state.')
+            if not nonempty(entry.get('scope')):
+                add(errors, file, loc + '.scope', 'Source scope must be recorded.')
+        for name in ('basis', 'sources'):
+            for loc, entry in arrays[name]:
+                if entry.get('revision') is None or not nonempty(entry.get('locator')):
+                    add(warnings, file, loc, 'Unknown version/locator: retain an explicit source gap; do not claim verified provenance.')
+        for loc, entry in arrays['artifacts']:
+            if not allowed(entry.get('status'), {'draft', 'confirmed', 'stale'}):
+                add(errors, file, loc + '.status', 'Unknown artifact state.')
+            if entry.get('path') is not None and not isinstance(entry.get('path'), str):
+                add(errors, file, loc + '.path', 'Path must be a string or null; no file existence/truth check is performed.')
+            if not isinstance(entry.get('revision'), str) or not nonempty(entry.get('revision')):
+                add(errors, file, loc + '.revision', 'Artifact revision must be recorded.')
+            if entry.get('status') == 'confirmed' and not any(c.get('revision') == entry.get('revision') and allowed(c.get('status'), {'user_declared', 'verified'}) for _, c in arrays['confirmations']):
+                add(warnings, file, loc, 'Confirmed label has no matching user declaration/record in this handoff; inspect actual confirmation scope.')
+        for loc, entry in arrays['confirmations']:
+            if not allowed(entry.get('stage'), STAGES) or not allowed(entry.get('status'), {'pending', 'user_declared', 'verified', 'stale'}):
+                add(errors, file, loc, 'Unknown confirmation stage/status.')
+            if not isinstance(entry.get('revision'), str) or not nonempty(entry.get('revision')):
+                add(errors, file, loc + '.revision', 'Confirmation must bind a revision.')
+            if allowed(entry.get('status'), {'user_declared', 'verified'}) and not nonempty(entry.get('record')):
+                add(errors, file, loc + '.record', 'Record the user statement or actual confirmation locator; this checker cannot authenticate it.')
+        for loc, entry in arrays['checks']:
+            reference(entry.get('object_id'), loc + '.object_id')
+            if isinstance(entry.get('object_id'), str) and entry['object_id'] in declared and declared[entry['object_id']] is not None and entry.get('object_revision') != declared[entry['object_id']]:
+                add(errors, file, loc + '.object_revision', 'Check revision differs from its declared object/basis.')
+            if not allowed(entry.get('level'), {'L1', 'L2', 'L3'}) or not allowed(entry.get('status'), {'satisfied', 'unsatisfied', 'unchecked', 'not_applicable'}):
+                add(errors, file, loc, 'Unknown check level/status.')
+            rule = entry.get('rule_id')
+            match = re.fullmatch(r'(PC|TC|KB)(\d{2})', rule or '') if isinstance(rule, str) else None
+            if match:
+                if not 1 <= int(match[2]) <= (18 if match[1] == 'KB' else 15):
+                    add(errors, file, loc + '.rule_id', 'Rule number outside maintained rule set.')
+            elif not isinstance(rule, str) or not rule.startswith('CUSTOM:') or len(rule) <= 7:
+                add(errors, file, loc + '.rule_id', 'Use PC01–15, TC01–15, KB01–18 or CUSTOM:<documented-id>.')
+            if allowed(entry.get('status'), {'satisfied', 'unsatisfied'}) and not nonempty(entry.get('evidence')):
+                add(errors, file, loc + '.evidence', 'Actual check conclusion needs a locator or a documented reasoning record.')
+            if entry.get('status') == 'not_applicable' and not nonempty(entry.get('reason')):
+                add(errors, file, loc + '.reason', 'Not applicable requires a concrete reason.')
+        for loc, entry in arrays['runtime_results']:
+            reference(entry.get('acceptance_id'), loc + '.acceptance_id')
+            status = entry.get('status')
+            if not allowed(status, {'passed', 'failed', 'unverified', 'not_run', 'not_applicable'}):
+                add(errors, file, loc + '.status', 'Unknown runtime status.')
+            if allowed(status, {'passed', 'failed'}):
+                for field in ('platform', 'build_id', 'evidence'):
+                    if not nonempty(entry.get(field)) or (field != 'evidence' and not isinstance(entry.get(field), str)):
+                        add(errors, file, loc + '.' + field, 'Passed/failed needs platform, build and evidence; a label alone is insufficient.')
+            if status == 'not_applicable' and not nonempty(entry.get('reason')):
+                add(errors, file, loc + '.reason', 'Not applicable requires a reason.')
+        if not arrays['checks']:
+            add(warnings, file, 'checks', 'No checks recorded; structurally valid does not mean reviewed or ready.')
+    if len(seen_projects) > 1:
+        add(errors, '<batch>', 'project_id', 'Different projects cannot be merged in one handoff batch.')
+    return {'valid': not errors, 'errors': errors, 'warnings': warnings, 'limits': [
+        'Only JSON fields, declared references and cross-file identity/version consistency are checked.',
+        'No file or evidence authenticity, semantic support, human confirmation, runtime behavior, completeness or score is certified.',
+        'Drafts with explicit gaps can be structurally valid; warnings remain for human/semantic review.',
+    ]}
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('files', nargs='+', type=Path, help='Explicit handoff JSON files; document text is never executed.')
+    parser.add_argument('--output', type=Path, help='Optional report path explicitly selected by caller.')
+    args = parser.parse_args()
+    documents, load_errors = [], []
+    for path in args.files:
+        try:
+            documents.append((str(path), json.loads(path.read_text(encoding='utf-8'))))
+        except (OSError, ValueError) as error:
+            load_errors.append({'file': str(path), 'location': '$', 'message': str(error)})
+    report = validate_documents(documents)
+    report['errors'] = load_errors + report['errors']
+    report['valid'] = not report['errors']
+    output = json.dumps(report, ensure_ascii=False, indent=2) + '\n'
+    if args.output:
+        args.output.write_text(output, encoding='utf-8', newline="")
+    print(output, end='')
+    return 0 if report['valid'] else 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

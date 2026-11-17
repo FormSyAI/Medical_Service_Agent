@@ -1,0 +1,4 @@
+interface:
+  display_name: "FormSy Execution Evidence Audit"
+  short_description: "Review execution evidence using the frozen audit rules"
+  default_prompt: "Use modules/formsy-sop-traceaudit/GUIDE.md to review the supplied task and execution evidence. Pin the version and scope and report candidate findings, source locations, and missing evidence."

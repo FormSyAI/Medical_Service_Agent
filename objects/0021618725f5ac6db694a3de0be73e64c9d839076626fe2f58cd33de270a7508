@@ -1,0 +1,4 @@
+interface:
+  display_name: "FormSy Product SOP"
+  short_description: "Create or review product SOPs and technical handoffs"
+  default_prompt: "Use $formsy-sop-product to create or review the product SOP from current materials. Preserve unknowns, versioned confirmations, and pending technical handoff."

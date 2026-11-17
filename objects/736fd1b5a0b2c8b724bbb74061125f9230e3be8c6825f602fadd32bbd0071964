@@ -1,0 +1,12 @@
+{
+  "source": "SOP设计基准-0.2/SOP设计基准.md",
+  "source_sha256": "c885b3c1c626512617c2bbf60a3fe50b8530dc7da2befd8b72d9dd7a2b10e036",
+  "selected_section_patterns": [
+    "^## 2\\.",
+    "^## 4\\.",
+    "^## 8\\.",
+    "^## 10\\."
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "caf1bbc7002419d5009bf4b44f6f7b11ecae1867515f9f8bbe03d83bc3b06454"
+}

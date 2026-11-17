@@ -1,0 +1,54 @@
+{
+  "schema_version": "traceaudit-candidate-0.1",
+  "task_id": "replace-with-current-task",
+  "target_version": "replace-with-frozen-target-version",
+  "round_id": "replace-with-new-round-id",
+  "rule_binding": {
+    "release_id": "traceaudit-r12",
+    "release_sha256": "f749e17f38821844b3c5322f3b295bae25c37f1011d91887e608a84c6202ef08",
+    "compiled_sha256": "c949769cfbadab91cb0a4adf133894d51d056256f22932178c7f3761c0ffeef2",
+    "contract_version": "1.9",
+    "contract_sha256": "ee3bbae06910cd6c80a6be092c3f131cf25dd292aa458342883973f670fe0ab9",
+    "reference_only": true,
+    "source_authenticated": false,
+    "interpretation_revision": "1.9.1"
+  },
+  "profile": "code_fix",
+  "scope": {
+    "mode": "selected_conditions",
+    "condition_ids": []
+  },
+  "triggers": {
+    "design_full": {
+      "status": "uncertain",
+      "reason": "尚未读取本轮有效原来源",
+      "source_refs": []
+    },
+    "formal_closure": {
+      "status": "uncertain",
+      "reason": "尚未读取本轮有效原来源",
+      "source_refs": []
+    },
+    "full_security": {
+      "status": "uncertain",
+      "reason": "尚未读取本轮有效原来源",
+      "source_refs": []
+    }
+  },
+  "sources": [],
+  "conditions": [],
+  "analysis_failures": [
+    "空白模板尚未审阅材料；不能作为已完成审计"
+  ],
+  "known_limits": [
+    "只提供候选材料审阅；不认证上传来源或运行身份",
+    "r12 澄清判定边界；TC14、SEC06 语义判断与引用恢复仍需实测，规则发布不证明历史残余已解决"
+  ],
+  "analysis_complete": false,
+  "capabilities": {
+    "source_identity_checked": false,
+    "runtime_identity_checked": false,
+    "execution_performed": false
+  },
+  "formal_closed": false
+}

@@ -1,0 +1,9 @@
+{
+  "source": "产品SOP自检研究/产品SOP自检方案.md",
+  "source_sha256": "528f08d4c788d0edae334ed3456112fcfb6b03f2b3ba93c3be54fde05f8d1629",
+  "selected_section_patterns": [
+    "^## 4\\."
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "01f4598ab2c075f7ad5c2b37706fe59f3efb1df4ac8d40b4c9e08c7c21aadc27"
+}

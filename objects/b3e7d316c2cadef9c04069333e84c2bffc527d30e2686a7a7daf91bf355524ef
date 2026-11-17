@@ -1,0 +1,4 @@
+interface:
+  display_name: "FormSy SOP Self-Check"
+  short_description: "Review SOP evidence, blockers, and recheck requirements"
+  default_prompt: "Use $formsy-sop-selfcheck to review the current SOP. Report supported conclusions, gaps, concrete blockers, and recheck requirements in the selected document language."

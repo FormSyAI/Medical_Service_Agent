@@ -1,0 +1,91 @@
+# Stage document review interface v1
+
+This interface applies to the `general` profile of `unified-mcp-v1`. Independent TraceAudit and Server rules keep their own sources and versions. Preserve earlier receipts. The stage catalog comes from the native PC/TC/KB/TASK/SEC/Q/DOM tables. Retain rule rows, original source locations, and content digests with the contract. Stage routing schedules review work. Applicability and semantic satisfaction require actual review.
+
+## Read materials and resume after compaction
+
+Use the actual path and content SHA-256 from `flow context.method_reading` to locate stage materials. Reuse previously read passages when the path and content version are unchanged. Refreshing context, changing stage, and context compaction alone do not require rereading the entry point, the entire guide, or all rules. For an unread, truncated, changed, or genuinely missing source, read the passages needed for the current action. A catalog entry does not establish that its source was read.
+
+In a compaction or handoff summary, retain the paths, content digests, and passages actually read, the current formal document, preparation, draft and receipt paths, outstanding `condition_id/item_id` values, and the next action. On resuming, read the existing drafts and receipts before continuing the same check. A reading record establishes source coverage only. It does not add an approval or completion record.
+
+Save the drafts required for the current stage before checking applicable obligations in the current catalog. Read complete original rules as needed. Deferred conditions can wait until their stage. Verify actual cross-module dependencies and runtime, delivery, and closure claims introduced by the current materials. When rules, materials, scope, or dependencies change, invalidate and recheck under the existing reuse contract. Verify all applicable obligations even when the number of passages read is small.
+
+At `finish/reverify`, continue from existing requirement acceptance, program checks, findings, repair tasks, and the original Verifiers for adopted knowledge. Recheck pending work and change impacts without preparing the full document catalog again. Historical self-checks retain their original stage and evidence. Acceptance documents are outside document self-check. Changed acceptance assertions or evidence still require actual re-verification. An explicit audit of actual execution uses this interface for its declared scope. Missing evidence or an unmet obligation remains unpassed.
+
+## Triggers and statuses
+
+`workbench catalog PROJECT` returns all conditions for the current stage and `deferred_condition_ids` for later obligations. Read a deferred contract with `--condition-id ID`. In `constitution`, first check principles, sources, and the permission baseline. `specify` adds product and domain conditions, `plan` adds technical and detailed security design, and `tasks_analyze` adds task refinement. If the current material already includes a later design, select the related design condition explicitly. Future documents can remain outstanding during earlier stages. A missing design already required at the current stage is a current gap.
+
+A preparation request can include `review_context:{"claims":[{"kind":"runtime|delivery|closure","evidence_refs":[...]}]}`. In the current session, inspect each source for claims first. Use an empty array if there are none. Cite actual source lines for each claim. After validating quotations, the CLI activates the independent execution audit. Entering a completion stage alone does not activate it. Keep future plans separate from claims of completed work and register every actual completion assertion. The reviewer supplies these claims. Their registration grants no execution authority.
+
+- A missing design that can be checked now uses `unsatisfied` and `reviewed`, optionally with `design_missing`, and blocks stage acceptance.
+- A missing required fact or runtime evidence uses `unverified` and `evidence_pending`. Record the concrete gap, next action, and actual blocker. Document comparison can finish while a pass still requires the actual check and completion acceptance.
+- An item genuinely outside the capability or task scope uses `not_applicable` with a reason and a scope citation. Missing material, implementation, or environment does not establish inapplicability.
+- An item that has yet to be compared uses `unverified` and `not_reviewed` and cannot pass the document gate.
+
+In `selection_review`, provide `include/exclude/uncertain` decisions with reasons for each current active condition and explicitly added design condition. Include uncertain conditions. Deferred conditions do not need new exclusion reasons in each stage. Existing inputs that select the full catalog remain readable. Preserve the original condition, `trigger/non_trigger`, `audit_scope`, `judgment_boundary`, `proof_policy`, and `semantic_gate` through catalog, preparation, scaffold, and final receipt.
+
+## Stable data shapes
+
+Use `condition_id` and `item_id` for all machine reads. The older `atom_id` is not the canonical identifier. The catalog's `conditions`, prepare's `conditions`, and scaffold's `checks` are arrays, as are their `items`. Each item contains `criterion`, `trigger`, the original `contract`, and the applicability boundary. The scaffold includes a candidate judgment and the original condition text. The catalog retains `id/contract.items[].id` for compatibility. Populate only canonical fields.
+
+Prepare stdout reports counts under `counts.conditions/atomic_items`. `receipt.path` identifies the saved `{record,sha256}` file and the actual conditions are at `record.conditions`. The stdout `conditions` field is always an array. Scaffold returns `counts`, `preparation_sha256`, and the output path. Populate `checks` in that output file. The tool declares `judgments_performed:false`. New scaffold items remain `not_reviewed`, and items eligible for reuse retain their original four-state verdicts.
+
+## Complete preparation request
+
+The `workbench prepare PROJECT --profile general --input PREPARE.json` input uses **formsy-review-preparation-0.1**. The return uses `formsy-review-preparation-result-1`. Include the complete preparation request. The example shows the shape only. Replace every placeholder identity, path, revision, digest, condition, and reason with actual values from the current project, material, and review.
+
+```json
+{"schema_version":"formsy-review-preparation-0.1","profile":"general","project_id":"actual project ID","preparation_id":"constitution-review-1","scope":"actual scope under review","selection_status":"selected","reason":"The material for this stage requires an item-by-item comparison","sources":[{"id":"constitution-source","path":"actual relative document path","revision":"actual document revision","sha256":"actual file SHA-256"}],"condition_ids":["actual included condition ID"],"selection_review":[{"condition_ids":["actual included condition ID"],"decision":"include","reason":"actual reason this condition applies"}],"review_context":{"stage":"constitution","claims":[]},"evidence_candidates":{},"limitations":["Preparation pins the scope and candidate sources without semantic judgments or business verification"]}
+```
+
+`sources` must identify real existing documents and their actual byte digests. `revision` is the source version. Use the current project's existing Workbench `project_id`. `condition_ids` contains all included and uncertain conditions. `selection_review` must cover every current active condition and every extra selected condition exactly once. Supply actual `include/exclude/uncertain` judgments and reasons. Give `preparation_id` a new unique value of at most 80 characters using letters, digits, underscores, and hyphens. Cite actual execution claims in `claims` as described above. Use an empty array only when there are no claims.
+
+After prepare succeeds, use the returned `receipt.sha256` from the actual tool response and the registered source ID with `workbench scaffold PROJECT --profile general --receipt-sha RECEIPT_SHA --round-id ROUND_ID --document-source-id constitution-source --output NEW.json`. The output file must be new. Use the stage's formal deliverable for submission. Stdout and an intermediate draft serve as working records.
+
+## Dependencies and reuse
+
+By default, each item depends on all current sources for conservative invalidation. When an item genuinely depends on a subset, declare it during prepare as `item_dependencies:{"ITEM_ID":{"source_ids":["SOURCE_ID"],"item_ids":["UPSTREAM_ITEM_ID"],"reason":"actual reason for this dependency"}}`. Dependencies must exist and have no cycles. Citations must come from sources in the item's transitive dependency closure. The current reviewer is responsible for dependency completeness. The CLI checks structure and does not establish semantic completeness.
+
+The fingerprint covers the original contract, actual review `scope`, source paths, revisions and bytes, claims, selection decisions and reasons, dependency edges, all transitive upstream items, and the citation validator version. Keep the same `scope` across stages for the same object. The stage is identified separately by `review_context.stage`. Changes to the actual object or applicability rationale require recheck. Scaffold reuses unchanged items only from actual historical receipts for the same project, run, profile, and main document. `reuse_origin` records the original round, receipt, version, and `new_execution_performed:false`. To change an inherited judgment, remove `reuse_origin` and record a new comparison. Fabricated origin and altered inherited status are rejected. Old receipts without fingerprints are ineligible for automatic reuse. Changes to material, rules, or dependencies trigger rechecks for the actual affected closure. Preserve earlier conclusions and failures. Final `record` still verifies every selected condition, every atomic item, and every current citation.
+
+## Incremental drafts
+
+`workbench draft PROJECT --input PATCH.json` saves an append-only draft. The first patch has this shape.
+
+```json
+{"schema_version":"formsy-review-draft-patch-1","draft_id":"review-plan-v1","operation_id":"start-plan","expected_revision":0,"preparation_sha256":"actual preparation receipt digest","document_source_id":"actual source ID","updates":[]}
+```
+
+Subsequent patches use the same `draft_id` and `preparation_sha256`, the latest `record.revision`, and a new stable `operation_id`. Populate `updates` only with this batch's `condition_id/item_id` pairs and actual judgment fields. Repeating an operation with identical input is idempotent. Changed input for the same operation or a stale revision is rejected. Save actual comparisons only. Use `workbench draft-read PROJECT --draft-id ID` to read the self-contained `record.document` and counts. Add `--output NEW.json` to export the complete candidate, then use the regular `workbench record --input NEW.json` to save the final receipt. The export cannot overwrite an existing file. When preparation or sources change, create a new draft and leave the earlier draft readable. Reuse only items still valid for the current version.
+
+A draft is a working record. Uncompared items, invalid citations, and unsatisfied items remain subject to the original stage gate. Runtime duration, model cost, defect-detection capability, and independent acceptance require their own measurements. Structure and byte validation establish only the properties they check.
+
+## Judgment fields and citation locations
+
+`updates` is a flat array. Identify each item with `condition_id` and `item_id` and put judgment fields on the same object. The allowed fields are `candidate_result`, `review_status`, `gap_tags`, `owner`, `blocked_tasks`, `applicability`, `applicability_reason`, `reason`, `evidence_refs`, `gaps`, and `next_action`.
+
+`candidate_result` accepts `satisfied / unsatisfied / unverified / not_applicable`. `review_status` accepts `not_reviewed / reviewed / evidence_pending`. Keep unexamined or unsupported items `unverified`. Actual passes require evidence beyond a status field. The example shows the update shape. Use actual IDs, revision, digest, and gaps.
+
+```json
+{"schema_version":"formsy-review-draft-patch-1","draft_id":"review-plan-v1","operation_id":"record-gap-1","expected_revision":1,"preparation_sha256":"actual preparation digest","updates":[{"condition_id":"actual condition ID","item_id":"actual item ID","candidate_result":"unverified","review_status":"evidence_pending","reason":"The current material does not support a judgment on this item","evidence_refs":[],"gaps":["actual missing material"],"next_action":"Obtain the missing material and compare this item"}]}
+```
+
+For actual citations, each `evidence_refs` entry has the shape `{"evidence_id":"registered source ID","start_line":1,"end_line":2,"quote":"actual text from those lines"}`. The identifier field is `evidence_id`. Line numbers are one-based and inclusive. Cite an actual registered source inside the item's dependency scope and quote it verbatim. Empty citations illustrate missing evidence and cannot support `satisfied`. Use the original conditions, fields, and actual receipts from the current prepare and scaffold.
+
+## Formal result and receipt reads
+
+`workbench record PROJECT --input CANDIDATE.json` returns `formsy-review-record-result-1`. `summary` holds the counts. `receipt.path` points to the immutable `{record,sha256}` file. `receipt.record_field`, `receipt.checks_field`, and `receipt.summary_field` identify the content paths. Compatibility `path/sha256` fields remain available. Read the receipt from `record.checks` and `record.summary`. Top-level `checks` and the draft's `record.document` are different shapes.
+
+This Python example takes the actual `receipt.path`.
+
+```python
+import json, sys
+with open(sys.argv[1], encoding="utf-8") as handle:
+    receipt = json.load(handle)
+record = receipt["record"]
+print(json.dumps({"round_id": record["round_id"], "summary": record["summary"],
+                  "checks": record["checks"]}, ensure_ascii=False))
+```
+
+`workbench view PROJECT --output NEW.html` generates an HTML file. For JSON workflow state, use `workbench flow PROJECT --view workflow` or `flow context PROJECT --json`. Use `workbench render-flow` for fragment rendering and pass `--view workflow --format fragment` only to that entry point.

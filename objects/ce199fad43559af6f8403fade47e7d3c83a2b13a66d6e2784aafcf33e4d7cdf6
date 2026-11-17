@@ -1,0 +1,72 @@
+# Cancel or restore implementation tasks
+
+A cancellation ends a specific responsibility at the user's direction. Keep completion and test results separate. Difficulty, timeout, a missing environment or permission, an agent suggestion, a preselected option, or closing a window cannot substitute for an explicit decision. Preserve the original tasks, requirements, and frozen acceptance assertions. Use task-sync to remove an already cancelled task from the current document while retaining its original text and decision in history.
+
+## Use the same official entry point
+
+In an open `implement`, `finish`, or `reverify` stage, first read `implementation_progress` from `flow context PROJECT --json`. The CLI uses `flow task-change PROJECT --request FILE`. The MCP tool `formsy_workbench_task_change` takes `project_directory` and the same `request` object. Both call the same writer. Approval, stage progression, and interaction mode remain separate.
+
+Use the user's actual cancellation or restoration message from the current conversation. Verify the referenced task, dependencies, and acceptance impact before calling `formsy_workbench_task_change` directly, or use the CLI when MCP is unavailable. The Workbench displays tasks, counts, blockers, and existing decisions. Collect decisions in the conversation and use the formal writer directly, without a button-preparation request.
+
+Populate the message source and `user_decision` from the conversation that actually took place. Reuse the user's decision and its original message. Clarify only when the task or decision is ambiguous. An explicit user decision is required for a cancellation. Historical cards are snapshots. Read the current version before writing and bind the decision to the current task.
+
+Shared request fields are `operation_id`, `run_id`, `expected_revision`, the original `input_digests`, `tasks_sha256`, `expected_task_revision` from `implementation_progress.task_revision`, `action`, `task_id`, `definition_sha256`, `operator`, `reason`, `impact_review`, and optional `retained_outputs` containing actual file paths. Use the task row's `definition_sha256`, or the parent task's value for a registered condition. The task ID must be an existing `T` number or the stable identity of a registered condition. Legacy rows without IDs remain readable and cannot be cancelled by line number.
+
+Both `cancel` and `restore` require this object.
+
+```json
+{
+  "user_decision": {
+    "explicit": true,
+    "scope": {"run_id": "actual run ID", "task_id": "T052/reader", "definition_sha256": "actual parent definition digest"},
+    "source": {
+      "kind": "user_message", "path": ".formsy-sop/runs/RUN_ID/requests/USER_MESSAGE.txt",
+      "sha256": "original message byte digest", "quote": "verbatim user words", "reference": "locatable message identity or link"
+    }
+  }
+}
+```
+
+Preserve the user's exact words and source. The interface validates the local bytes, reference, scope, and concurrency version. The resulting `caller_reported_user_decision` records a caller assertion. Use an actual host message as the source. The CLI cannot authenticate the author of an arbitrary local file.
+
+`impact_review` requires `scope`, `dependencies`, `blocked_task_ids`, `acceptance`, `verifiers`, and `recovery`. `dependencies` is a map and `blocked_task_ids` is an array. The other fields explain the review that actually took place. Review every other pending task conservatively. The keys of `dependencies` must exactly match their IDs. Give a reason even when a task has no impact. Keep blocked IDs in `blocked_task_ids` so they continue to hold completion. Use `review` to update impact for the same decision after verifying a real change. Inspect actual dependencies beyond the task titles.
+
+The acceptance and Verifier notes record impact on existing adopted associations. Preserve the original acceptance list and applicability. During implementation, keep the review limited to that impact. Detailed candidate reading, applicability, and execution belong in the existing acceptance flow in `finish` or `reverify`. Applicable conditions, unknown results, failures, and current-version check gates still apply. Change applicability through the existing source-bound scope review. Cancellation and restoration invalidate the current checks while preserving prior failures, repair budget, and versions.
+
+## Register a condition within a legacy mixed task
+
+For the first `cancel` request, optionally pass `condition:{parent_id:"T052",source_quote:"读屏验证"}` with a new stable ID such as `T052/reader`. The exact quote must occur once in the original parent block. This preserves the frozen text. Keep the parent pending and retain other obligations such as Safari. Existing nested checkboxes can also be handled individually by their explicit IDs. A parent with children cannot be cancelled as a leaf.
+
+The decision binds the original task definition and input versions. After a task or plan change, keep the old decision in history as requiring review and restore its contribution to the remaining count until reviewed. Ordinary reads preserve legacy runs and checkboxes. Only a saved decision establishes formal cancellation.
+
+## Restore and complete work
+
+`restore` requires a new explicit user decision. Recheck inputs, dependencies, permissions, environment, budget, side effects, and affected evidence. Clear a checkbox on a cancelled task before restoring it. Restoration sets the task to pending. Check it off only after completing the remaining work.
+
+After restoring a registered condition, use `complete_condition` to record an actual completion observation and attach `completion_evidence:{path,sha256}`. The JSON receipt must contain the actual `command` array and `exit_code:0`. Record this as progress and keep Verifier and acceptance results separate. An ordinary review without a new user decision preserves the cancellation status.
+
+## Counts, gates, and history
+
+Count root tasks as `completed`, `cancelled`, or `remaining`. Count registered conditions separately with `condition_completed`, `condition_cancelled`, and `condition_remaining`. Display parent tasks and children separately so a partial cancellation does not count as a whole-task cancellation. Keep decisions in the exact run's task-events history. Each change advances `task_revision` and the workflow revision. An exact replay records once. Reject conflicting contents under the same key, a different run or task or condition, and stale versions.
+
+Submit an implementation result only after each implementation item is complete or explicitly cancelled and its dependencies have been reviewed. Then continue the existing acceptance process. Pending implementation tasks still block submission. Use the established workflow for acceptance scheduling, execution scope, and check commands. Preserve frozen state, assertions, and the original completion gate.
+
+## Synchronize scope and recover interrupted writes
+
+`flow task-sync PROJECT --request FILE` and `formsy_workbench_task_sync` use the same locked writer. Read the current context first and check `implementation_progress.scope_sync`, the original tasks, and actual user decisions. Reuse valid authorization for existing cancellations. Material changes still require ordinary stage review, applicable user confirmation, and refreezing. Clarify when the source is ambiguous or restoring the task requires a new decision.
+
+The request contains `operation_id`, `run_id`, `expected_revision`, the actual current `input_digests`, `tasks_sha256`, `expected_task_revision`, `changes`, and optional `tasks_content` containing the complete replacement task document. During drift, use `implementation_progress.scope_sync.current_input_digests` directly. This is a concurrency observation for the request. Keep the previously accepted basis separate.
+
+Each item in `changes` contains the task-change fields `task_id`, `action`, `definition_sha256`, `user_decision`, `operator`, `reason`, `impact_review`, and optional `retained_outputs`. Supply concurrency fields at the top level. Evaluate dependencies in order. A task cancelled earlier in the batch is no longer another pending task in a later operation. Keep `definition_sha256` from the original frozen task. After removal, recover the original text from history or retained execution evidence. Each change requires a source-supported decision. A failure in any item rejects the entire batch.
+
+Synchronize only source-supported leaf cancellations or restorations, removal of those cancelled blocks, and exact reinsertion of restored pending tasks. Route changes to retained definitions or other prose through ordinary affected-material review. Preserve the requirements, plan, independent acceptance scope, check commands, and assertions. Keep a missing frozen task basis visible as a gap. Drift from an old client or direct edit blocks completion and lists removed, changed, or added IDs and the task-sync entry point.
+
+If retained tasks, the plan, analysis, or preview also changed materially, use `record_only:true` with the current digests to record only the exact cancellation history already authorized. Omit `tasks_content` in this mode. Leave drafts untouched and leave the active execution snapshot for the normal review and refreeze process. New definitions and digests still require review. Match every removed responsibility to a cancellation record and retain unmatched obligations.
+
+A material scope change invalidates the affected upstream stages in the same transaction. Preserve the original execution basis as history and invalidate the active snapshot. `scope_sync.status=pending_review` distinguishes a synchronized scope awaiting planning review from unexplained drift. Clear that review marker and refreeze only after normal Preview acceptance. Other changes retain their own rollback, self-check, and actual execution gates.
+
+Commit the original task text, cancellation history, active scope, progress projection, original preview basis, and execution snapshot through the same write-ahead journal. Commit state last. Keep the original execution snapshot in content-addressed history. Removed cancellations remain visible as historical cancellations and never count as completions or reactivate.
+
+Verify actual versions before and after preparation. An exact operation replay returns the original result. Reject stale versions and conflicting content. After interruption, context or the next writer recovers the prepared transaction before accepting another write. Reclaim a lock only when the original process is confirmed to have exited. Wait when its status is active or unknown. Preserve both copies and the journal on external edit conflicts and report the specific paths. Use the recorded recovery rather than overwriting state. Replaying the recovered key returns its original receipt without changing counts.
+
+`completion_gate` describes whether the stage can finish. `implementation_gate` and individual progress blockers describe the affected dependencies or scope. Ordinary remaining work can continue. For stale catalog selections, refresh the document self-check against the current general catalog, reuse valid comparisons, and review affected items. A refresh neither grants new execution authority nor substitutes an old receipt for a review of the new version. Keep failures, unknowns, and historical evidence separate.

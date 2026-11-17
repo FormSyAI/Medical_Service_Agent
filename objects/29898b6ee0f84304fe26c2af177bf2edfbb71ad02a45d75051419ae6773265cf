@@ -1,0 +1,39 @@
+# [Project and object revision] Technical SOP review
+
+This template records observations for the reviewed revision. Fill in the scope, source versions, review date and method, available tools, target environment and actual decision record. Apply the TC01–TC15 rule set for technical resources version 0.2.
+
+## Review results
+
+Use the review states satisfied, unsatisfied, not reviewed and not applicable. Record the reason. Distinguish L1 structure, L2 meaning and L3 feasibility evidence. Report actual trial outcomes separately as pass, fail or unverified.
+
+| Rule | Object, revision and location | Applicability and reason | Level and required evidence | Actual observation and evidence location | State | Issue |
+| --- | --- | --- | --- | --- | --- | --- |
+| TC01 Baseline | | | | | | |
+| TC02 Traceability | | | | | | |
+| TC03 Modules | | | | | | |
+| TC04 Interfaces | | | | | | |
+| TC05 Data | | | | | | |
+| TC06 Scenarios and states | | | | | | |
+| TC07 Feasibility | | | | | | |
+| TC08 Quality | | | | | | |
+| TC09 Permissions and side effects | | | | | | |
+| TC10 Dependencies | | | | | | |
+| TC11 Delivery environment | | | | | | |
+| TC12 Executable acceptance | | | | | | |
+| TC13 Assertion semantics | | | | | | |
+| TC14 Source versions | | | | | | |
+| TC15 Issue rechecks | | | | | | |
+
+## Findings and impact
+
+| Issue ID | Original rule, object and expected behavior | Actual gap and evidence | Severity and reason | Blocked tasks and independent work | Owner and next action | Original closure criteria | State |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [Issue] | [Source] | [Observation] | [Impact] | [Tasks] | [Action] | [Criteria] | [State] |
+
+| Issue | Actual revision or investigation | Change and impact review | Current recheck and check ID | Evidence and required decision | Closure or reopening history |
+| --- | --- | --- | --- | --- | --- |
+| [Issue] | [Revision] | [Impact] | [Current receipt] | [Evidence] | [Reason] |
+
+## Conclusion and limits
+
+Record completed reviews, open task prerequisites, target platforms and unverified scope. Record application acceptance separately with the actual build, environment and evidence. Preserve the reason for stopping, budget used, unresolved questions, saved artifacts and resume conditions. Record a score only when requested and supported by the complete scoring basis.

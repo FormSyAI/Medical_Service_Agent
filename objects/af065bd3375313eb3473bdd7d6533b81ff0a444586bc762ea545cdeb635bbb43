@@ -1,0 +1,9 @@
+{
+  "source": "安全设计补充-0.1/安全专项SOP.md",
+  "source_sha256": "9e156fb556c0083526769233e152606bcede1afb7fb16086fcf3c3203c39718c",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "7bc50f8e76e8704f7c1ba0deb33e7f782ba927aff3a241284fc4326a460d8a29"
+}

@@ -1,0 +1,175 @@
+# Technical scoring rubric M01–M10
+
+This English reference follows sections 1–5 of the technical self-check scoring proposal. The [Chinese export](技术M量表.md) and its [provenance](技术M量表.provenance.json) retain the original wording, source and export hashes, and section selection. Apply the [shared conventions](共同约定.md) and effective decisions for the current task.
+
+## 1. Report three assessments separately
+
+| Assessment | Question | Result |
+| --- | --- | --- |
+| SOP project design | Are requirements, technical design, implementation design, and acceptance design supported, understandable, and aligned for this version? | Ten design scores, review status, critical blockers, and pending decisions. |
+| Actual product | Did the real operations and assertions pass on the specified deliverable version and platform? | Report actual pass rate, unverified and failed cases, environment blockers, human-test ratio, and evidence separately. |
+| Self-check engine | Can it find known defects, identify real blockers, and avoid incorrect closure? | Evaluate recall, valid finding ratio, missed critical issues, and false blockers separately. |
+
+Keep executable test plans, external research, model self-review, and teaching examples at their actual evidence level. Use real execution for claims about product passing. The ten weights, fields, calculation, and proposed threshold are project design choices. [arc42 quality scenarios](https://docs.arc42.org/section-10/) and [NASA software design analysis](https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695748/8.55%2B-%2BSoftware%2BDesign%2BAnalysis)
+
+## 2. Pin objects before creating scoring units
+
+### 2.1 Current baseline
+
+Record the project, requirement, design, task, and acceptance versions, rule version, object inventory version, target platforms, effective user decisions, and pending confirmations. Give each object a stable ID, exact location, and revision. A file can also have a content hash.
+
+Determine the full inventory from requirements, delivery scope, and technical design. Register a missing required interface as an object linked to its requirement and create its check rows. Keep its missing content and applicable rows visible.
+
+Inventory requirements, design objects, modules, interfaces, data objects, required scenarios, key technical hypotheses, quality goals, security boundaries, dependencies, deployment designs, acceptance criteria and target platform pairs, cited sources, and earlier and current issues.
+
+If the completeness of a class cannot be established, leave the dimension unscorable and record that the inventory is undetermined. Pin a new inventory version after identifying more objects.
+
+### 2.2 Reproducible scoring units
+
+Each unit is one fixed check row with key `scoring baseline ID + dimension ID + object ID + platform or scope ID + check item ID`.
+
+Expand the rows as specified below. All necessary conditions of one check item must be satisfied for the row to count as satisfied. Change the rule version and regenerate the units whenever adding, removing, or changing the granularity of rules.
+
+| Field | Required record |
+| --- | --- |
+| Unit ID, dimension ID, and check item ID | Unique location and applicable rule version. |
+| Object ID, version, location, and platform or scope | Exact content under review. |
+| Applicability and reason | Applicable, reviewed inapplicable, or pending review. Give a scope basis for exclusions. |
+| Satisfaction conditions | Pinned required fields and content judgments. |
+| Four-state result | Satisfied, unsatisfied, unchecked, or inapplicable. |
+| Evidence ID and location | Evidence entry, supported conclusion, and object version. |
+| Reviewer and time | Actual reviewer or tool, rule or tool version, and time. |
+| Semantic reviewer and conclusion | Reviewer or model, service, version and run ID. Identify whether the reviewer also authored the content. |
+| Issue and recheck links | Issue ID, blocker and reason, revision and recheck records. If none were found, record that finding and its review basis. |
+
+Satisfaction requires locatable current content, applicable evidence, and the review the rule requires. Verify responsibilities, trace meaning, contract agreement, and source applicability through semantic findings and reasons. Record model review, independent human review, and actual trials under their own identities.
+
+For evidence, record ID, type, file or address and location, creation time, supported assertion, object ID and version, platform and environment, source or creator, limits, and current or expired status. Use applicable source material for facts, review records for design findings, and actual execution for behavior.
+
+## 3. Ten dimensions and fixed expansion
+
+| Dimension | Weight | Unit expansion and required checks | Corresponding rule |
+| --- | ---: | --- | --- |
+| M01 Requirements and design trace | 15 | Three rows per requirement for correct design, implementation task, and acceptance links. One row per design object for a reverse link to a requirement or confirmed delivery goal. Require object ID, version, concrete correspondence, and semantic review on every row. | TC02/TC13 |
+| M02 Module responsibilities | 10 | Eight rows per module for (1) responsibilities, (2) boundaries and excluded responsibilities, (3) inputs, (4) outputs, (5) data ownership, (6) dependencies and call direction, (7) error ownership, and (8) start, exit, or other lifecycle ownership. Check actual content against requirements, interfaces, and scenarios. Review applicability individually. | TC03 |
+| M03 Complete and consistent interface contracts | 10 | Eight rows per interface for (1) provider and caller, (2) input types and constraints, (3) output types and meaning, (4) errors and caller handling, (5) permission or trust boundary, (6) version and compatibility, (7) timeout and retry policy, and (8) agreement on both sides. Require concrete content on the first seven rows and review both sides on the eighth. | TC04 |
+| M04 Data, persistence, and recovery | 10 | Eight rows per data object for (1) field types, (2) value and relationship constraints, (3) ownership and storage location, (4) read and write consistency, (5) retention and deletion, (6) preservation on failure, (7) recovery and failure feedback, and (8) version and migration. Tie each to operations and acceptance. Temporary data may have reviewed exclusions for persistence and migration. | TC05 |
+| M05 Key scenario coverage | 10 | Five rows per required scenario for (1) initial state and input, (2) ordered actions, (3) state and data changes, (4) user-visible result, and (5) failure, cancellation, and recovery. Assess scope for normal operation, startup and exit, cancellation, partial failure, duplicates, and recovery, then add required scenarios. Include missing required scenarios. | TC06 |
+| M06 Feasibility evidence | 10 | One row per key technical hypothesis. Require (1) hypothesis and impact, (2) predefined verification method, (3) predefined criteria, (4) current version, platform, and scope, (5) actual source material or executed trial and result, and (6) applicability and limitation review. Perform a trial where the hypothesis requires one. | TC07 |
+| M07 Quality, security, and environment design | 10 | Four rows per object in each of the four classes below. Reconcile each inventory with requirements and technical boundaries. Record applicability for a class with zero objects. | TC08/TC09/TC10/TC11 |
+| M08 Executable acceptance design | 10 | Seven rows per applicable acceptance criterion and platform pair for (1) environment and version, (2) data, (3) prerequisite state, (4) concrete operations, (5) assessable assertions, (6) evidence capture and location plan, and (7) semantic agreement with requirement and platform. Design for applicable environments and report actual execution separately. | TC12/TC13 |
+| M09 Auditable sources and versions | 5 | Five rows per cited source for (1) identity, (2) revision or acquisition time and pin, (3) exact locator, (4) supported design judgment, and (5) applicability, limits, and conflict handling. Add five baseline rows for requirements version, design/task/acceptance versions, platform scope, rules and object inventory versions, and effective decisions and pending confirmations. | TC01/TC14 |
+| M10 Issue handling and recheck | 10 | Four fixed review rows plus three rows per earlier unresolved or newly discovered issue. Register known required unknowns. Retain issues that are unresolved, unassigned, or handled in another stage. | TC15 |
+| **Total** | **100** | Equal unit weight within each dimension. Use the fixed dimension weights above. | |
+
+### Four M07 object classes
+
+| Object class | Four checks per object |
+| --- | --- |
+| Quality goal | Applicable scale and environment, assessable target and units and basis, measurement method, and measurement data and evidence plan. |
+| Security boundary | Component and identity trust boundary, permission and owner, credential and data flow and egress, and failure, revocation, and applicable deletion. |
+| External dependency | Name, version and license basis, supported environment, usage and capability and failure limits, and maintenance or substitution impact and risk handling. |
+| Deployment design | Platform, runtime and installation, install and upgrade process, data compatibility and applicable rollback, and platform differences and interrupted recovery. |
+
+Record checkable content. Keep rows for missing facts, sources, or permissions and register their issues.
+
+### Fixed check IDs
+
+Use the IDs in the order of the checks above. The object and platform remain part of the unit key.
+
+- M01 uses `M01-R01`–`M01-R03` per requirement and `M01-D01` per design object.
+- M02, M03, and M04 each use `Mxx-C01`–`Mxx-C08`.
+- M05 uses `M05-C01`–`M05-C05`. M06 uses `M06-C01` for the combined hypothesis conditions.
+- M07 uses `M07-Q01`–`Q04` for quality, `M07-S01`–`S04` for security, `M07-X01`–`X04` for dependencies, and `M07-E01`–`E04` for deployment. Abbreviated range ends inherit the `M07-` prefix.
+- M08 uses `M08-C01`–`M08-C07`.
+- M09 uses `M09-S01`–`M09-S05` per source and `M09-B01`–`M09-B05` for the baseline.
+- M10 uses `M10-R01`–`M10-R04` per review and `M10-P01`–`M10-P03` per issue.
+
+Pin the mapping of IDs to meanings. Change the rule version for additions, combinations, reordering, or changed satisfaction conditions, and retain the earlier mapping and scores.
+
+### M10 keeps four rows even with zero issues
+
+| Fixed check | All required conditions |
+| --- | --- |
+| M10-R01 Detection scope reviewed | Locate the current inventory, rules, actual review or execution scope and results. List unchecked scope. Verify the scope before concluding zero findings. |
+| M10-R02 Results supported | Bind current findings to object versions, evidence, and reviewer. Provide semantic review for content. An unsupported sampled conclusion leaves this item unsatisfied. |
+| M10-R03 Known issues retained | Review the previous baseline's issues, current findings, and key unknowns. Keep unresolved items in the ledger and record cancellation, expiry, or handoff. |
+| M10-R04 Closure and conclusions rechecked | Recheck closed issues against their criteria. With zero findings, record the named reviewer and scope and content conclusion. Retain blockers and pending decisions in the report. |
+
+Add three rows per issue in this order.
+
+1. **Complete record.** Record issue, location, evidence, impact, blocking reason, owner, next action, and state.
+2. **Effective revision or verification.** Locate the before and after change or verification result. Resolve the original condition with effective authority, decisions, and side-effect handling. Use unsatisfied for an unfinished open issue and unchecked for unreviewed material.
+3. **Effective closure and impact recheck.** Recheck the original and affected objects. Use current evidence and record residual issues. An unresolved handoff remains unsatisfied.
+
+Score the record, resolution, and closure independently. An accurately recorded open issue can satisfy its record row and the fixed review and reporting rows. Apply the original revision and closure criteria to the other rows.
+
+| Issue type | Closure and recheck evidence |
+| --- | --- |
+| Field, ID, reference, or dependency structure | Current revision and applicable structural recheck. |
+| Requirement trace, responsibility, or interface semantics | Revised design, comparison of involved objects or contract sides, and named semantic review. |
+| Verifiable external technical fact | Current applicable material and exact location, with version and environment review. Keep insufficient evidence open. |
+| Feasibility or real behavior requiring a trial | Predefined criterion, actual environment, operations and results, and impact recheck. Keep the issue open until the required trial supports it. |
+| Requirement, approach, permission, or cost decision | Effective user decision for the version and review of affected design. |
+
+Record the actual recheck method. Choose structure, semantic review, fact verification, or actual trial by the original issue.
+
+With zero issues, the denominator is four. Four unchecked rows score zero. An undetermined current object inventory leaves the dimension unscorable. All four rows require effective evidence for full points. Report the scope checked.
+
+## 4. States, denominators, and total
+
+### 4.1 Four states
+
+- **Satisfied** means all pinned conditions have current valid evidence and required semantic review.
+- **Unsatisfied** means review found a concrete gap, such as missing fields, contradiction, broken trace, or incomplete required verification or recheck.
+- **Unchecked** includes missing material or environment, unexecuted checks, expired evidence, or incomplete review. Keep required unknowns unchecked or unsatisfied when a concrete gap is known.
+- **Inapplicable** requires an actual scope basis, reviewer, and conclusion. Keep missing environments, unperformed work, and proposed exclusions pending review in unchecked.
+
+For each dimension record satisfied `S`, unsatisfied `F`, unchecked `U`, and reviewed inapplicable `N`. Total registered rows are `T = S + F + U + N`. The applicable denominator is `A = S + F + U`. Report satisfaction `r = S / A` and review completion `c = (S + F) / A` independently.
+
+### 4.2 Standard calculation
+
+Raw dimension points are `p = W × S / A`, where `W` is the dimension weight. Round only the final display to one decimal place. Retain raw values throughout calculation.
+
+With all ten dimensions scorable and effective weight 100, total is `Σp`. Report raw counts and every unsatisfied or unchecked unit so the total is reproducible.
+
+### 4.3 Empty denominators and unscorable dimensions
+
+| Situation | Handling |
+| --- | --- |
+| Pinned inventory with `A > 0` | Calculate the dimension and retain unchecked rows in its denominator. |
+| Undetermined inventory or incomplete expansion | Leave the dimension and entire total blank. Report known raw dimension points separately if useful. |
+| Pinned inventory, every row reviewed inapplicable, and `A = 0` | Mark the dimension inapplicable, show raw points as an em dash, and omit its effective weight. Retain the rows and reasons. |
+| Zero objects with no reviewed class applicability | Leave the dimension unscorable. |
+| All dimensions inapplicable and effective weight zero | Report that there is no scorable scope and omit the total. |
+
+M09 baseline rows and M10 fixed review rows normally still apply with no external sources or issues.
+
+When there are no unscorable dimensions, all exclusions have been reviewed, and effective weight `E > 0`, calculate `normalized total = 100 × Σ applicable raw dimension points / E`.
+
+Report `E`, excluded dimensions, and reasons. Treat totals with different effective weights as different scopes. Inapplicable rows within one dimension reduce only its `A`; the dimension retains its weight.
+
+### 4.4 Changes to versions and denominators
+
+1. Keep the old score, units, and evidence. Pin a new baseline, inventory, or rule version when an omitted object, requirement or platform, required unknown, applicability, or rule changes.
+2. Record IDs for added, removed, excluded, and restored units, with the basis, reviewer, and required user decision.
+3. Report each dimension's before and after `T/A/N`. Attribute changes to content improvement or scope and rule changes separately.
+4. Retain earlier evidence bindings. Reopen affected rows as unchecked. Reuse unaffected evidence only after confirming impact and the existing reuse conditions, with reasons.
+5. Keep known required unknowns in the inventory. Use a new version and applicable phase confirmation when the user changes scope.
+
+## 5. Critical blockers and final confirmation
+
+State affected objects, tasks, and progression limits for each unresolved condition below.
+
+1. A critical requirement has no feasible design or an unresolved conflict.
+2. The core design relies on a key hypothesis without required verification or trial.
+3. Permissions, outbound data, payment, or other side effects lack an effective decision.
+4. Persistence, deletion, or recovery has unresolved critical risk.
+5. Critical references are invalid, tasks have a dependency cycle, or the formal version lacks matching confirmation.
+6. A critical issue lacks recheck, or older evidence is applied as current.
+
+Ground blocking in concrete impact and evidence. Record unresolved risks separately from scores and the absence of known blockers.
+
+The source proposes a 95-point design target subject to user adoption. Its proposed handoff also requires zero critical blockers, satisfied required requirement links and key interface and data semantic checks, required evidence for key feasibility hypotheses, executable design for every applicable acceptance criterion and platform pair, and current phase confirmation from the user.
+
+Record scoring and confirmation independently. Obtain the applicable renewed confirmation for requirement, technical approach, or permission changes. Apply project-adopted gates to actual handoff.

@@ -1,0 +1,101 @@
+# [Project name] Product SOP review record
+
+This blank template starts with unverified results. Fix the actual object inventory for the task and show any scope exclusions. Attribute review, research, application testing, and user confirmation only to actual records. Use the applicable [PC rules](../references/product-review-rules.md) and use the [PM rubric](../references/product-scoring-rubric.md) when scoring is requested.
+
+## 1. Review identity and scope
+
+| Field | Current record |
+| --- | --- |
+| Project, document, object, and version | [Pinned baseline or recorded identity gap] |
+| Review mode and current stage | [Review or basic self-check, and stage] |
+| Complete object set and exclusion rationale | [Requirements, journeys, pages, features, rules, quality, acceptance × platform, handoff, and historical issues] |
+| Input, rule, and source snapshots | [Versions, actual read extent, and adoption state] |
+| Reviewer identity and version, and relation to author | [Actual human or model identity. Attribute model self-assessment accurately] |
+| Start and end time and time zone | [Actual time] |
+| Required and available environment, tools, and permission | [Prerequisites and gaps for document work, fact checks, and applicable L3] |
+| Actual confirmation at this stage | [Pending, direct user declaration with original unverified, locatable confirmation, or expired] |
+
+## 2. PC01–PC15 objects and evidence levels
+
+Use the following rule inventory to expand the actual check objects. Record each object's version, required levels, and concrete applicability reason. Count the applicable objects after expansion. Use `satisfied`, `unsatisfied`, `unverified`, or `not_applicable`. Give a scope basis for `not_applicable`. Retain applicable objects with missing input, environment, or decisions in the denominator.
+
+| PC ID and topic | Complete object set or applicability | Required levels | Actual level reached | Status | Locatable evidence and semantic judgment | Issue, blocker, and next action |
+| --- | --- | --- | --- | --- | --- | --- |
+| PC01 Users, problems, and value basis | [U/P/C objects for all projects] | [L1/L2 and L3 as needed for key claims] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC02 Product goals and success criteria | [G objects for all projects] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC03 Scope and priority | [Baseline and R/SC objects] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC04 Sources, assumptions, and unknowns | [S/C and unknown objects] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC05 Complete user journeys | [Required J objects and paths] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC06 Pages, navigation, and interaction states | [UI and actual entry points, or scope reason for a product without UI] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC07 Feature inputs and outputs | [All applicable F objects] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC08 Business rules and states | [Applicable B objects and transitions] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC09 Failures and boundaries | [Normal task and risk-related X objects] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC10 Data, permission, cost, and external services | [Check side effects and apply concrete checks to actual capabilities] | [Required levels] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC11 Product quality and clarity | [QL, research, and applicable constraints] | [L2 and L3 for claims that require actual evidence] | Unverified | Unverified | [Actual evidence] | [Outstanding scope] |
+| PC12 Acceptance design | [Complete set of formal conditions × applicable platforms] | [L1/L2 for a testable design] | Unverified | Unverified | [Record design checks separately from actual passes] | [Retain environment gaps] |
+| PC13 Forward and reverse traceability | [All requirements, product objects, tasks, and acceptance] | [Required levels] | Unverified | Unverified | [Meaning of each link and reverse source] | [Outstanding scope] |
+| PC14 Product and technical handoff | [Required handoffs at planning or when technical design exists] | [L1/L2 and L3 as needed for key feasibility] | Unverified | Unverified | [Actual object version or pending handoff] | [Retain missing handoffs as gaps] |
+| PC15 Issues, versions, recheck, and confirmation | [Current and historical findings and stage records] | [Required levels] | Unverified | Unverified | [Assess record completeness and resolution separately] | [Outstanding scope] |
+
+### Per-object check record
+
+Copy one row for each check actually reviewed.
+
+| Check ID | PC ID and rule version | Object ID, revision, and locator | Concrete assertion, applicability, and reason | Required levels | Actual actions and level reached | Status, evidence, and support limits | Issue ID |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| [CHK-ID] | [PC-ID] | [Stable ID and original text] | [Actual condition and rationale] | [L1/L2/L3] | [Completed work] | [One of the four states and basis] | [ISS-ID] |
+
+Use L1 for structure, required fields, references, and versions. Use L2 to walk through the task, normal and failure paths, meaning, and traceability. Use L3 for primary facts, actual observations, or actual trials required by the condition. Retain incomplete status when their prerequisites are missing. Record L2 and L3 from their own evidence.
+
+## 3. Findings, actions, and closure
+
+| Issue ID, PC rule, and level | Object version and original locator | Original condition and actual finding | Evidence or counterexample | Impact, severity rationale, and blocked objects | Next action, owner, and original closure condition | Actual status |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ISS-ID] | [Locator] | [Specific difference] | [Evidence and version] | [Propagate along actual dependencies] | [Fact check, user decision, research, technical trial, or revision] | [Pending, investigating, awaiting decision, or actual status] |
+
+| Issue ID | Revision diff | Evidence required by original closure condition | Recheck of original and affected objects | Required user confirmation | Open items and conclusion | History and reopening basis |
+| --- | --- | --- | --- | --- | --- | --- |
+| [ISS-ID] | [Actual old and new versions] | [Retain a gap if missing] | [Actual check and evidence] | [Record for the current version] | [Closure requires evidence and applicable decisions] | [Counterexample or invalidation record] |
+
+## 4. Actual results and platform prerequisites
+
+| Type and record ID | Object, platform, version, and environment | Method and actual execution | Original evidence | Result and limits | Next action |
+| --- | --- | --- | --- | --- | --- |
+| [User research, prototype, technical trial, or application acceptance] | [Research sample or actual build, or explicit gap] | [Plan or actual actions] | [Actual locator when available] | [Unexecuted or actual result] | [Prerequisite or recheck] |
+
+| Platform or architecture | Formal acceptance combinations and fixed N | Planned methods and automated or manual scope | Actual pass, failure, or unverified | Missing environment or other prerequisite | Evidence and next action |
+| --- | --- | --- | --- | --- | --- |
+| [Applicable platform] | [Complete set or not computable if unknown] | [Design record] | [Actual counts or unexecuted] | [Retain the applicable row and blocker] | [Actual locator] |
+
+Report document review, evidence for value claims, stage confirmation, and application passes separately. PC12 covers acceptance design. PC15 covers records, versions, and recheck. Apply actual testing and closure criteria to the corresponding results.
+
+## 5. Optional PM scoring when requested
+
+Fix the baseline, complete object set, rule expansion, and non-applicability decisions. Record each expanded object's status and evidence using the PM rubric. Derive dimension scores from the recorded evidence.
+
+| Dimension | Weight W | Object and sub-item set | T | S | F | U | N | A=S+F+U | Completion rate | Satisfaction rate | Raw score | Unsatisfied items and non-applicability basis |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | --- | --- |
+| PM01 Clear user problems and goals | 15 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM02 Decidable scope and priority | 10 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM03 Traceable sources and assumptions | 10 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM04 Complete user tasks and journeys | 15 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM05 Clear pages and interaction states | 10 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM06 Concrete features and business rules | 10 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM07 Understandable failures, data, and side effects | 10 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM08 Assessable quality requirements and acceptance | 10 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM09 Consistent traceability and technical handoff | 5 | [Fixed rule expansion] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+| PM10 Reliable issues, versions, and recheck | 5 | [Four fixed rows plus three rows per issue] | — | — | — | — | — | — | — | — | Unscored | [Basis] |
+
+Use `T=S+F+U+N` and applicable denominator `A=S+F+U`. Completion rate is `(S+F)/A`, satisfaction rate is `S/A`, and dimension raw score is `W×S/A`. Leave the dimension and overall score unscored if the object set or expansion is unknown. Exclude a dimension from effective weight E when every row is reviewed as not applicable and A is zero. Calculate the overall score only when every dimension can be scored or validly excluded and E is positive. Use 100 times the sum of applicable raw scores divided by E. Round only the displayed result to one decimal place.
+
+Use the historical proposed document threshold of 95 only when the current project adopts it. Retain applicable objects with unavailable environments, pending confirmation, missing research, and unresolved issues. Report critical blockers and actual user confirmation independently of scores.
+
+## 6. Current conclusion and next action
+
+- Current conclusion and applicability. [Draft needs work, current material can be handed off, affected tasks blocked, awaiting a decision, or prerequisites or budget paused]
+- Completed and outstanding checks. [Levels, objects, and evidence limits]
+- Independent scope that can continue. [Authorization and dependencies]
+- Blocked objects and reasons. [Next action and stop condition]
+- Stage confirmation and changes. [Actual record, version, and any need to reconfirm]
+- Next question or action. [Known first-round questions with independent answers, or one material new tradeoff]
+- Budget, permissions, stop, and resume. [Actual scope for this round and applicable call authority]

@@ -1,0 +1,41 @@
+# SOP applicability and version supplement 0.1
+
+Revision `sop-rules-addendum-20261016-0.1`, dated 2026-10-16 (Asia/Shanghai). This English reference follows the [original Chinese supplement](../规范补充-20261016/适用与版本.md). It maintains rules from material already submitted. Project requirement confirmation, application acceptance, and external certification each require their own evidence. The handoff contract and skill remain at version 0.2. Record the supplement revision separately when adopting it.
+
+## 1. Current guidance and historical snapshots
+
+This directory supplements the current document rules. Preserve the source snapshots bound by their corresponding provenance files. Apply this supplement and the shared conventions to the historical interaction and format rules below. Preserve other original conditions. Follow the user's current explicit instructions and obtain the applicable project decisions before changing requirements or machine contracts.
+
+| Historical location | Current guidance | Constraints to retain |
+| --- | --- | --- |
+| Stage-by-stage approval in PC rules §6.1, Product stages and sources §3, Technical decisions and planning §1, and the workflow phase guide §§2 and 4 | The four stages represent content maturity. By default, confirm scope and the concrete final document and show intermediate changes. Obtain approval for each stage if the user requests it. | Keep unconfirmed content in draft. Obtain the applicable decision for material changes in scope, approach, or permissions. Check the authority required for execution. |
+| One question at a time in the same sources, Security SOP §2, task packet and aggregate templates, and knowledge delivery | Present the currently known questions together at the start of the module and let each be answered independently. Ask new questions individually as they arise. Reuse applicable answers. | A missing answer, preselection, or timeout leaves the decision unconfirmed. Keep dependent decisions pending. |
+| Planning questions and 90% understanding confidence in Product stages and sources §3.1 and Technical decisions and planning §1.2 | Reuse the established way of presenting recommendations and any applicable authorization. Explain understanding in terms of goals, tasks, boundaries, and the basis for unresolved items. Use a model confidence threshold only where the current project explicitly requires one. | Follow the user's explicit clarification conditions for the project. Pause execution that depends on unresolved critical intent. |
+| Mandatory JSON for writing files in the opening handoff convention and older field templates | Use Markdown by default for human-readable documents. Supply JSON when an actual machine consumer requires it. | Retain existing required fields and validation for JSON consumers. A structured receipt requires its own structured data. |
+| The fixed 12 sections in old Q01 and four approvals in old Q22 | Apply the [current quality checklist](quality-checklist.md). Version 0.2 uses sections 0–8. Preserve the original bindings for version 1.0.0 and migrate by meaning. | Verify the substance of every applicable section. Carry forward older approvals only with their original version and scope. |
+| Source, installers, and reports in Technical acceptance and delivery §16, and user-provided API keys in Environment and permissions §9 | Base deliverables and credential ownership on the current project. Web, service, and document-only delivery can proceed without an installer. Require users to provide their own keys only where the product calls for it. | Honor existing platform, delivery, and protection commitments. Keep credentials out of document text, packages, and logs. |
+| General approval, platform, and human-test ratio language in PC, TC, KB, SEC, TASK, and PM/M | Apply historical project decisions to their original project. Explicitly list the scope of current single-module, draft, or document-only work. | A missing environment leaves applicable work unverified. Keep the original human-test ratio for applicable targets where it was adopted. A score of 95 applies only where the project adopts it. |
+
+Preserve `traceaudit-r11/r12`, their atomic contracts, historical candidate findings, and existing machine validators. Review an uncompiled domain condition independently as a document check and record its actual coverage. Use the frozen atomic IDs only for their original checks.
+
+## 2. Screen domains before detailing the design
+
+Perform a brief applicability screen for every project. Use the user's task, confirmed scope, actual data flows, and risks. Keep functionality within that scope. The [domain checks](domain-checks.md) expand PC, TC, KB, and SEC rules where their triggers apply.
+
+For each domain, record the trigger fact and its location, applicability or uncertainty, affected objects, required depth and level, the existing design location, any gap, and the next action. Distinguish an unreviewed area, an uncertain trigger, and a capability outside the project scope. A small project can record a short reason for each absent trigger.
+
+An applicable condition necessary to support a current claim is mandatory. A recommended method can change with a reason. An optional capability requires a project decision to adopt it. Match the depth of the record to actual consequences. A single passage may cover several related conditions if it retains their protection goals and applicable acceptance criteria.
+
+## 3. Records and stop conditions
+
+Retain the meaning of every necessary check under each rule. Use `CUSTOM:DOM01`–`CUSTOM:DOM08` for this supplement and preserve existing IDs. Cite the same source version when reusing evidence and state the scope it supports for each finding. Keep duplicate domain checks out of legacy PM/M and application acceptance denominators.
+
+Record scope selection, applicability, check level and evidence result, user declaration, document confirmation, task readiness, and software execution separately. A parent condition is satisfied only when every required child condition has its required evidence. Keep unknowns, unavailable environments, failures, and unselected scope visible.
+
+Block the actual dependencies of a critical unresolved item. Continue drafts, independent checks, and authorized actions where possible. Adoption requires a project decision. When adopted, establish the new baseline, compare its impact, and recheck the applicable scope. Preserve historical reports.
+
+## 4. Project record template
+
+Use the [domain check card](domain-check-card.md) in the existing document or a controlled appendix. Ordinary documents can use the existing authoritative text and record structure. The installed skill bundles these references.
+
+The [domain checks](domain-checks.md) list the extent of external reading. FormSy designed the triggers, statuses, fields, and counterexamples for this supplement.

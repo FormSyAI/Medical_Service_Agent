@@ -1,0 +1,49 @@
+"""Delegate to the explicit project runtime; this script owns no workflow state."""
+import json
+from pathlib import Path
+import subprocess
+import sys
+
+
+def main():
+    if len(sys.argv) < 3:
+        print("Usage: run_flow.py PROJECT FLOW_ACTION [arguments...]", file=sys.stderr)
+        return 2
+    root = Path(sys.argv[1]).expanduser().resolve()
+    try:
+        config = json.loads((root / ".formsy-sop/runtime.json").read_text(encoding="utf-8"))
+        argv = config["cli_argv"]
+        if not isinstance(argv, list) or not argv or not all(isinstance(x, str) and x for x in argv):
+            raise ValueError("cli_argv must be an explicit nonempty argument array")
+        if sys.argv[2] not in ('enter', 'start', 'select', 'context'):
+            return subprocess.run(argv + ['flow', sys.argv[2], str(root), *sys.argv[3:]], cwd=root, shell=False).returncode
+        result = subprocess.run(argv + ["flow", sys.argv[2], str(root), *sys.argv[3:]],
+                                cwd=root, shell=False, capture_output=True, text=True)
+        if result.stderr:
+            print(result.stderr, file=sys.stderr, end='')
+        output = result.stdout
+        if result.returncode == 0 and sys.argv[2] in ('enter', 'start', 'select', 'context'):
+            # Launch through the same pinned runtime; preserve task_context and
+            # the operation's success even when its optional view cannot start.
+            try:
+                web = subprocess.run(argv + ['flow', 'web', str(root)], cwd=root,
+                                     shell=False, capture_output=True, text=True, timeout=15)
+                web_status = (json.loads(web.stdout) if web.returncode == 0 else
+                    {'status': 'unavailable', 'reason': 'local_web_start_failed'})
+            except (OSError, ValueError, subprocess.TimeoutExpired):
+                web_status = {'status': 'unavailable', 'reason': 'local_web_start_failed'}
+            try:
+                value = json.loads(output)
+                value['workbench_web'] = web_status
+                output = json.dumps(value, ensure_ascii=False, indent=2) + '\n'
+            except (ValueError, TypeError):
+                print('FormSy local workbench startup could not be reported.', file=sys.stderr)
+        print(output, end='')
+        return result.returncode
+    except (OSError, ValueError, KeyError) as exc:
+        print("FormSy project runtime unavailable: " + str(exc), file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

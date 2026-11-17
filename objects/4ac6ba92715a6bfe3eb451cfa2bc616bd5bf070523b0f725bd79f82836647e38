@@ -1,0 +1,9 @@
+{
+  "source": "产品SOP自检研究/产品SOP量化指标.md",
+  "source_sha256": "9f100d1735e71920db0e74ed3ec97d6bb84bd7e89370a2e47e9cfd8dcae3367b",
+  "selected_section_patterns": [
+    "^## [123456]\\."
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "81f001bb8299f87f894ed7ab45aa39934be4569b549cef6685ec5510950ffb9c"
+}

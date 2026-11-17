@@ -1,0 +1,9 @@
+{
+  "source": "安全设计补充-0.1/安全自检规则.md",
+  "source_sha256": "e379c9311678ff1920becbfaf3fe3339de2eca00f5c926a967d820c0899e5640",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "ad4f9198bcfc20fab65764dbae2056d517254479f067d3686f2157a186a2c40a"
+}

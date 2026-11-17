@@ -1,0 +1,38 @@
+{
+  "source": "知识库设计/知识库SOP.md",
+  "source_sha256": "5a07c8e73e8d1ea2efa50e683e7657f4c5d85c79f11f4e5d03acb9a9b71189fd",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "需求与设计基线",
+      "original_reference": "知识库设计/需求与设计基线.md"
+    },
+    {
+      "label": "SOP 设计基准",
+      "original_reference": "SOP设计基准-0.2/SOP设计基准.md"
+    },
+    {
+      "label": "知识库自检规则",
+      "original_reference": "知识库设计/知识库自检规则.md"
+    },
+    {
+      "label": "模块接口与数据契约",
+      "original_reference": "知识库设计/模块接口与数据契约.md"
+    },
+    {
+      "label": "自检规则",
+      "original_reference": "知识库设计/知识库自检规则.md"
+    },
+    {
+      "label": "参考方案对比",
+      "original_reference": "知识库设计/参考方案对比.md"
+    },
+    {
+      "label": "来源索引",
+      "original_reference": "知识库设计/参考资料/来源索引.md"
+    }
+  ],
+  "exported_sha256": "8413a5a1690a302035990575338fd13b7aa1d077a3db580bc1015c832495a419"
+}

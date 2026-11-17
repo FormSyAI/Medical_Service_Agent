@@ -1,0 +1,43 @@
+> This guide is an internal module of formsy-development-kit. Use the Kit entry to select it for the current task.
+
+# FormSy SOP document entry
+
+Identify whether the user requested a document or authorized development. Use this guide for SOP drafting and revision. For authorized implementation, changes, fixes, or resumed development in a bound project, read `../formsy-sop-workflow/GUIDE.md` from the same resources and use the existing `flow` run or enter through that workflow. Preserve existing authorization and interpret a request to continue in the current task's mode.
+
+Deliver one authoritative aggregate SOP covering product behavior, technical design, tasks, acceptance design, open decisions, and document checks. Document confirmation applies to the reviewed version. Implementation, application tests, installation, deployment, and uploads require their respective authorization.
+
+## Select the document language
+
+Use the language explicitly chosen for this deliverable. Otherwise keep the established language of an existing document. For a new document in a configured project, use the supported value in `.formsy-sop/document-locale.json` when available. With no selection or project preference, keep the existing Simplified Chinese default.
+
+Use English `en-US` or Simplified Chinese `zh-CN` consistently through drafting, review, assembly, and export. Use the same workflow instructions for either output. Preserve original requests, quotations, evidence, requirement IDs, and existing versions. An explicit language change for a reviewed document creates a new draft with its own version and review. Keep its earlier confirmation with the earlier version.
+
+Use the localized aggregate template from the assembly module. For a new aggregate, the default filename is `[project] Aggregate SOP.md` for `en-US` or `［项目］汇总SOP.md` for `zh-CN`. Continue an existing deliverable at its authorized path.
+
+## Create or revise the SOP
+
+1. Tell the user which module you are using. Read current project instructions, supplied material, and effective decisions. Identify the deliverable and location. Preserve prior versions and follow the user's current document scope.
+2. Read the [document workflow and delivery criteria](references/document.md). Read each module's shared conventions and current supplement. Screen for applicable domains and distinguish document review from compiled atomic checks. Locate the required module guides in the same resource set, then read those guides and the applicable rules.
+3. At the start of each module, present all known user decisions together, one stable numbered question and clear choices per decision. Use one multi-question control if available. Ask about later discoveries or choices that depend on earlier answers as they arise. Reuse effective answers and retain unanswered decisions.
+4. Present and confirm the goals and scope, then draft product behavior, technical design, and tasks. Show progress and changes at intermediate steps. Ask when a material new decision is required. After self-check, revision, and assembly, request confirmation of the specific final version. Deliver a draft with explicit gaps if blockers remain.
+5. When FormSy MCP Workbench is connected, follow the [Workbench interaction and review guide](references/workbench.md). Prepare candidate atomic scope and source records through the existing CLI, then show the initial full workbench. Before each visible reply, publish only that reply's changes. A group of questions counts as one interaction. Save short technical and review milestones and the current selected atomic review receipt. Keep detailed questions and history available on demand. When the integration is unavailable, continue the document workflow and describe the missing coverage.
+6. Deliver the main document, a short review conclusion, and open issues. When the workbench is connected, complete the current self-check, save its receipt, verify the sources and scope, and publish the full summary before opening or linking the document. Apply this order to both first and revised delivery. Record document status, user confirmation, task readiness, and actual software acceptance separately. A document-only task needs no development run. Use a local structural check when helpful. Verify or prepare project identity before connecting a global workbench.
+
+| Module | Read for |
+| --- | --- |
+| Document entry | Document goals, scope, questions, decisions, and versions. Authorized development uses the workflow module. |
+| `formsy-sop-product` | User paths, business rules, states, and observable acceptance |
+| `formsy-sop-technical` | Ownership, data, recovery, tasks, and verification design |
+| `formsy-sop-knowledge` | Sources, factual claims, conflicts, and adoption boundaries |
+| `formsy-sop-selfcheck` | Content and traceability review on actual objects, followed by recheck after revision |
+| `formsy-sop-assemble` | One authoritative version with an overview and complete SOP body |
+
+The FormSy Development Kit provides these internal modules together. Use the guides from one complete resource set and preserve their source revision. If a module is unavailable, state the gap and deliver the supported draft. Standalone document work can use the existing document directory.
+
+## Continue authorized development
+
+When the user explicitly requests execution or continuation of authorized development, read the workflow guide from the same resource set and use the project's configured runtime. Retain the existing run, actual capture identity, stage interaction, scope, and repair budget. Read applicable local guidance and available project SOP, Birdview, and active knowledge by stage. Keep document confirmation and development stage receipts separate.
+
+The workbench retains document candidates and review history. When used as workflow material, preserve their distinct receipts and completion meanings. Coordinate development through `flow`.
+
+The user interacts through the conversation and its connected MCP workbench, including questions and file links. Use the [Workbench interaction and review guide](references/workbench.md) when the user wants to see atomic checks, evidence, or recheck history. Pure document work may record review evidence through that route without entering development. Report actual host capabilities for embedded views and live tools separately.

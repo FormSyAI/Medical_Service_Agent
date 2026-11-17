@@ -1,0 +1,4 @@
+interface:
+  display_name: "FormSy Technical SOP"
+  short_description: "Design technical SOPs, task plans, and verification"
+  default_prompt: "Use modules/formsy-sop-technical/GUIDE.md to draft or review the technical SOP in the selected document language. Describe implementable design, unknowns, and test evidence."

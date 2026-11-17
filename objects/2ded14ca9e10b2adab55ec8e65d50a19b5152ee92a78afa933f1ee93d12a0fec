@@ -1,0 +1,134 @@
+# Security SOP for technical design
+
+This English reference follows the security design supplement 0.1, dated 2026-10-08. The [Chinese export](../安全专项/安全专项SOP.md) and its [provenance](../安全专项/安全专项SOP.provenance.json) preserve the source wording and hashes. The supplement elaborates Technical §§3, 7, 8, 9, and 10 and TC09/TC10. Apply it within the existing design baseline 0.2 and saved workflow. Project-specific implementation, runtime evidence, and decisions require their own records.
+
+## 1. Scope
+
+Use this reference to draft, refine, or review a project's security design. Identify actual local files, permissions, credentials, network, knowledge, tool, and update capabilities. Retain existing object IDs and versions. Record missing facts as questions or verification gaps. Base exclusions on the applicable scope.
+
+Keep effective user requirements and decisions, external methods, design proposals, structure checks, semantic review, and actual behavior evidence distinct. Design only the capabilities the project needs and authorizes. Decide accounts, cloud platforms, telemetry, master passwords, or background updates through the applicable project scope.
+
+Create a project draft using the locale-matched template. Use the [review rules](security-review-rules.md) for checks and the [integration guidance](security-integration.md) for handoff across Product, Technical, and Knowledge. Combine fields by risk while retaining responsibility and evidence boundaries. [English template](../../assets/security-design-template.en-us.md) and [Simplified Chinese template](../安全专项/安全设计模板.md)
+
+## 2. Develop the design through the existing stages
+
+Apply the current applicability and version supplement (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-workflow/references/sop-rules-addendum-20261016/applicability-and-version.md`) to the historical interaction policy. Reuse effective decisions and recommendations already requested. Present currently known questions together for separate answers and ask new questions individually. By default, confirm scope and the concrete final document and show intermediate changes. Obtain stage-by-stage approval when requested. Follow the saved workflow for all current stage and role gates.
+
+| Stage | Security design work | Record and progression condition |
+| --- | --- | --- |
+| Initialization | Identify platforms, user data, runtime locations, tools and APIs, current authority, and security prerequisites that affect the design. | Security baseline, asset inventory, and unknowns. Obtain actual authority for new permissions, cost, or egress scope. |
+| Requirements discovery | Trace reading, writing, execution, transfer, and deletion in actual user tasks. Ask for tradeoffs that require user judgment. | Protection goals linked to original requirements. Prioritize questions by consequence and use the current clarification policy. |
+| Requirements modeling | Map data flows and trust boundaries, identify misuse paths, and refine applicable security constraints and acceptance. Preserve the original meaning of requirements. | Threat and control drafts. Present material scope or permission differences at the appropriate confirmation point. |
+| Planning | Assign controls to MOD/API/DATA, dependencies, tasks, and tests. Verify primary material for the proposed approach and identify critical trials and platform evidence. | Plan, verification, recovery, and residual risk. Dependent execution requires resolved critical blockers and applicable decisions and phase confirmation. |
+
+Implement and verify the current confirmed design. When a risk, configuration, source version, or actual counterexample changes, record the impact, retain earlier versions, and recheck affected objects. Obtain the applicable decision for material changes in requirements, approach, or permission.
+
+## 3. Traceability and IDs
+
+Trace **effective requirement or decision → assets, flows and boundaries → TH threat → CTRL control → MOD/API/DATA and implementation tasks → ST tests and acceptance → actual evidence or unverified state → issues, residual risks and decisions**.
+
+| Object | Suggested ID | Required meaning |
+| --- | --- | --- |
+| Asset, boundary, or data flow | AST-*, TB-*, DF-* | Protection target, who can access it, and the source and destination. Link actual data and modules. |
+| Threat | TH-* | The actor, prerequisites, path, and possible loss. |
+| Control | CTRL-* | Applicable threats, responsible owner, entry, and observable action. |
+| Security constraint or effective decision | Existing requirement or decision ID, or an ID under the project convention | Source, version, adoption and confirmation scope. User commitments require actual decisions. |
+| Trial, evidence, or finding | ST-*, EV-*, ISS-* | Operation, assertion, environment, actual output location, failure impact, and retest link. |
+| Review rule | SEC01–SEC12 | The supplement's review rules. Use `CUSTOM:SEC01` and related IDs in handoffs. Keep control object IDs separate. |
+
+Review both directions by meaning and version. A threat may have several controls. Give each applicability scope for a shared control. Record unhandled threats, untested controls, orphaned permissions, and unlocatable evidence as separate gaps. Bind source checks to the source's own version.
+
+## 4. Assets, boundaries, threats, and risk
+
+List actual user files and project material, credentials, executable tools, source and output, installers, operation and acceptance decisions, budget, index, cache, backup, logs, and recovery state. Keep unknown sensitivity and acceptable loss open.
+
+Identify actors and capabilities for each entry and flow. Consider user actions, UI and renderer, main process or service, files and parsers, model output, external APIs, subprocesses, and proposed update packages. Project access and egress require authority even when the same operating-system account can read multiple projects. Record protection scope and reasons for exclusions such as an attacker already controlling the entire operating system. Honor project commitments.
+
+For each threat, record prerequisite, entry, trigger or misuse, affected asset, outcome, detection, and response. Consider impersonation, unauthorized changes, falsified records, disclosure, exhaustion, and unauthorized access as modeling prompts. FormSy defines this supplement's fields and rules. [OWASP Threat Modeling](https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html)
+
+Set priority from impact, conditions, and known facts. Leave unknown probability unquantified. Record whether the response reduces, removes, transfers, or accepts the risk and why. Assess remaining risk after transferring responsibility. For residual risk, identify object, decision authority, scope, time limit or revisit trigger, and effective decision. Current permission remains binding.
+
+## 5. Assign controls to responsible modules
+
+For each control, record threat, asset and effective basis, entry, owner, caller, input and argument limits, decision criteria, allow and deny results, state and side effects, failure owner, configuration and version, tests, and residual risk. Specify an observable implementation contract.
+
+| Responsibility | Required interface behavior |
+| --- | --- |
+| Scope and authorization | Obtain trusted actor, project, object, and action. Recheck effective grants and revocation at entry. Verify identity independently of caller parameters. |
+| File and tool mediation | Bound roots and objects, operations and arguments, outputs, resources, and subprocess lifetime. Preserve boundaries around actual I/O and execution. |
+| Credential access | Define setup, validation, replacement, deletion, and least access. Give the caller only the necessary capability. |
+| Context and egress | Select allowed task fragments, destination, and length. Verify authority, credentials, and budget at send and retry. |
+| Audit and evidence | Record necessary action, version, and outcome. Protect reads and exports, redact, and define capacity, retention, and deletion. |
+| Release and recovery | Identify package, version, source, and validation trust. Preserve trustworthy originals on failure and revalidate boundaries on recovery. |
+
+Combine or separate responsibilities according to architecture and risk. Use the owning data and permission boundary for actual reads and writes. Define visible denial, side effects, and recovery. Keep other projects' existence, titles, paths, and secrets outside denied responses.
+
+## 6. Design by capability
+
+### 6.1 UI, IPC, and local tools
+
+Verify actor, source, action, and arguments independently at process and module boundaries. Define channel, type, size, and scope. Specify rejection for duplicates, invalid states, stale objects, and revoked access. Tool execution requires an explicit action and argument contract. Assign inherited environment, permissions, working directory, cancellation, and cleanup for subprocesses.
+
+For a project that chose Electron, check the applicable runtime version's renderer isolation, sandbox, preload exposure, CSP, trusted IPC sources, navigation, windows, external links, and protocol handling. Record actual packaged configuration and tests. Select framework, configuration, signing, and notarization through project decisions. [Electron Security](https://www.electronjs.org/docs/latest/tutorial/security)
+
+### 6.2 Local files, import, and untrusted input
+
+Specify authorized objects and resolved paths, relative and absolute path rules, links, aliases, redirects, changes between check and use, size, format, and overwrite rules. Analyze extraction, import, generated files, and cleanup for actual object containment. Verify resolved boundaries beyond matching a path prefix.
+
+Treat documents, pages, metadata, imported HTML or Markdown, model suggestions, and tool output as external input. Validate structure, encode or sanitize display, and preserve parser errors and unsupported cases. Use trusted entry and egress policies for actor, project, tool, data scope, and user confirmation. Verify any adopted content isolation or parser sandbox.
+
+### 6.3 Knowledge, APIs, and networking
+
+Keep shared materials, project isolation, and explicit cross-project selection under the existing rules. Apply the same scope to originals, indexes, summaries, caches, citations, errors, exports, and model payloads. Record adoption, truth, and approval separately.
+
+For external services, define allowed endpoint and protocol, redirects, proxy, certificate and error policy, and fields allowed to leave. Include only relevant allowed fragments and citations and keep retries within scope. Authorize egress independently of key configuration. For custom endpoints or local services, record the applicable constraints and trust basis. Respect confirmed capabilities. Responses, address configuration, and model output have no execution authority by themselves.
+
+### 6.4 Credentials, data protection, encryption, backup, and deletion
+
+For API keys, signing or encryption material, and other credentials, specify owner, facility, users, replacement, revocation, deletion, unavailable or locked state, and authorization after upgrade. Keep actual secrets out of source, packages, sample configuration, exports, logs, errors, and screenshots. Verify prompts, identity across versions, and platform limits using facility documentation and actual target evidence.
+
+Determine retention need and threats before choosing a protection layer. Consider omitting storage, using a protected facility or bounded file permissions, or encrypting at an application or storage layer. State coverage and limitations. For an adopted encryption design, verify algorithm, library and version, key-to-data relationship, integrity checks, key damage or unavailability, rotation, compatibility with older data and backups, and retirement. Select algorithm, rotation interval, master password, and cloud KMS only where the project adopts them. [OWASP Cryptographic Storage](https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html)
+
+Specify protection and retention for backups, caches, indexes, temporary files, and exports. Verify permission and version during recovery and preserve effective revocation. Track withdrawal from future access and egress separately from physical purge and backup cleanup. Record limits for sent or exported copies. Verify the actual deletion guarantees of the medium.
+
+### 6.5 Logs, screenshots, and failure evidence
+
+Define required events, allowed and prohibited fields, actor, project, object, version, result, and accessible evidence scope. Minimize and redact sensitive document text, requests, responses, traces, and paths. Design handling of untrusted log input, capacity, write failure, deletion, and exports. Keep telemetry and automatic crash uploads off by default. [OWASP Logging](https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html)
+
+Preserve real failing operations, assertions, raw results, and necessary screenshots. Use synthetic or approved data, mask secrets and irrelevant information, and restrict access to controlled originals. Public reports can provide redacted copies and approved locators. Independently check files, network payloads, and unauthorized side effects when a screenshot cannot show them.
+
+### 6.6 Dependencies, installers, updates, and vulnerability handling
+
+Register actual components, versions, sources, content identities, licenses, and related modules. Lockfiles and component inventories can support this. Choose any SBOM format through project decisions. Match advisories to actual versions, assess reachability and impact, and record mitigation, residual risk, ownership, retest, and notifications. State scan coverage and keep unscanned scope unchecked.
+
+Specify package source and identity, validation trust, installation, signing and notarization capability, and limitations. A hash establishes equality with a trusted baseline. Publisher identity requires an independent trust basis even when package and hash come from the same channel. Record ad hoc signing at its actual trust level. Preserve decisions on release signing.
+
+For promised updates, define verification of source, metadata, platform, version, and package, rejection of malicious or incompatible packages, recovery and rollback, and reintroduced vulnerabilities. Define fix distribution and user actions for the actual delivery method. Choose the release plan through effective project decisions. [NIST SSDF 1.1](https://csrc.nist.gov/pubs/sp/800/218/final)
+
+### 6.7 Cancellation, recovery, and budget
+
+Record commits, egress already performed, subprocesses, temporary data, credential handles, and unknown results around pause or cancellation. Observe actual stop acknowledgement. Enforce current authorization for any later action. Before resuming, recheck project and object versions, permissions and revocation, configuration and endpoints, environment, and remaining budget. Verify unknown external results before retrying a paid or side-effecting request.
+
+Use effective time, count, output, cost, and resource limits. Specify how failures, concurrency, and retries count and retain unknown allowance as unresolved. Define stopping, saving, and resuming within those limits.
+
+## 7. Verification plan, actual evidence, and readiness
+
+Pin applicable objects, rules, platforms, evidence levels, and assertions before choosing methods. Assess normal allow and misuse or deny paths for each control. Expand revocation, duplicates, cancellation, recovery, and failure based on actual capabilities and threats. Use controlled local fixtures, synthetic files, captured payloads, and substitutes for planning and verification where appropriate. Use real services only within effective authority and budget. Keep security trials within their authorized target and scope.
+
+| Level | Supported conclusion | Required record |
+| --- | --- | --- |
+| L1 Structure | Fields, IDs, relationships, and versions satisfy the checked structure. | Actual reviewer or script, current files, and structural results. |
+| L2 Semantics | Current assets, threats, controls, and assertions form a consistent design. | Model or actual reviewer, exact object, rationale, and gaps. Identify model-assisted review as such. |
+| L3 Actual trial | Observed behavior on this build, platform, environment, data, and configuration. | Operations, time, actual actor or tool, raw output, payload or files, necessary failure screenshots, and each assertion's result. |
+
+Use satisfied, unsatisfied, unchecked, or inapplicable with reason for design. Use passed, failed, unverified, unexecuted, or inapplicable with reason for runtime. Keep applicable items with missing implementation, materials, execution, budget, or Windows coverage in the required denominator. Verify build, object and control versions, operations, and evidence content for imported results and screenshots.
+
+Close design gaps after design recheck. Verify required runtime access, disclosure, and recovery conditions through current trials. Block affected work for critical risk, authorization gaps, insufficient evidence, or required test failures. Keep open issues accurate and actual readiness separate from record completeness. Reopen and retain history when counterexamples, design, dependencies, configuration, or sources change.
+
+Report design review, observed runtime, platform gaps, issues, residual risk and decisions, and current confirmation side by side. Obtain actual user confirmation for final phase and acceptance. Limit security claims to the checked scope and evidence. Apply a 95-point target only when adopted by the project, and report a score only when supported by evidence.
+
+## 8. Evidence boundaries
+
+The source notes support general rules and templates. Determine actual credential facilities, encryption library, IPC configuration, log retention, signing identity, response time, and test environment using project facts, version-specific primary material, and effective decisions. The source used the ASVS project page for versioned control references and Web scope. Assess any certification or level through its own requirements. [OWASP ASVS](https://owasp.org/projects/asvs)
+
+The Chinese export identifies the historical reading archive. Its brief notes record scope and differences. Original external pages and documents retain their own identities.

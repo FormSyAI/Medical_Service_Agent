@@ -1,0 +1,5 @@
+interface:
+  display_name: "FormSy Development Kit"
+  short_description: "Unified FormSy development, collection and development workflow"
+policy:
+  allow_implicit_invocation: true

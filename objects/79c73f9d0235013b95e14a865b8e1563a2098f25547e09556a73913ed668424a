@@ -1,0 +1,18 @@
+{
+  "source": "技术SOP自检研究/自检机制方案.md",
+  "source_sha256": "b2d0e11e98508d0978db86ae9b3852b5c53b08622fa00e2fa39f355ecba560a3",
+  "selected_section_patterns": [
+    "^## [145]\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "参考资料索引",
+      "original_reference": "技术SOP自检研究/参考资料/来源索引.md"
+    },
+    {
+      "label": "量化评判指标",
+      "original_reference": "技术SOP自检研究/量化评判指标.md"
+    }
+  ],
+  "exported_sha256": "889f35383f6fe25d55b73d9bef1ab64fe68e945d22de996eec63784e8736ff16"
+}

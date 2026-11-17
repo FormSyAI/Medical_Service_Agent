@@ -1,0 +1,51 @@
+# [Project or object revision] Knowledge governance review
+
+> Record applicable KB rules from the current snapshot. Separate manual
+> document review from actual engine tests and identify the actor and method.
+
+- Scope, permitted documents, and versions. To record.
+- Actual tools and methods. To record.
+- Mode. Document support, governance design, or actual capability review.
+- Adoption, cross-project use, transfer permission, and budget. To verify.
+
+| Rule | Applicable action, object, revision | Level and source | Actual observation and locator | Status or reason inapplicable | Related issue |
+| --- | --- | --- | --- | --- | --- |
+| KB01 Source permission | To determine | To record | Unverified | Unverified | To record |
+| KB02 Parsing quality | To determine | To record | Unverified | Unverified | To record |
+| KB03 Source location | To determine | To record | Unverified | Unverified | To record |
+| KB04 Excerpt completeness | To determine | To record | Unverified | Unverified | To record |
+| KB05 Adoption and factual support | To determine | To record | Unverified | Unverified | To record |
+| KB06 Scope isolation | To determine | To record | Unverified | Unverified | To record |
+| KB07 Deduplication and permissions | To determine | To record | Unverified | Unverified | To record |
+| KB08 Retrieval and no matches | To determine | To record | Unverified | Unverified | To record |
+| KB09 Version applicability | To determine | To record | Unverified | Unverified | To record |
+| KB10 Formal baseline | To determine | To record | Unverified | Unverified | To record |
+| KB11 Update impact | To determine | To record | Unverified | Unverified | To record |
+| KB12 Conflicts | To determine | To record | Unverified | Unverified | To record |
+| KB13 Model excerpts | To determine | To record | Unverified | Unverified | To record |
+| KB14 Instructions as source data | To determine | To record | Unverified | Unverified | To record |
+| KB15 Withdrawal and deletion | To determine | To record | Unverified | Unverified | To record |
+| KB16 Duplicates, cancellation, recovery | To determine | To record | Unverified | Unverified | To record |
+| KB17 Actual evidence | To determine | To record | Unverified | Unverified | To record |
+| KB18 Budget limits | To determine | To record | Unverified | Unverified | To record |
+
+Record L1, L2, and L3 separately. Use satisfied, unsatisfied, unverified, or
+not applicable with reasons. Record executed test outcomes separately as
+passed, failed, or unverified. Missing tools, environments, and materials
+leave verification gaps.
+
+## Findings, rechecks, and conclusions
+
+| Issue ID | Rule, object, original expected behavior | Observed gap and locator | Impact and blocking reason | Next action and evidence needed | Status and closing condition |
+| --- | --- | --- | --- | --- | --- |
+| To identify | To record | To record | To assess | To define | Open |
+
+| Issue | Actual revision or investigation | Current version and recheck evidence | Impact and required decision | Closure or reopening and history |
+| --- | --- | --- | --- | --- |
+| To identify | None observed | Awaiting evidence | To verify | Open |
+
+State the completed source and citation review. Record actual engine
+implementation, effectiveness, isolation, transfer, cleanup, and recovery
+checks, including unexecuted items. Retain unresolved items and recovery
+prerequisites. Quantify results only with valid measures, ground truth,
+and executed tests. Keep failures and missing environments in scope.

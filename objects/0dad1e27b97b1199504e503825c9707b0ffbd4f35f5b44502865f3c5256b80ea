@@ -1,0 +1,34 @@
+# Review report for [artifact]
+
+## 1. Review basis and scope
+
+| Field | Value |
+| --- | --- |
+| Project, run, stage and artifact | [exact identifiers] |
+| Reviewed revision and content digest | [version and digest] |
+| Applicable rules and selected items | [rule and condition IDs] |
+| Reviewed sources and boundaries | [source versions, read scope and exclusions with reasons] |
+| Reviewer and review method | [actual execution and provenance] |
+
+## 2. Findings and evidence
+
+| Rule / condition ID | Status | Object and source location | L1 structure / L2 semantics / L3 evidence | Impact and next action |
+| --- | --- | --- | --- | --- |
+| [stable ID] | [satisfied, unsatisfied, unverified or not_applicable] | [exact locator] | [observed evidence and its limits] | [finding or follow-up] |
+
+Keep program receipts, model judgments and user decisions distinct. If evidence is missing or stale, record the gap. Use `not_applicable` only with a reason supported by the selected scope. Keep an original quotation in its original language.
+
+## 3. Repair and recheck
+
+| Finding ID | Proposed or applied change | Affected materials | Recheck basis | Observed result |
+| --- | --- | --- | --- | --- |
+| [stable ID] | [change and reason] | [versions and scope] | [method or receipt] | [pending, failed or verified evidence] |
+
+Retain earlier failures and identify the exact new revision. Record checks that were planned, skipped or blocked separately from checks that ran.
+
+## 4. Disposition and handoff
+
+- **Unresolved findings and blockers**: [items and the evidence needed to close them]
+- **Deferred or unreviewed scope**: [reason, applicability and next stage]
+- **Next action**: [recheck, repair, clarification or review]
+- **User decision**: [actual decision source and version, when available]

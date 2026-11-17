@@ -1,0 +1,218 @@
+# Product fields
+
+This maintained reference follows section 4 of Product Documentation SOP, design baseline 0.2. The [Chinese export](产品字段规范.md) and its [provenance](产品字段规范.provenance.json) retain the source wording, source and export hashes, selected section, and references omitted from the bundle. Follow the [common contract](共同约定.md) and the policy supplement (`.formsy-sop/skills/formsy-sop-workflow/references/sop-rules-addendum-20261016/applicability-and-version.md`) for current applicability.
+
+## 4. Product document field standards
+
+Use these blank templates to record the project's actual objects and evidence. Leave missing required fields visible as gaps and explain any finding of non-applicability. A simple feature may use a combined presentation that still covers each relevant check object.
+
+### 4.1 User, problem, and evidence card (PC01/PC04, PM01/PM03)
+
+| Field | Record |
+| --- | --- |
+| User and problem IDs | U-ID and P-ID |
+| Actual or proposed users | Who uses the product, who is affected, and whether the buyer is a different person |
+| Scenario and trigger | Conditions that give rise to the task |
+| Task and current approach | Current sequence of actions. Distinguish a known absence of a workaround from an unknown approach. |
+| Specific difficulty and consequence | Where the task stops, incurs effort or cost, or fails to reach the goal |
+| Support and counterexamples | Original user wording, source versions, actual observations, and limits |
+| Strength of evidence | Requirement of this user only, applicable observation, assumption, or unknown. Limit the scope of the claim to the evidence. |
+| Expected value | User outcome. Use a separate C-ID for claims about market demand, willingness to pay, or efficiency. |
+| Material assumptions and next action | Impact, verification method, owner, and closure condition |
+
+The role, task, difficulty, and intended outcome must fit together, with a reviewable basis for the evidence level. Keep material unverified assumptions visible. For a personal tool, explicit requirements from its user can establish the design basis. Scope any broader research to the claim that needs it.
+
+### 4.2 Goals and measurement criteria (PC02/PC11, PM01/PM08)
+
+| Goal ID | Observable user outcome | Linked problem | Decision criterion and unit | Source of the quantitative or qualitative criterion | Environment, scale, and time | Measurement or observation method | Design state and actual result |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| G-ID | What the user can do or obtain after success | P/U-ID | Assessable condition, pending decision if unknown | Decision or baseline location | Applicable boundaries | Collection and comparison method | Design pending confirmation and execution status |
+
+Define what to observe and how to judge each commitment such as speed, reliability, usability, or clarity. For quantitative commitments, record the source, unit, denominator, and measurement definition. Leave unsupported numeric targets, such as milliseconds, satisfaction, or success rates, pending.
+
+### 4.3 Requirements, scope, and priority (PC03/PC04, PM02/PM03)
+
+| Requirement ID | Formal wording or candidate content | Source version and decision | Goal or problem | Category | Priority and rationale | Release scope and version | Acceptance ID | Open issue and impact |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| R-ID | Preserve the original wording and mark candidates explicitly | S/D-ID | G/P-ID | Functional, quality, or delivery | Must, Should, or Could | First release, later release, or explicitly out of scope | A-ID | Open question and any limit on progression |
+
+| Scope tradeoff ID | Required task outcome | Resource bounds and source | Items that can be reduced | Explicit exclusions or deferred items | User impact after reduction | Decision and version |
+| --- | --- | --- | --- | --- | --- | --- |
+| SC-ID | Journey outcome | Time, cost, and people. Keep unknowns visible. | Should or Could items and rationale | Excluded capabilities and rationale | Outcomes that remain possible and those affected | D-ID or pending decision |
+
+Account for every required task in its journey and give each scope tradeoff a source. Record the available budget and the work estimate separately. A proposed change to a Must item needs an explicit decision and impact review. RS03 is a method reference for scoping. Establish this project's deadlines and requirement authorization from effective project sources.
+
+### 4.4 Complete journey template (PC05/PC06/PC09, PM04)
+
+| Journey identity field | Record |
+| --- | --- |
+| Journey ID, name, and user | J-ID, user task, and U-ID |
+| Linked goals and requirements | G-ID and R-ID |
+| Trigger, entry, and prerequisites | Page, window, or external entry, with existing data and permissions |
+| Start and outcome | Initial business state and an outcome the user can recognize |
+| Steps outside the application and dependencies | Steps before and after the product, their owners, and which steps the project implements. Record an established absence where applicable. |
+| Scope and version | First-release steps, deferred steps, and effective stage version |
+
+| Step or path ID | Prior state | Page or entry | User action | Visible system feedback | Business state or data change | Next step or exit | Feature or rule | Acceptance and evidence plan |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| J-01 normal path | Initial state | UI-ID | Specific action and target object | What the user sees | Before and after | J-02 | F/B-ID | A-ID × platform |
+| J-02 branch | Trigger condition | UI-ID | Applicable choice, cancellation, or retry | Message and available next steps | Preserved, reversed, or partially complete | Recovery or termination point | F/B/X-ID | A-ID × platform |
+
+Review applicable first use, normal use, reopening, configuration, exit, cancellation, and recovery. Mark the product boundary for external steps and implement only the steps in scope. RS01 is a method reference for a complete problem description with a bounded increment.
+
+The steps must form a continuous path from the entry to the outcome. Each destination must exist, every material branch must state its result and next action, and the visible feedback must match the business outcome. Give each Must task a complete journey.
+
+### 4.5 Pages, entry points, and states (PC06/PC11, PM05)
+
+| Page or window ID | Purpose and journey | Entry, exit, and navigation | Main content and actions | Behavior on target platforms | Copy or help basis | Related features |
+| --- | --- | --- | --- | --- | --- | --- |
+| UI-ID | J-ID and task purpose | Original entry and return or close destination | Visible content, target object, and trigger | Applicable focus, keyboard, and window constraints | Terminology and next action | F-ID |
+
+| UI-ID × state | Entry condition | What the user sees | Available and unavailable actions | Input, focus, and selection retention | Meaning of the data | Next action or exit condition | Acceptance link |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Empty | No data | Purpose and how to begin | First action | Applicable retention | A verified empty result | Confirmed actions such as create or import | A-ID |
+| Loading or processing | Action in progress | Operation and recognizable status | Whether cancellation or repeat actions are available and why | Applicable retention | In progress or partially complete | Success, failure, or cancellation | A-ID |
+| Success | Completion conditions hold | Result and any required confirmation | Next task | Explicit retention and clearing rules | Persisted or staged | Continue or exit | A-ID |
+| Failure | Failure type | What occurred and what the user can do | Actual retry, return, or help actions | Inputs and data retained | Any partial completion | Recovery prerequisite or termination | A-ID |
+| Unavailable or insufficient permission | Applicable condition | Reason and feasible next action | Restricted behavior | Applicable retention | Current availability or permission state | Meet prerequisite or exit | A-ID |
+
+Document the applicable states. Trace entry and exit conditions to the journey and business rules. Show only supported cancellation and retry actions. For a product without a graphical interface, use the actual entry points and record applicability.
+
+### 4.6 Feature card template (PC07–PC10, PM06/PM07)
+
+Use a card for each applicable feature. Explain what its inputs and outputs mean to the user and describe observable behavior for normal and failure paths.
+
+| Field | Required detail |
+| --- | --- |
+| F-ID, name, and purpose | Feature, user outcome, and linked G/J-ID |
+| Requirement, source, and decision | R/S/D-ID, original wording, and version |
+| User and trigger | Actor, entry, action, or confirmed automatic trigger condition |
+| Prerequisites | Business state, data, permissions, and dependencies. Define feedback when a prerequisite fails. |
+| Input fields | For each field, name, type, required or nullable status, range, format, boundaries, default and its source, and validation timing |
+| Output and side effects | Visible result, meaning of returned data, and objects saved, changed, deleted, or sent externally |
+| Normal sequence | Observable user action, validation, system feedback, and result |
+| Business rules and state changes | B-ID, allowed and prohibited conditions, prior and next states, data effects, and completion condition |
+| Configuration, defaults, and activation | Where settings appear, default source, and when the setting takes effect. Explain the scope if configuration does not apply. |
+| Repetition, concurrency, and ordering | Applicable repeated clicks, repeated input, reopening, and conflicts. Establish any deduplication or merge behavior from its actual requirements. |
+| Exceptions and boundaries | X-ID, trigger, feedback, input, existing data, partial result, next action, and exit |
+| Data and retention | What is saved, where the user can see it, and behavior on reopening, deletion, or undo |
+| Permissions and external transmission | Who can act on which object, visible impact, configuration ownership, permitted outbound scope, and actual decision |
+| Cost and stopping | Charges and call costs, possible cost of repetition or cancellation, budget, and user feedback. Cite the basis for any no-cost conclusion. |
+| Completion and acceptance | Observable success and failure conditions, A-ID × platform, and evidence plan |
+| Technical handoff and open items | Technical object, interface, and task IDs, gaps, owners, and blockers |
+
+Give each formal behavior, constraint, default, and side effect a source. Specify assessable results after invalid input and dependency failure. Keep data, permission, and cost semantics consistent across UI, rules, and acceptance. Leave unresolved behavior visible after completing the card.
+
+### 4.7 Business rules, states, and exceptions (PC08/PC09, PM06/PM07)
+
+| B-ID | Object and condition | Prior state | Allowed actions and prohibited conditions | Next state and data result | Repetition and conflict rules | Source and decision | F/J/UI/A links |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| B-ID | Applicable scope | Business state | Specific decision rule | Defined result | Applicable ordering, repetition, or cancellation | Version and location | Stable IDs |
+
+| X-ID | Trigger and prerequisites | User feedback | Inputs, existing data, and partial results | Next action | Recovery or termination condition | Related rules and acceptance |
+| --- | --- | --- | --- | --- | --- | --- |
+| X-ID | Applicable empty, invalid, boundary, repeated, canceled, interrupted, or unavailable conditions | Understandable feedback that explains the issue | Record what is retained, changed, or still unknown | Feasible action | When to stop or resume | B/F/A-ID |
+
+Track business state independently of presentation states such as loading or success. Align transitions, data effects, and acceptance. Describe irreversible effects, interrupted operations, and unknown outcomes according to their actual conditions. A timeout leaves side effects unconfirmed unless evidence establishes the outcome.
+
+### 4.8 Data, permissions, external services, and costs (PC10, PM07)
+
+| Behavior ID | Data object, user, and purpose | User action and visible effect | Scope of save, change, delete, export, or transmission | Permission or cost decision | Default and effective time | Cancel, withdraw, delete, and stop behavior | UI/X/A links |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| DP-ID | Specific object with credential values excluded | What the user knows will occur | Object, scope, and destination service alias | D-ID or pending decision | Source and conditions | Historical copies, partial completion, or unknown costs | Stable IDs |
+
+Record every applicable side effect. Keep unknown permissions and charges open. State what local deletion actually removes and record the status of any external copies independently. Current use and call limits require actual authorization alongside any configured credentials. Specify credential storage, interfaces, and limits in the technical document. Keep implementation secrets and real credential values outside the product UI and documents.
+
+### 4.9 Quality, clarity, and necessary research (PC11, PM08)
+
+| QL-ID | User and scenario | Observable quality goal | Criteria and source | Method, sample, and environment | Copy or interaction object | Plan, actual result, and limits |
+| --- | --- | --- | --- | --- | --- | --- |
+| QL-ID | Capability, device, data scale, and usage conditions | Understandable feedback, task usability, or applicable access method | Qualitative criterion or sourced numeric target | Walkthrough, prototype observation, or target-environment test | UI/J/F-ID | Unexecuted plan or actual record |
+
+Use a research or prototype card for a claim that needs investigation.
+
+| Field | Record |
+| --- | --- |
+| RES-ID, question, and material claim | What needs investigation and which decision it affects |
+| Method and rationale | Interview, task observation, walkthrough, prototype, or other applicable method. Web guidance supports method selection. Project findings require project evidence. |
+| Sample, recruitment, and environment | Real user scope, basis for sample size, device, version, and limits. Leave results empty before execution. |
+| Authorization and data handling | Permitted activities, materials, and privacy handling. Obtain the relevant authorization before contacting participants. |
+| Task and prerequisites | Specific task that avoids prompting the answer, initial state, and test data |
+| Planned observations and judgments | Criteria for recording actions, difficulties, results, and failure |
+| Original observations and actual results | Actual record ID, time, sample, and results. Mark unexecuted when no activity took place. |
+| Counterexamples, limits, and next action | Supported scope of the conclusion and any need to revise that scope |
+
+Align terminology, feedback, and the next action. Define the method and applicability for necessary usability and accessibility claims. Keep a material user claim unverified or blocked when it requires observations that have yet to occur. Attribute author self-review separately. PS04/PS05 and RS02 are method references. Scale research to the project and the claim.
+
+### 4.10 Acceptance card template (PC12, PM08)
+
+Create one acceptance object per formal acceptance condition × applicable target platform or architecture. Multiple test steps within the same combination share its denominator entry.
+
+| Field | Record |
+| --- | --- |
+| Acceptance combination ID | A-ID × platform or architecture |
+| Formal condition and original wording | Explicit condition. Preserve original wording and mark candidates pending confirmation. |
+| Linked requirement, journey, feature, and rule | R/J/F/B/X-ID |
+| Platform and environment | OS, architecture, version, installation form, environment ID, and availability |
+| Artifact and configuration identity | Source revision, build ID, installer hash, and configuration version. Record these as planned fields before implementation. |
+| Initial data, prerequisites, and permissions | Pinned input, state, permission, and dependencies |
+| Concrete operation | Actual steps and objects, including applicable reopening or failure behavior |
+| Assessable assertions | What the user sees, changes to persisted data, and side effects that must be absent. Check outcomes as well as relevant visible controls. |
+| Quantitative measurement | Target source, unit, measurement conditions, and denominator. Give a rationale if quantitative measurement is inapplicable. |
+| Automated and manual methods | Assertions the tool can observe, the need for manual work, and each method's scope. Claim automated coverage only for observable assertions. |
+| Evidence plan | Operation records, files or data, logs, required screenshots including failures, content identifiers, and version binding |
+| Design state | Pending detail, executable design, or blocked by a missing prerequisite |
+| Actual result | Unexecuted, passed, failed, or unverified, with actual operation time, evidence ID, and assessor |
+| Repair and rerun | Failure issue, repaired artifact version, rerun combination, and result. Preserve the old failure and append any new result. |
+
+The operation must exercise the user task and formal assertions, and the evidence method must be able to observe the result. Retain each applicable combination with a missing platform environment and record its blocker. Attribute builds, unit tests, fixtures, and demonstrations to their actual method. An installable application requires evidence from the actual installation and use on the applicable platform. When screenshots capture a failure, preserve the failing state with its platform and artifact identity.
+
+### 4.11 Platform coverage and manual participation target
+
+| Platform or architecture | Number of formal applicable combinations N | Combinations designed for automation and rationale | Combinations requiring manual work and rationale | Actual passes, failures, and unverified combinations | Environment gap | Evidence or next action |
+| --- | --- | --- | --- | --- | --- | --- |
+| macOS and architecture | Fixed list of combinations. Unknown totals are not computable. | Design list | Design list | Actual counts, with unexecuted combinations kept visible | Environment and resources | Evidence or pending execution |
+| Windows and architecture | Retain when applicable | Same design record | Same design record | A missing applicable environment leaves combinations unverified | Keep applicable combinations in the denominator | Actual operation once the environment is available |
+
+The candidate manual participation measure divides the number of applicable acceptance condition × platform combinations that require manual work by the total number of formal applicable combinations. Use the effective user decision to fix the measure and record whether stage confirmation, document review, and user research are included. Report planned automation coverage, actual execution coverage, and observed passes independently. Count a formal combination once across its automated steps and tests. Retain each formal manual condition even when several conditions share a test or outcome. A missing required Windows environment leaves its applicable combinations in the denominator.
+
+The historical manual-work target of at most 10% applies when adopted for the project. Determine achievement from the fixed denominator and method evidence. A zero or unknown denominator is not computable. Record unexecuted where there is no execution record and require actual evidence for any claim of 90% automation.
+
+### 4.12 Forward and reverse traceability and technical handoff (PC13/PC14, PM09)
+
+| User problem or goal | Source version and decision | Requirement | Journey and page | Feature and business rule | Acceptance × platform | Technical object, interface, and data | Implementation task | Evidence and open items |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| P/G-ID | S/D-ID | R-ID | J/UI-ID | F/B-ID | A combination | TECH/I/E-ID and version | T-ID | Design plan, actual evidence, or gap |
+
+Trace each new feature, rule, page behavior, side effect, and task back to a formal requirement or confirmed delivery purpose. Keep objects without a source as candidates or pending decisions. A trace link needs an explanation of how the receiving object covers the commitment.
+
+| Handoff ID | Product commitment and version | Receiving technical object and version | Consistency check | Verification or trial needed | Differences, owner, and blocker | Decision and recheck |
+| --- | --- | --- | --- | --- | --- | --- |
+| H-ID | Input, state, data, failure, quality, permission, or cost behavior | Module, interface, storage, task, or test | Parameters, state meaning, order, and side effects | Authoritative fact or actual verification card | Record changes to product commitments and obtain the applicable decision | Current basis |
+
+Match each formal requirement to its design and acceptance, trace new behaviors to their source, and assign each required commitment to a technical owner or object. Missing technical objects remain open or unverified in the handoff and hold dependent execution. Technical work establishes feasibility through the needed facts or trials. Product work records the impact and applicable confirmation.
+
+### 4.13 Issues, versions, rechecks, and confirmation (PC15, PM10)
+
+| Issue ID and rule | Object version and location | Original condition and finding | Evidence and counterexample | Impact and severity | Blocked scope | Next action and owner | Closure condition | Status and history |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ISS-ID and PC/KB-ID | Original location | Specific gap | Version and location | Actual consequence and severity independent of a score | Dependent objects | Fact check, user decision, research, technical trial, or revision | Evidence of original condition, impact recheck, and required confirmation | Open status or recheck record |
+
+| Revision event | Old and new versions and difference | Affected objects | Prior evidence and basis for reuse | Recheck scope | Stage confirmation | Current progression |
+| --- | --- | --- | --- | --- | --- | --- |
+| CH-ID | Change to content, rule, source, or scope | R/J/F/A/H and tasks | Bind prior evidence to its original version | Specific affected objects | D-ID or awaiting reconfirmation | Independent work that can continue and blocked dependencies |
+
+Evaluate issue recording, resolution, and closure recheck separately. Preserve failures and counterexamples. Reopen when a source becomes inapplicable or new evidence disproves closure. Apply the original closure conditions, including required research, execution, or user decisions, after design changes. Review the full object inventory and its history even if the issue list is empty. Any score needs evidence of that review.
+
+### 4.14 Export and delivery
+
+Maintain one aggregate Markdown SOP per project. Include identity and the four stage states, users, goals and scope, original requirements and sources, journeys, pages, features and rules, data side effects and quality, technical design and implementation tasks, acceptance by platform and actual results, open issues and limits, source snapshots, and effective decisions. Link relevant screenshots, logs, originals, and installers as attachments. Resolve differences or mark the competing product and technical versions before identifying the effective baseline.
+
+| Deliverable | Scope and platform | Planned file or location | Actual version and content identifier | Check method | Actual state and gaps |
+| --- | --- | --- | --- | --- | --- |
+| Aggregate Markdown SOP | Stage, requirements, rules, and source versions | Absolute export path | Record after export | Identity, references, content, and version consistency | Draft or confirmed stage version |
+| Source code | Authorized implementation scope | Source directory or bundle | Source version | Applicable build and functional checks | Unimplemented or actual record |
+| Installable application for a specified platform | User-selected platform and architecture | Applicable installer | Build ID and hash | Actual install, launch, task, failure, and rerun | Record independently for each platform |
+| Verification report | Current artifact | Report and evidence locations | Report version | Assertions, evidence, denominator, failures, and gaps | Actual supported result and unresolved conditions |
+
+Apply the delivery forms and platforms in the authorized project scope. For a draft-only request, deliver the draft and its limitations. Record final user acceptance separately. When evidence is insufficient, preserve the delivered results and the unverified scope.

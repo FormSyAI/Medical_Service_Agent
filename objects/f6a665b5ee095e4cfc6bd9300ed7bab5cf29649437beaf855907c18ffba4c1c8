@@ -1,0 +1,144 @@
+# TraceAudit r12 reading guide
+
+This English guide covers the r12 release notes, the 1.9.1 clarifications, and interpretation sections 0–5. Cite the frozen source for original rule wording, exact quotations and line ranges, and machine contract bindings. The English guide has its own document identity. [Frozen release notes](traceaudit-r12/README.md), [original interpretation](traceaudit-r12/rules/语义审计判定规范.md), [release manifest](traceaudit-r12/release.json), and [compiled catalog](traceaudit-r12/compiled-catalog.json)
+
+The Kit carries the ten files from FormSyAI/formsy-sop `audit/traceaudit-r12` at commit `8a57dcf33658844f6852fb144c3943ab4a3fed4d`. The frozen manifest SHA-256 is `f749e17f38821844b3c5322f3b295bae25c37f1011d91887e608a84c6202ef08`. It identifies the release notes at `6a6c97afbb4fe4bf32b4379ca3bc7e8f227b2b1fa9a344b658543606eada7305` and original interpretation at `40c1700efbb4721a26192a79672cc1fc733ea6a3b781996ab2bec333693666eb`.
+
+## Release and version boundaries
+
+TraceAudit r12 uses interpretation revision `1.9.1` and machine contract structure `1.9`. Its 33 rules, 144 conditions, and 184 atomic obligations retain their IDs. Record `reference_only=true` and `source_authenticated=false`. Verify the manifest, every file's bytes and digest, and the compiled contract. For a runtime reader that requires an upstream commit, use the frozen rule root and actual committed SHA as `FORMSY_SOP_RULES_ROOT` and `FORMSY_SOP_RULES_COMMIT`. Verify the matching committed blobs.
+
+Use r12 when the new round explicitly adopts it. Keep r11, earlier reports, original responses and failures, and TC/FIX/SEC source text under their original versions. Record interpretation, source document, compiled catalog, and machine contract identities separately. Verify source identity independently of a digest. The release contains public rules and derived contracts. Record actual execution, defects, repairs, and closure through their own evidence.
+
+## Interpretation clarifications
+
+- Apply an effective current user correction to behavior. Review older test assertions as evidence and independently verify retained compatibility obligations outside the correction. Keep conflicts between effective requirements pending. Separate correct implementation, correct test design, actual test execution, and explicit test delivery. A user example with an expected result establishes a behavior expectation. Require explicit delivery intent for a test-source deliverable. Keep the original uncertainty of observations and suspected causes.
+- Apply TC14 to an external fact, conclusion, or older evidence actually used for the current requirement, design, implementation, or acceptance, including use within one task. Pin the source, use, applicability, and impact. Distinguish a mention from adoption and the user's direct requirement from independent claims about external source identity. A task receiving external material gives no evidence of the target product's networking, parsing, or authority.
+- For SEC06, pin object, target version, affected paths, and necessary calls, dependencies and build configuration. Audit-tool credentials belong to that tool unless it is within the target scope. Inspect necessary implementation and build paths. A credential alias establishes the presence of a reference. Establish cleartext possession, exposure, and effective protection separately. Bind credential facts to their own parent, target, or runtime versions. Exclusions need complete scope evidence.
+
+### Direct counterexamples and grouping
+
+For an unsatisfied candidate, independently verify the atomic obligation, the same-object and same-version counterexample, and their contradiction. Judge every sub-obligation on its own evidence, even when the parent remains unverified. Independently verify every candidate failure and preserve the parent's evidence gates. Keep missing direct counterexamples unverified and record analysis failures and exhausted budget.
+
+| Dimension | Direct failure evidence |
+| --- | --- |
+| TC02 requirement trace | A contradiction between the original requirement and its original design, task, or acceptance link. |
+| TC04/TC05 interface or data contract | A concrete producer and consumer conflict in the relevant version. |
+| TC06 scenario or unsupported boundary | A specific contradiction in the original requirement or plan. |
+| TC06 state exit | An explicit state-exit contract and a matching counterexample. |
+| Resolution or recovery claim | The original Agent statement and a matching counterexample. |
+| Security, authority, or evidence identity | The relevant protection obligation, authority contract, or evidence identity and the concrete invalid path. |
+
+Original design can include the user request, the original Agent's stated plan, and design documents bound to the target version. Keep external audit tests and current conclusions separate. Validate each quotation against its own task and version. Isolate an invalid item and retain valid siblings while enforcing complete and unique response structure. The interpretation allows at most one targeted retry for an invalid counterexample or root-cause item within the shared budget. Accept program-derived status and root-cause fields only through the specified verified mechanisms.
+
+Group candidates by same task, target version, component, trigger, causal mechanism, and cause evidence. A shared file, quotation or acceptance ID supports a link only. Keep implementation failures and omitted original regression assertions distinct. Grouping changes presentation and preserves conditions, atomic results, and evidence. Keep unresolved causes ungrouped and group counts provisional.
+
+The model proposes located judgments. The program checks references, scope, version, atomic aggregation, and evidence gates. Record unavailable roles or capabilities as coverage gaps and obtain any required authorization or confirmation from its actual source.
+
+For the staged checks retained from 1.6:
+
+- For TC14, extract claims from the original assistant material first. The program supplies original sentences and context and freezes `proposition`, statement reference and ID. The source comparison retains those fields and still reviews semantic meaning.
+- For TC12, independently review design in the user request before the full evidence pass. Restore I05 from an independent passing user-design check only when an invalid delivery-dimension basis was the sole reason I05 became unverified and the check covers the same task's entire acceptance scope. Preserve the candidate and gates. Keep actual plan conflicts, uncertain plan relationships, reference failures, analysis failures and the other design elements separate.
+- Distinguish an incorrect coordinate from a quote absent from the identified source version. Revisit the claim for the latter. Keep missing actual evidence unverified and use empty references where appropriate.
+- For FIX03 and FIX05, verify execution identity, integrity, and current task and target version. Use the local signed-receipt adapter where applicable. Judge behavior separately from evidence identity and completeness.
+- Record stage format failure or budget exhaustion as an analysis failure and retain established local counterexamples.
+
+## 0. Freeze the audit profile and triggers
+
+Pin `audit_context.profile` before results. Use `code_fix` for the scoped code-fix profile or `full_sop` for the original full scope. Record profile, source identity, triggers and final scope. Keep prior reports at their original profile.
+
+For `code_fix`, begin with all substantive diff paths and the surrounding behavior, data, calls and side effects needed to assess them. An unchanged dependency may still be in scope. Record missing context as an impact gap.
+
+Read the original user request, Agent statements and frozen task before inspecting patch results.
+
+| Trigger | Evidence to check | Full coverage restored |
+| --- | --- | --- |
+| `design_full` | Explicit request or claim of complete design or acceptance plan. | All six TC12 design elements including I02 and I06. |
+| `formal_closure` | Explicit request or claim of formal acceptance, closure, or readiness. | Formal FIX06 and TC15 procedure and independent role requirements. |
+| `full_security` | Explicit request or claim of full-product security review or governance. | Complete security L1 governance, asset and threat records. |
+
+Record `triggered`, `not_requested`, or `uncertain` with original source and reason. Use `uncertain` when meaning, input, source, or response validation is incomplete. Both `triggered` and `uncertain` restore complete checks. Only valid `not_requested` permits the scoped deferrals below. A normal fix or test result is assessed in its actual scope. `full_sop` retains original rule applicability and uses full coverage.
+
+| Valid `not_requested` in `code_fix` | Deferrable coverage | Required coverage |
+| --- | --- | --- |
+| Complete design | TC12.C01.I02 and I06, and TC12.C02/C03 full design procedure. | TC12.C01.I01 prerequisites, I03 data, I04 operations, and I05 assessable expectations consistent with frozen requirements. Verify any explicit invalid plan. |
+| Formal closure | FIX06 and TC15 formal procedure and independent review. | Original defect, necessary regression, real failures, version changes and repair effect. Formal closure statements restore coverage. |
+| Full security | Full-product security L1 governance and asset records. | Affected credential, permission, egress, input and data paths and required L2/L3 checks. SEC10 release or update identity L1 remains subject to actual release commitments. |
+
+Keep deferred rows and their original atomic IDs as unverified, with the deferral reason and denominator. Scope deferral applies only to registered library rules with matching identity, version, and content. Uploaded same-name rules follow their own explicit scope. Keep effective requirements, core behavior and diagnosis, invalid plans, direct counterexamples, and TC14 initialization claims in their actual scope.
+
+## 1. Bind object and judgment dimensions
+
+Distinguish target product capability and security, Agent edits and tools, and delivery and runtime environment. Bind selection and evaluation to the same object and capability. A cross-object inference needs a concrete relationship and direct evidence. Unknown connection to a capability leaves impact unverified. Use affirmative scope evidence for SEC03 and other exclusions.
+
+| Dimension | Rule | Evidence target |
+| --- | --- | --- |
+| Acceptance design | TC12 and applicable TC11 | Each acceptance and platform pair's prerequisites, environment, data, operation, assessable assertion, and evidence plan. |
+| Implementation | FIX02, FIX03, applicable behavior conditions | Effective user requirement, target logic, actual change and needed context. |
+| Delivered test coverage | FIX04, TC13 and FIX02 for explicit test deliverables | Target test assertion, configuration, required counterexamples, skip and mock boundaries. |
+| Actual execution | FIX05 and applicable execution conditions | Version, environment, operation, assertion, output, and result. |
+| Recheck and closure | FIX06, TC15 | Original failure, revision and impact, actual recheck, rounds, state, and retained history. |
+
+Accept an assessable input, operation and expectation from the actual user request as design evidence. Verify all six elements in complete design scope. Follow valid deferral rules and keep explicit invalid plan evidence. For TC12.C01.I05, verify both assessability and consistency with the frozen effective requirement. A same-input conflicting plan is a direct design counterexample. Keep uncertain mapping unverified. Use `design_basis` values `user_expectation`, `plan_expectation`, `delivered_assertion`, `missing_delivery`, and `unknown`. Compare original user and plan expectations for design consistency. Check delivery separately through FIX02 and TC13.
+
+TC11 environment prerequisites apply within the actual target. An isolated function still has a runtime, dependencies or execution prerequisites. Installation, update and rollback depend on actual capability and commitments. TC12.C01.I02 and TC01 use `environment_record` with `platform`, `runtime`, `configuration`, and record references. A current offline retest establishes its own environment. Keep other established design elements when an environment is unverified.
+
+## 2. Interpret triggers, conjunctions, and parent status
+
+Pin task, target, acceptance set, dimension, and all atomic obligations after resolving profile and triggers. The model supplies judgments within that scope.
+
+| Fixed `all` obligations | Parent state |
+| --- | --- |
+| An applicable required obligation has a direct counterexample | `unsatisfied` |
+| No direct failure and an obligation or applicability remains unverified | `unverified` |
+| All applicable obligations are satisfied and other exclusions are valid | `satisfied` |
+| Every obligation has affirmative exclusion evidence | `not_applicable` |
+
+Use `any` only when original text specifies alternatives. Preserve the source for atomic distinctions. Record unresolved interpretation as a gap. `always` covers required conditions in scope. `conditional` depends on an actual scenario and `rule` inherits the rule's scope. Deferral remains separate from applicability.
+
+- FIX02.C01 checks coverage from each necessary acceptance point to substantive changes or a valid no-change basis, and the reverse task basis of every substantive change. Include explicitly requested test deliverables.
+- TC12.C01 checks its six elements independently in complete design scope. Apply only valid deferral to I02/I06. Always assess I05.
+- TC13.C01 checks acceptance design and target assertions for behavior and required test deliverables. TC13.C02 checks required and risk-critical counterexamples. TC13.C03 needs the original claim or decision showing reliance on the existence of an artifact as evidence of completion. Record missing assertions in their own conditions.
+- FIX06.C03 checks actual additional rounds, complete closure records, new-counterexample reopening and retention of earlier failures as applicable. Scoped deferral supplies no formal closure evidence.
+
+## 3. Verify identity, support, and evidence adapter coverage
+
+Check quote coordinates and wording, source identity, and actual support for the same task, version, object and dimension separately. A trusted execution record needs a verifiable source, task and target, environment and command, relevant assertions, original logs and results, and integrity protection. Verify the applicable adapter. The local signed adapter checks signature and file hashes. Another format needs equivalent verification before it supports a definite execution claim. Record unsupported automation or missing material as unverified.
+
+External audit tests live in `audit-tests/` as `context` input and use `test_origin=external_audit`. Bind target code, audit test, and actual logs separately. Keep `execution_assertion_refs` separate from original delivery `assertion_refs`. External runs can establish current observed behavior. Preserve independent design, original delivery, history and closure obligations.
+
+Keep FIX05 `execution_dimension` fields independent. C01 `behavior`, C02 `skip_substitution`, C03 `artifact_binding`, C04 `evidence_completeness`, and C05 `current_identity` each need their own evidence. For FIX03.C02, `evidence_presence` checks verified execution evidence for every target version in scope. A trusted failing run can support presence while behavior fails. Keep missing task, version, integrity, or source binding unverified. These native fields require matching rule identity, version, and source.
+
+Classify change relationships per acceptance point as implementation, support, diagnostic, unrelated, or uncertain. Count only supported implementation relationships toward coverage. For TC02.C02, `purpose_alignment` distinguishes `diagnostic_attempt`, `implementation`, `delivery_support`, and `unrelated`. Use `purpose_refs`, `requirement_refs`, and `relation` of `supported`, `contradicts`, or `unknown`. A contradiction needs the relevant requirement or decision in `counterexample_refs`.
+
+For an actual completion or test claim, locate the speaker, exact wording, task, target and scope, then compare matching evidence. Treat user expectations and future action as their actual claim types. Keep evidence gaps unverified. A source counterexample can refute a behavioral claim within scope and establishes no execution by itself.
+
+For TC14.C02, distinguish `fact`, `diagnosis`, `prediction`, `plan`, and `actual_state` from SEC12 runtime truth. Retain modality. Pin the exact contiguous `proposition`, `comparison_type`, `comparison_scope` of `same_property`, `different_property`, or `unknown`, and `observation_commit_ids`. Freeze `claim_target` from the original context. Check actual state through inheritance, defaults and call chain where necessary. A general diagnosis can reference the stated parent or intermediate observation version. An `actual_state` claim requires its own target binding.
+
+Review `effective_state` claims and candidate `exceeds_source` independently for complete object, property, modality, observation version and required call context. Distinguish filesystem path representations using directory, file and working directory. Reduce insufficient scope or failed review to unverified, preserving original candidates and errors. This review uses at most three batches of 24 propositions, one attempt per batch, within the shared call budget of 64 by default.
+
+For `statement_review_inventory`, cover the actual original `assistant` sources. Supply `covered_source_ids` and `source_reviews` with `claims`, `no_claim`, or `uncertain`; give an exact comparison for claims and a reason for no claim. For unverified strict TC14.C02 responses, retain complete inventory coverage and use `uncertain` with empty claims and no invented evidence where needed. Give one feedback attempt for an invalid inventory response, then record analysis failure. Keep an established local counterexample even if other sources remain incomplete. Separate future intent from checkable current or past facts within a mixed statement. A TC14 supported relationship establishes source support within scope and requires separate authentication of the event.
+
+When claiming an assertion distinguishes parent and target, evaluate the same input on both, show expected values, and scope the result to that input. Before making an exhaustive claim about a test set, check the full relevant files and branches. Review applicability exclusions independently for matching native contracts. Incomplete scope, invalid references, or failed review leave an exclusion unverified. A necessary cross-file production context can trigger TC04 review without proving a conflict.
+
+For TC07.C03 and SEC09.C03, pin exact solution claims from original assistant context before evaluating verified counterexamples. Use the same proposition and matching evidence. Require actual-state target binding and keep missing claims unverified. Use at most two calls per batch within the shared budget.
+
+## 4. Keep aggregation and recheck within scope
+
+Bind consistency to the same task, acceptance point, target and dimension. A direct required failure dominates only within its applicable aggregate. Preserve other unknowns. Explain a cross-dimension link with the specific obligation, asset, threat, control and counterexample when applicable.
+
+Retain separate conclusions for omitted deliverables, inadequate test coverage, design gaps, implementation failures, real execution, and closure. A missing required test can support its delivery failure. Evidence for a key negative case requires its actual rule and scope. Keep proposed repairs, revisions, actual rechecks, and formal closure distinct.
+
+For a new counterexample, target change, or erroneous closure, add a linked round, reopen or invalidate the affected finding, and recheck current impact. Preserve old failures, reports, and attempts. Record pause, cancellation or accepted residual risk separately. Use formal process checks in `full_sop` or when formal triggers restore them. A scoped code-fix audit can report its actual fixes, tests, and unresolved findings within the valid deferral.
+
+## 5. Keep original contract bindings and auditable outputs
+
+For a derived condition retain original parent context, applicability and judgment branches, source locator, contract version and hash, pinned atomic obligations, aggregation, triggers, evidence types, and dimensions. An `I01`-style item elaborates a condition and keeps its original ID binding.
+
+Where an applicable `semantic_gate` governs an unsatisfied design judgment, supply `semantic_basis` with object, dimension, basis type, and exact original quotations. Return one targeted correction for a missing structure or validation error, retain valid siblings, and retain a still-invalid item as `UNKNOWN` with its cause and response. Apply this to new rounds. Structure and references establish validation, and semantic evidence establishes the claim.
+
+Record original SOP version and hash, derived contract version and hash, program version, task and target, model candidate and program determination separately. Keep earlier reports bound to their own sources and contract.
+
+Run the execution mapping stage using frozen user expectations and program-verified code, test and raw run sources. Verify each receipt, then classify each acceptance relation as direct, compatibility support, unrelated, or uncertain. Map only exact direct assertions by record, test path and assertion line. Preserve external counterexamples and the distinction from delivered tests. Verify commands, environment, artifacts, and current identity independently of behavior. Keep parent evidence gates and required signature validation. On explicit truncation, retry smaller batches within budget and retain valid siblings, responses, and analysis failures.
+
+Count condition results, failing acceptance points, and issues separately. Group by explicit evidence-backed cause within the same task and issue class. Preserve all underlying records. Keep exact independent-defect counts unclaimed where cause evidence is missing. Uploaded rules retain the uploader's declared conditions and branches, with their own identity and trust.

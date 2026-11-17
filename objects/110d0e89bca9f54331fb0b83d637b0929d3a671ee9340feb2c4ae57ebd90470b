@@ -1,0 +1,148 @@
+# Self-check procedure
+
+This English reference follows sections 1–3, 5–7, and 11 of Self-check SOP, design baseline 0.2. The [Chinese export](自检执行流程.md) and its [provenance](自检执行流程.provenance.json) retain the original wording, source and export hashes, and section selection. Apply the [shared conventions](共同约定.md) and the current task to determine scope. Use the [stage review contract](stage-review-contract.md) for current tool operations and receipt gates.
+
+## 1. Record five distinct findings
+
+Use self-check to identify gaps, verify claims, and prepare revisions. A user accepts a phase through an actual decision. An application passes through current acceptance assertions and evidence. Record scores, model opinions, and ledger completeness in their respective review records.
+
+| Finding | Question | Minimum basis and scope |
+| --- | --- | --- |
+| Document design review | Is this version complete, consistent, ready to hand off, and supported by the required material? | Current PC, TC, and KB objects and rules, separate L1/L2/L3 results, locations, and evidence. Limit the conclusion to the reviewed design. |
+| Effectiveness of the self-check | What does the method or engine find or miss on pinned samples, and where does it report false findings or close issues incorrectly? | Independently fixed ground truth, sample, rule and engine versions, actual runs, and matched results. Measure detection through an actual run. |
+| User value claim | What supports the stated user problem, task, benefit, or outcome? | Original user statements, applicable sources, actual observation or research, and limitations. A user's request can support a personal need. Broader market claims require their own evidence. |
+| User phase confirmation | Did the user accept this phase, exact version, and scope, and decide the related tradeoffs? | The actual effective user statement or explicit choice, time, object and version, scope, and difference. Reserve approval for the actual user decision. |
+| Actual application acceptance | Does the stated deliverable satisfy each condition on the stated platform? | Current build and environment, real operations, every assertion, persisted files or logs and needed screenshots, and failures and unverified results. Use actual acceptance evidence for the result. |
+
+Record whether knowledge material is authorized or adopted separately from whether it supports a true and applicable claim. Preserve those facts in the source record and the corresponding document or value evidence. A manual import may include explicit adoption of the selected version, scope, and purpose in the same action. Keep imports without that decision and system-discovered material as candidates until explicitly adopted. Obtain requirement and phase confirmation separately from source adoption.
+
+### 1.1 Three levels of evidence for document review
+
+| Level | Method and supported conclusion | Evidence boundary |
+| --- | --- | --- |
+| L1 Structure | Check fields, objects, identifiers, trace links, versions, locations, and the evidence inventory against the rules. | Check correctness and actual support separately from the presence of text or links. |
+| L2 Semantics | Compare full product tasks, technical contracts, source access and use, and acceptance against the original requirements. Trace back from the design to find scope violations, conditions, conflicts, and unknowns. | Assess design plausibility and claim support separately. Obtain independent ground truth or user confirmation from the appropriate source. |
+| L3 Required verification or actual evidence | Read primary sources for verifiable facts. Use authorized research, a prototype, or a target-environment experiment for a behavior hypothesis that requires actual evidence. | Limit the conclusion to the question, method, version, samples, and environment examined. Record plans, simulated users, and unrun scripts at their actual evidence level. Formal application acceptance has separate conditions. |
+
+Pin the required levels for each object before checking it. Use applicable sources for facts the sources can establish. Run the required actual test for behavior that depends on the target environment. Each required level must be satisfied for the whole condition to pass. Retain unmet or unchecked status where needed.
+
+## 2. Inputs, object inventory, and applicability
+
+Pin the project, stage, delivery scope, document and rule versions, source snapshot, effective requirements and decisions, target platforms, model and resource limits, and stable IDs for requirements, tasks, features, pages, states, data, technical objects, sources, issues, and acceptance.
+
+| Input | Required material |
+| --- | --- |
+| Original requirements and effective decisions | Exact wording and location, individual scope of requirements, approach, permission and budget, decision version, and labels for draft, proposal, or confirmed content. |
+| Current documents | Product and Technical SOPs and material or knowledge records, their versions, content identities and differences, and current and later required objects. |
+| Traceability and acceptance | Forward and reverse links from requirements through product behavior, technical responsibility, and implementation tasks to acceptance. List every applicable acceptance criterion and platform pair. |
+| Sources and evidence | Source identity, version and location, adoption and permission, supported claim and limitations, evidence type, actual environment, raw output location, and content identity. |
+| Findings and history | Current findings, earlier unresolved items, earlier closure basis, affected objects, and reopening conditions. Preserve failed and unverified results. |
+| Execution prerequisites | Applicable phase confirmation, available environment, necessary permissions, target model and outbound data scope, and effective time, iteration, cost, and resource limits. |
+
+Derive the inventory from the original requirements, delivery scope, and design together. Create placeholders and check rows for missing required objects, and retain unchecked or unsatisfied content status. An accurate unknown label satisfies the status-recording obligation only.
+
+Use **satisfied / unsatisfied / unchecked / inapplicable with reason**. An inapplicable result requires an independently reviewable scope basis. Keep unknowns, missing material or environments, unfinished implementation, unmade decisions, difficult checks, and budget limitations at their actual status. Identify objects required later and keep them in the final prerequisite inventory.
+
+## 3. Self-check cycle
+
+| Step | Required actions | Output and next decision |
+| --- | --- | --- |
+| 1. Pin versions, objects, and scope | Pin inputs, applicable rules, required levels, complete object set and denominator, confirmations, and effective prerequisites. Record missing objects and an indeterminate set. | Review baseline and applicability. A score requires a known complete set. Record only actual approvals. |
+| 2. Check structure | Verify required fields, IDs, placeholders, versions, links, traces, sources, and required evidence. Record actual automated and manual coverage. | L1 results, locations, and issues. Continue to content checking. |
+| 3. Check PC, TC, and KB content and evidence | Review product tasks, technical contracts, and use of knowledge for each applicable object. Review both directions of tracing, consistency across families, and actual support for each assertion. | L2 and existing L3 results. Required evidence gaps remain unsatisfied. Judge each family independently. |
+| 4. Triage unknowns | Distinguish verifiable facts, user tradeoffs, value or behavior hypotheses, technical feasibility, and permission, budget, or environment issues. | Triage card and dependent blockers. Keep uncertain impact open for analysis. |
+| 5. Verify facts, run authorized tests, or obtain user decisions | Read primary material and assess applicability. Run authorized experiments against predeclared criteria. Show concrete differences, recommendations, and consequences when seeking individual user decisions. | Actual basis, pending decision, or environment blocker. Pause dependent actions and continue independent work. |
+| 6. Prepare a revision | Record original text, findings, recommendation, adoption basis, and exact difference. Fix within effective confirmation. Record original requirements, model suggestions, and effective decisions separately. | Revised object and version and the next action. Close through the applicable recheck. |
+| 7. Propagate impact and recheck, then reconfirm where required | Follow references, requirements, features, interfaces, data, platforms, tasks, and acceptance. Recheck affected objects. Return material changes to the applicable confirmation point. | Recheck evidence or reuse rationale, reopened or pending confirmation items, and evidence for clearing blockers. Keep prior bindings. |
+| 8. Report, stop, or resume | Report all five findings, scores and denominators, issues, blockers, unexecuted work, confirmations, and budget. Save a checkpoint when the review ends or an effective stopping condition applies. | Current report and actual issue state. On resuming, check versions, permission, environment, and budget. |
+
+Have another reviewer or review pass check the original material against explicit criteria. Record disagreements, reviewer identity and method, and evidence. Use an appropriately qualified real reviewer or an observable assertion for independent ground truth. Repeated model assessments and model votes remain model opinions.
+
+## 5. Independent PC, TC, and KB reviews and cross-checks
+
+| Family | IDs and responsibilities | Rule source |
+| --- | --- | --- |
+| Product PC | PC01/PC02 user problem, goal, and support. PC03/PC04 scope and source. PC05/PC06 task and interaction. PC07/PC08 functionality and business state. PC09/PC10 failure, data, and side effects. PC11/PC12 quality and acceptance design. PC13/PC14 tracing and technical handoff. PC15 issues, version, and confirmation. | PC01–PC15 in the product review rules (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-product/references/product-review-rules.md`). |
+| Technical TC | TC01/TC02 baseline and tracing. TC03/TC04 modules and interfaces. TC05/TC06 data and runtime state. TC07/TC08 feasibility and quality. TC09/TC10 security and dependencies. TC11 deployment, recovery, and platform. TC12/TC13 acceptance design and meaning. TC14/TC15 sources, issues, and rechecks. | TC01–TC15 in the technical review rules (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-technical/references/technical-review-rules.md`). |
+| Knowledge KB | KB01/KB02 permission and parsing. KB03/KB04 locators and chunk citations. KB05 adoption and ground truth. KB06/KB07 isolation and deduplication. KB08 retrieval and zero matches. KB09/KB10 mixed versions and baselines. KB11/KB12 update impact and conflicts. KB13/KB14 outbound data and source instructions. KB15/KB16 deletion, cancellation, and recovery. KB17/KB18 evidence and budget. | KB01–KB18 in the knowledge review rules (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-knowledge/references/knowledge-review-rules.md`). |
+
+Judge and score the three families independently. Evaluate product task coverage separately from citation accuracy, interface feasibility separately from acceptance-card completeness, and real user task completion separately from a build. Reuse source and issue links with each rule's own applicability, required levels, and finding.
+
+| Relationship | Meaning to reconcile | Gap handling |
+| --- | --- | --- |
+| User statement or effective decision → product requirement | Meaning, scope, priority, platform, and side effects. | Reopen the baseline or source issue if a suggestion or reference entered a formal requirement. |
+| Product behavior → technical responsibility | Input and output, state, data owner, failure, cancellation and recovery, permission, cost, and quality. | Block the relevant task and triage missing technical support or a technical constraint that changes a product commitment. |
+| Technical object → task → acceptance | The task can implement the confirmed design. Acceptance tests the behavior and result originally required. | Add object and issue rows for missing or orphaned work or weak assertions. Retain requirements. |
+| Knowledge evidence → document claim or decision | Source, version, scope, adoption, permission, and actual support. | Recheck insufficient, conflicting, or stale support. Evaluate truth separately from adoption. |
+| Document change → checks, confirmation, and application evidence | Impact propagated, prior evidence still applicable, and decisions for material changes recorded. | Mark unchecked affected objects pending recheck. Keep prior evidence tied to its actual environment. Verify each new platform separately. |
+
+## 6. Check, issue, and triage cards
+
+Fill these cards from actual results. Keep placeholder text at draft status.
+
+### 6.1 Check card
+
+| Field | Required content |
+| --- | --- |
+| Identity and scope | Review iteration, stage, rule family, ID and version, object ID, version and content identity, project and platform, and exact location. |
+| Applicability and original condition | Applicability or reason for exclusion, effective requirement or decision, exact original satisfaction condition, and required levels. Pin these before checking. |
+| L1/L2/L3 | Per-level state and reason, method, actual executor and time, raw evidence location, and limits of support. |
+| Findings and dependencies | Original text, actual finding, citation support or conflict, impacted objects, and linked PC, TC, or KB checks, requirements, tasks, and acceptance. |
+| Follow-up status | Issue ID, triage, blocked scope, next action, revision diff, recheck or confirmation requirement, and closure or reopening history. |
+| Quantitative record | Dimension or check unit, S/F/U/N, basis for excluding a denominator item, reason a score cannot be calculated, and separate design and measured results. |
+
+### 6.2 Issue card
+
+Record issue ID, original rule and condition, object version and location, actual finding and basis, severity and reason, affected requirements, sources, features, modules, interfaces, data, platforms, tasks and acceptance, actual dependencies and blocked scope, response type and owner, effective authorization and budget, next action and completion criteria, current status, revision diff, recheck evidence, required decisions, closure rationale, and history.
+
+Set severity by consequences. Critical issues include violations of effective requirements or permission, blocked core user tasks, important data loss, and an unclear baseline. Important issues block their actual dependencies. For minor issues, explain why work can continue. Keep unclear impact open for analysis. Preserve the permission boundary for outbound data and charges regardless of severity.
+
+### 6.3 Triage unknowns
+
+| Type | Next action | Valid completion basis |
+| --- | --- | --- |
+| Verifiable fact | Read primary documentation, pinned source, or permitted local materials. Record date, version, location, applicability, and limits. Apply adoption rules to candidates. | Applicable source support and explanation of any conflict. |
+| User tradeoff | Describe exact options, recommendation, consequences, and affected version. Ask individual questions as directed by the user. | An effective user decision for the specific object, version, and scope. |
+| User value or behavior hypothesis | Design authorized interviews, observation, or prototype tasks according to impact. Specify samples, method, criteria, and limitations in advance. Scale research to the project. | Required actual evidence or an effective decision changing scope. |
+| Technical feasibility | Specify the question and success and failure criteria first. Verify the fact or run the authorized experiment in the required target environment. | A specific fact or actual output supports the original condition. Keep failures, plans, and unavailable environments open as appropriate. |
+| Permission, budget, or environment | Record the blocker and impact. Obtain the effective prerequisite and perform the original check. Continue independent work. | A valid prerequisite and completion of the original required check. |
+
+For an experiment or fact-check card, record the question, related decision and task, original hypothesis, environment and version, real data source and permission, prerequisites and operations, predeclared assertions, budget and side effects, evidence location, actual result or failure, limitations, and next action. Set actual result to unexecuted while planning.
+
+## 7. Close or reopen issues and propagate impact
+
+Use the issue progression **open → verifying / awaiting user decision / environment blocked / revising → awaiting recheck → closed**. Cancellation, pause, and budget stops apply to the review iteration. Keep actual unresolved issues open.
+
+| Issue type | Required for closure |
+| --- | --- |
+| Structural or locator error | Current fields, IDs, and links meet the original condition. Provide a locatable structural recheck and any required semantic review. |
+| Semantic design conflict | The revision meets the original condition, related product, technical, and knowledge objects were semantically rechecked, and material tradeoffs have effective decisions. |
+| Missing fact, truth, or applicability basis | The source supports the required conclusion for the exact version and scope. Record adoption and actual support independently. |
+| Required behavior or feasibility experiment | Run the actual experiment on the required target environment and current version, and satisfy all required assertions. Retain actual failure history. |
+| Permission, cost, or environment gap | After the prerequisite becomes valid, perform the original action and recheck within authorization. |
+| False positive, duplicate, or genuinely inapplicable condition | Preserve the finding, checked facts, and rationale. Link duplicates to the original issue. Keep unanswered gaps visible. |
+
+For every closure, verify that the original issue is answered, the object and rule versions are current, the required levels have valid evidence, impacted objects were rechecked, required decisions are effective, and the revision introduced no new critical conflict. A plan can close the absence of a plan. An unverified behavior issue remains open until checked. A complete ledger supports record completeness only.
+
+Evaluate reopening or evidence expiry after source updates, requirement, design, permission, platform, configuration or rule changes, new counterexamples, recurrence, incorrect closure, or outdated evidence or confirmation. Record the new cause and link the old issue. Preserve original closures and failures.
+
+Trace **change or counterexample → source, baseline, or object → citation and claim → product behavior → technical object → task and acceptance → review, confirmation, and evidence**. Block actual dependencies and mark affected items for recheck. For unaffected results, document the impact assessment and reuse rationale. Bind older actual runs to their original builds and environments.
+
+## 11. Stop, cancel, resume, and report
+
+Honor effective limits on time, iterations, model calls and output, cost, and other resources. Treat missing budget as unresolved. Require effective authorization for paid experiments and outbound data. Count concurrent calls and retries against the same budget, including split requests.
+
+Stop an affected action when applicable checks have been completed and reported, an actual user decision is required, a limit is reached or the next action might exceed the remaining budget, a bounded retry rule yields no new evidence, the user pauses or cancels, or a critical source, permission, or environment prerequisite becomes invalid. Preserve results, unresolved issues, measured or unknown consumption, partial or unknown outcomes, and conditions for resuming. Keep unresolved issues open.
+
+Before resuming, verify object, rule, source, and build versions, effective decisions, permissions, platform environment, budget, and side effects already incurred. Verify unknown outcomes before retrying. Show the difference and reviewable result when renewed confirmation is required. Continue independently authorized actions where possible. Obtain any additional model allowance or approval from its actual authority.
+
+| Report item | Required information |
+| --- | --- |
+| Scope and identity | Stage, document, rule, source, and build versions, object inventory, required levels, applicability, and reasons for exclusions. |
+| Five findings | Separate status and evidence boundaries for document review, self-check effectiveness, user value, user confirmation, and application acceptance. |
+| Three rule families and scores | Independent PC, TC, and KB results. Separate Product and Technical denominators and proposed scores or unscorable status. Key unsatisfied conditions. |
+| Findings and blockers | Original conditions, impact, open or reopened issues, authorized independent work, owners, and next steps. |
+| Actual evidence and gaps | Raw evidence location, reasons for reuse, failures, unexecuted or unverified items, and platform, permission, or environment gaps. Record only actual approvals and results. |
+| Revision, stop, and recovery | Authorization and budget, revision differences, retests and necessary confirmation, known or unknown consumption, stop reasons, and prerequisites for recovery. |
+
+A draft can enter user review. Adopt proposals only through the applicable decision. Report review-engine or application results after the corresponding work is implemented within the confirmed scope and actual evidence is available.

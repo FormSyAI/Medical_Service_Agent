@@ -1,0 +1,37 @@
+# Feature specification for [feature]
+
+- **Revision**: [revision]
+- **Status**: [draft or observed review status]
+- **Sources**: [original request, versioned clarifications, and effective decisions]
+
+Use this structure for the current `spec.md`. Keep accepted requirements, proposed changes, assumptions and open decisions distinguishable. Retain source quotations in their original language. Placeholder rows are prompts to author the specification.
+
+## User scenarios and acceptance
+
+### US-001 · [user goal]
+
+- **Actor and entry condition**: [who starts the task and in what state]
+- **Main path and outcome**: [observable behavior from entry to completion]
+- **Boundary and failure paths**: [applicable empty, invalid, repeated, canceled or failed operation, retained data and recovery]
+- **Independent test**: [given state, action and observable outcome]
+- **Traceability**: [original source, related requirements and success criteria]
+
+## Requirements
+
+### Functional requirements
+
+- **FR-001**: [required behavior, constraint, state change and visible outcome]
+
+### Key entities
+
+- [Entity, relevant identity, ownership and lifecycle. Record constraints the user actually specified.]
+
+## Success criteria
+
+- **SC-001**: [observable or measurable result, conditions, threshold basis and verification method]
+
+## Scope, decisions and unresolved questions
+
+- **Included / excluded**: [scope supported by the sources]
+- **Effective decisions**: [actual source and applicable revision]
+- **Assumptions and questions**: [impact, missing decision or evidence, and next action]

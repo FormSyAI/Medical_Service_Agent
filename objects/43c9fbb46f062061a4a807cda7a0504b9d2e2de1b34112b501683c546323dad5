@@ -1,0 +1,37 @@
+# Requirements and clarification
+
+New runs combine Spec Kit's `specify` and `clarify` steps under the saved
+`specify` stage and use a single `spec.md`. Show progress from the saved
+stage list.
+
+1. Read the user's requirements, existing answers, and their sources. Save
+   an editable draft.
+2. Identify ambiguities that affect behavior, scope, or acceptance. Ask a
+   small batch of concrete questions. Reuse IDs for answered questions and
+   record their original wording and sources before editing the specification.
+   Ask about newly discovered boundaries and retain open issues and explicit
+   assumptions.
+3. Update the same specification and question log each round. An answer
+   resolves its own question. Continue in requirements while unresolved
+   boundaries can change product behavior. Leave implementation decisions
+   to planning.
+4. Once boundaries are resolved or the user explicitly accepts assumptions,
+   show the specification's key points and remaining gaps. Submit the
+   stage result for review. A real stage confirmation goes through version
+   validation and leads to `plan`.
+
+Keep the conversation to brief progress, open questions, and the workbench
+card. Save full JSON, version information, digests, sources, and operation
+receipts to their actual files or the workbench channel. Show the relevant
+details when the user requests diagnostics.
+
+Retain saved stages, fixed cards, and confirmations for legacy runs. If the
+user explicitly asks to merge requirements while still at principles or
+requirements, read fresh context. Save the actual `run_id`,
+`expected_revision`, `input_digests`, stable `operation_id`, and original
+user reason, then call `flow merge-requirements PROJECT --input FILE`.
+Migration preserves run identity, stage history, confirmations, operation
+receipts, and materials. The merged requirements go through a new review.
+From planning or later, use an explicit `revise` back to requirements first.
+Reads preserve the saved sequence. Refresh stale requests and reuse the
+original operation key for an exact retry.

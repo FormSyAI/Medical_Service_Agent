@@ -1,0 +1,6 @@
+interface:
+  display_name: "FormSy SOP Workflow"
+  short_description: "Run the SOP workflow and retain its check evidence"
+  default_prompt: "Use modules/formsy-sop-workflow/GUIDE.md to carry out the authorized development request in this Codex conversation. Reuse effective decisions. Read available project sources, save actual outputs and checks, and retain evidence and gaps."
+policy:
+  allow_implicit_invocation: true

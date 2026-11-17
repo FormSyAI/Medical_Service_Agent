@@ -1,0 +1,29 @@
+{
+  "schema_version": "sop-module-handoff-0.2",
+  "contract_version": "formsy-sop-contract-0.2",
+  "skill_name": "formsy-sop-technical",
+  "skill_version": "0.2.0",
+  "module": "technical",
+  "project_id": "TEMP-project-identity-pending",
+  "revision": "draft-1",
+  "mode": "generate",
+  "stage": "planning",
+  "basis": [],
+  "objects": [],
+  "artifacts": [],
+  "sources": [],
+  "confirmations": [],
+  "checks": [],
+  "issues": [
+    {
+      "id": "GAP-identity",
+      "description": "空白骨架：项目身份和实际内容尚未填写；不是已完成记录",
+      "object_ids": [],
+      "status": "pending",
+      "blocks": ["正式版本合并"],
+      "next_action": "填写本次项目身份、基线、实际对象和证据"
+    }
+  ],
+  "runtime_results": [],
+  "next_question": null
+}

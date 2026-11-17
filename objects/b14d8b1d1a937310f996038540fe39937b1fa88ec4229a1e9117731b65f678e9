@@ -1,0 +1,43 @@
+{
+  "status": "available",
+  "phase": "understand",
+  "scope": "project",
+  "project_id": "ca1e5b4a-ad55-40bb-a6c3-34d51612b882",
+  "required_items": [],
+  "advisory_items": [],
+  "pending_items": [],
+  "source_refs": [
+    {
+      "path": ".formsy-sop/runs/07331b188f674de098670acd1af015c1/knowledge/c9414e9b5c204a9aa39acb367dbf9ac1/binding.mcp.json",
+      "sha256": "a7878ae443f35b55aea690ac61c0c8796f10ae24263660ae0a3b6ab9743f9391",
+      "tool": "birdview_get_context",
+      "arguments": {
+        "worktree": "/Users/lili/msa-round2"
+      },
+      "retrieved_at": "2026-11-17T10:50:31.518334+00:00"
+    },
+    {
+      "path": ".formsy-sop/runs/07331b188f674de098670acd1af015c1/knowledge/c9414e9b5c204a9aa39acb367dbf9ac1/context-0.mcp.json",
+      "sha256": "8525599c1ef36abd2b38dd990217960dcbfc11bd7d4e7950748d0ea90f57d822",
+      "tool": "knowledge_read_project_context",
+      "arguments": {
+        "worktree": "/Users/lili/msa-round2",
+        "expected_binding_revision": "0b7cee8f-7b4c-4beb-a374-20bba13d1766",
+        "phase": "understand",
+        "offset": 0,
+        "limit": 100
+      },
+      "retrieved_at": "2026-11-17T10:50:31.745533+00:00"
+    }
+  ],
+  "limitations": [
+    "Project required, advisory and pending directories are paginated completely for this phase; this is not a full source-body or historical knowledge inventory.",
+    "Knowledge entries are observed current data with source_refs and updated_at; response hashes do not establish an immutable Server revision or successful execution.",
+    "Published Birdview artifact rules may be proposals. Only the separately authorized project active required set represents enabled mandatory knowledge."
+  ],
+  "retrieved_at": "2026-11-17T10:50:31.165544+00:00",
+  "binding_revision": "0b7cee8f-7b4c-4beb-a374-20bba13d1766",
+  "required_total": 0,
+  "advisory_total": 0,
+  "pending_total": 0
+}
