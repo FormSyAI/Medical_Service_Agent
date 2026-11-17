@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "origin": "https://formsy.aurinova.cn",
+  "server_id": "17dc4a93-f903-4c4e-851c-c98ddac09c39",
+  "project_id": "a725e725-062b-448a-8a70-d66249b92eda",
+  "provider": "github",
+  "provider_instance": "https://github.com",
+  "repository_id": "1461152066",
+  "revision": "dd16855d-94bf-465b-957e-4116793270af"
+}

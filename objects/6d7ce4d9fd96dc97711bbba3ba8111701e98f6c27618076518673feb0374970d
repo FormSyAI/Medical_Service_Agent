@@ -1,0 +1,14 @@
+{
+  "source": "技术SOP自检研究/自检机制方案.md",
+  "source_sha256": "b2d0e11e98508d0978db86ae9b3852b5c53b08622fa00e2fa39f355ecba560a3",
+  "selected_section_patterns": [
+    "^## 4\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "参考资料索引",
+      "original_reference": "技术SOP自检研究/参考资料/来源索引.md"
+    }
+  ],
+  "exported_sha256": "7916d07f8008159a617b5950b5b36fd2d7fb8bc6678489b87c58185dfda86a7b"
+}

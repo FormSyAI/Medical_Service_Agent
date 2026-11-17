@@ -1,0 +1,29 @@
+{
+  "schema_version": "sop-module-handoff-0.2",
+  "contract_version": "formsy-sop-contract-0.2",
+  "skill_name": "formsy-sop-selfcheck",
+  "skill_version": "0.2.0",
+  "module": "selfcheck",
+  "project_id": "TEMP-project-identity-pending",
+  "revision": "draft-1",
+  "mode": "review",
+  "stage": "cross-stage",
+  "basis": [],
+  "objects": [],
+  "artifacts": [],
+  "sources": [],
+  "confirmations": [],
+  "checks": [],
+  "issues": [
+    {
+      "id": "GAP-selfcheck-baseline",
+      "description": "空白模板：项目身份、输入版本、审查范围及对象全集未提供，尚未执行检查",
+      "object_ids": [],
+      "status": "pending",
+      "blocks": ["正式版本合并", "已通过结论", "评分"],
+      "next_action": "依据实际任务填写基线、对象与检查记录；不可把本模板当作已完成证据"
+    }
+  ],
+  "runtime_results": [],
+  "next_question": null
+}

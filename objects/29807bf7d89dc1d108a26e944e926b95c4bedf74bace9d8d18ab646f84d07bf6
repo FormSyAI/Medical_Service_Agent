@@ -1,0 +1,10 @@
+{
+  "source": "SOP设计基准-0.2/自检SOP.md",
+  "source_sha256": "e71e8ba9a2556b5d79df48c8c8400822002cbbf3bd4b3bff154a7840030ac2b7",
+  "selected_section_patterns": [
+    "^## [123567]\\.",
+    "^## 11\\."
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "9e5effafcd9f59f56163e60423129f781cd851fd94047fdc4bd81c52db8c1eaa"
+}

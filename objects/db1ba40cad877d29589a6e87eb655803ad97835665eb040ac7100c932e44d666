@@ -1,0 +1,4 @@
+interface:
+  display_name: "FormSy SOP Assembly and Export"
+  short_description: "Assemble SOP stages while preserving sources and decisions"
+  default_prompt: "Use $formsy-sop-assemble to produce an aggregate Markdown SOP in the selected document language. Preserve original wording, versions, confirmations, and open decisions."

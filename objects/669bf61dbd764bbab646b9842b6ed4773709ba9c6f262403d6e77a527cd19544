@@ -1,0 +1,35 @@
+{
+  "source": "产品SOP自检研究/产品SOP自检方案.md",
+  "source_sha256": "528f08d4c788d0edae334ed3456112fcfb6b03f2b3ba93c3be54fde05f8d1629",
+  "selected_section_patterns": [
+    "^## [1-7]\\.",
+    "^## 9\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "Q07/Q08/Q09/Q13/Q16/Q21",
+      "original_reference": "sop-output-standard/references/质量检查表.md"
+    },
+    {
+      "label": "技术自检方案",
+      "original_reference": "技术SOP自检研究/自检机制方案.md"
+    },
+    {
+      "label": "产品自检评分记录模板",
+      "original_reference": "产品SOP自检研究/产品自检评分记录模板.md"
+    },
+    {
+      "label": "SOP 质量检查表",
+      "original_reference": "sop-output-standard/references/质量检查表.md"
+    },
+    {
+      "label": "技术 SOP 自检机制方案 0.2",
+      "original_reference": "技术SOP自检研究/自检机制方案.md"
+    },
+    {
+      "label": "参考资料来源索引",
+      "original_reference": "产品SOP自检研究/参考资料/来源索引.md"
+    }
+  ],
+  "exported_sha256": "fa88f2f7bbfcecab7cf557eb5ec087bd55b565d99bd26d878dbe28a41cd5d43f"
+}

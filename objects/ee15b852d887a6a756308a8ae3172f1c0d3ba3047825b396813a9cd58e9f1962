@@ -1,0 +1,168 @@
+# [Project name] security design record
+
+Template 0.1, based on the security design supplement. Copy and fill with actual project data. Reuse object IDs and versions, and record unknown, pending decision, unverified, and unexecuted states as applicable. The empty fields represent a draft. [Security SOP](../references/security/security-sop.md), [Security review rules](../references/security/security-review-rules.md), [Chinese template](../references/安全专项/安全设计模板.md), and [provenance](../references/安全专项/安全设计模板.provenance.json)
+
+## 0. Current baseline and status
+
+| Field | Project record |
+| --- | --- |
+| Project ID, security document ID, revision, and date | Unprovided |
+| Current stage and work mode, such as drafting, refining, or reviewing | Unprovided |
+| Effective requirement, Product, Technical, and Knowledge versions and locations | Unprovided |
+| Version, scope, and original user confirmation | Unprovided. Identify relayed confirmation as a user declaration. |
+| Current review objects, rule version, and levels | Unpinned. Apply SEC01–SEC12 from supplement 0.1 where applicable. |
+| Target platforms, architecture, runtime, components, build, and configuration | Unprovided. Record unbuilt when applicable. |
+| Effective permission, outbound data, tool, cost, and resource scope | Unprovided. Obtain permission where unresolved. |
+| Source ID, version or snapshot, read scope, and adoption purpose | Unprovided. Record adoption, factual support, and phase confirmation independently. |
+| Design review, runtime verification, and final confirmation | Unchecked / unexecuted / awaiting user confirmation |
+
+## 1. Capability applicability and protection goals
+
+| Capability or object | Existence and scope | Source and effective decision | Required protection outcome | Unresolved item and impact |
+| --- | --- | --- | --- | --- |
+| Local material, files, import, and export | Unprovided | Unprovided | Clarify | Pending |
+| Actor, project, and object authorization | Unprovided | Unprovided | Clarify | Pending |
+| UI, processes and IPC, tools and subprocesses | Unprovided | Unprovided | Clarify | Pending |
+| Knowledge, retrieval, cache, and summaries | Unprovided | Unprovided | Clarify | Pending |
+| Credentials, external APIs, and custom endpoints | Unprovided | Unprovided | Clarify | Pending |
+| Data protection, backup, restore, and deletion | Unprovided | Unprovided | Clarify | Pending |
+| Dependencies, installers, updates, and vulnerability fixes | Unprovided | Unprovided | Clarify | Pending |
+| Logs, screenshots, reports, and diagnostic exports | Unprovided | Unprovided | Clarify | Pending |
+
+Record the basis for a local-only scope, omitted login, or omitted updates. Select capabilities from actual requirements. Keep missing facts pending. Identify the highest-impact unresolved user decision when the facts are available.
+
+## 2. Assets, flows, and trust boundaries
+
+### 2.1 Asset card for each actual asset
+
+| AST ID and own version | Data or capability, linked DATA/MOD | Owner and trusted source | Actors allowed to read, write or execute, and project scope | Sensitivity, loss and basis | Storage, cache, backup, export and egress copies | Lifecycle and unresolved items |
+| --- | --- | --- | --- | --- | --- | --- |
+| Unassigned | Unprovided | Unprovided | Unprovided | Unprovided. Use actual evidence. | Unprovided | Unprovided |
+
+### 2.2 Data flows and boundaries
+
+| DF/TB ID and version | Source → destination, process or environment | Input source and trusted context | Payload and linked AST, DATA and API | Permission, verification, and denial entry | Allowed and failed side effects | Source and gaps |
+| --- | --- | --- | --- | --- | --- | --- |
+| Unassigned | Unprovided | Unprovided | Unprovided | Unprovided | Unprovided | Unprovided |
+
+Record the diagram or step location and out-of-scope actors or capabilities with reasons. Verify administrator, ordinary user, model, and cross-project authority separately.
+
+## 3. Threat card TH for each concrete threat
+
+| Field | Project record |
+| --- | --- |
+| TH ID, own version, and original finding | Unassigned / unprovided |
+| Related requirements, assets, DF/TB, and versions | Unprovided |
+| Actor capability, prerequisite, input and action path | Unprovided. Describe observable misuse. |
+| Outcome and data, permission or cost loss | Unprovided |
+| Trigger conditions, known facts, and unknowns | Unprovided. Use sourced probabilities where applicable. |
+| Impact priority, reason, and decision owner | Pending |
+| Response and reason, such as reduction, removal, transfer, or acceptance | Pending decision. Permission requirements still apply. |
+| CTRL, MOD/API/DATA, and ST links | Unprovided. Record missing controls. |
+| Residual risk, owner, scope, term, and revisit trigger | Pending |
+| Required effective decision and record, and blocked tasks | Unprovided / pending |
+| Design state, actual evidence, and issue links | Draft / unexecuted / unprovided |
+
+## 4. Control card CTRL for each implementable measure
+
+| Field | Project record |
+| --- | --- |
+| CTRL ID, own version, and applicable TH and versions | Unassigned / unprovided |
+| Source, requirement or effective decision, and protection goal | Unprovided. Mark candidates as such. |
+| Responsible MOD, execution process, and caller | Unprovided |
+| API, channel, read, execution or send entry, and version | Unprovided. Specify actual enforcement. |
+| AST/DATA, project, and permitted operation scope | Unprovided |
+| Source and verification of actor and input origin | Unprovided. Verify caller scope independently. |
+| Inputs, arguments, size, format, and configuration version | Unprovided |
+| Allow condition and success postcondition | Unprovided |
+| Denial and error results, visible feedback, and side effects | Unprovided. Include invalid, stale, revoked, and failed requests. |
+| State, duplicate, cancellation, recovery, retries, and resource boundaries | Unprovided |
+| Positive and negative ST and acceptance, platform and evidence requirements | Unprovided. Record actual results after execution. |
+| Dependencies, primary sources, options and unresolved items | Unprovided |
+| Implementation tasks and prerequisites, residual risk and revisit | Unprovided |
+
+### 4.1 Optional configuration record
+
+| Capability or choice | Confirmed approach and decision location | Actual configuration and version | Primary source and reading scope | Applicability and uncovered risk | ST and platform pending verification |
+| --- | --- | --- | --- | --- | --- |
+| Credential facility | Pending decision | Unprovided | Pending verification | Unprovided | Unexecuted |
+| Transport or custom endpoint policy | Pending decision or inapplicable with reason | Unprovided | Pending verification | Unprovided | Unexecuted |
+| Sensitive data protection or encryption candidate | Determine threats and retention need | Unprovided | Pending verification | Unprovided | Unexecuted |
+| Installation source, validation, signing and updates | Pending decision | Unprovided | Pending verification | Unprovided | Unexecuted |
+| Electron isolation, preload, IPC and CSP where adopted | Candidate or inapplicable with actual reason when unselected | Unprovided | Verify the actual runtime version | Unprovided | Unexecuted |
+
+Choose storage, encryption, master password, or release signing through actual project decisions. Obtain applicable decisions for changes to approach, permission, or cost.
+
+## 5. Credential and data lifecycle
+
+| Object and version | Protection need and basis | Storage, access, and ownership | Replacement, revocation, deletion, and controlled copies | Locked, missing, damaged, upgraded, or restored state | Actual limitations and ST |
+| --- | --- | --- | --- | --- | --- |
+| Credentials, using aliases only | Unprovided | Unprovided | Unprovided | Unprovided | Unexecuted |
+| User documents, index, cache, and summaries | Unprovided | Unprovided | Unprovided | Unprovided | Unexecuted |
+| Backups, temporary files, exports, and logs | Unprovided | Unprovided | Unprovided | Unprovided | Unexecuted |
+| Encryption key where adopted | Unprovided | Unprovided. Link key and data. | Unprovided. Include rotation, older backups, and retirement. | Unprovided | Unexecuted |
+
+Record uncontrolled sent and user-exported copies and remaining controlled backups. Record cessation of use, physical purge, and any verified irrecoverability separately.
+
+## 6. Logs, screenshots, and evidence protection
+
+| Event or evidence | Required and allowed fields | Prohibited fields and redaction | Storage, access, export and deletion owner and scope | Capacity, write failure, and untrusted log input | Check or ST |
+| --- | --- | --- | --- | --- | --- |
+| API configuration, request, response, and error | Pending decision | Exclude credentials and unrelated material. Define exact fields. | Pending decision | Unprovided | Unexecuted |
+| Permission, file, tool, recovery, or update event | Pending decision | Unprovided | Pending decision | Unprovided | Unexecuted |
+| Failure screenshot, report, crash, or diagnostic export | Pending decision | Prefer synthetic data and mask secrets and unrelated material. | Pending decision | Unprovided | Unexecuted |
+
+Record how to locate controlled originals from redacted results and which failures require screenshots. Use actual screenshots when required. Verify background denial and side effects separately.
+
+## 7. Components, vulnerabilities, and release maintenance
+
+| Component, version, source, and content identity | Related MOD and platform | Advisory or discovery time and verification scope | Impact, reachability, and unknowns | Treatment and effective decision | Owner, ST or retest, and residual risk |
+| --- | --- | --- | --- | --- | --- |
+| Unprovided | Unprovided | Unverified | Pending | Pending decision | Unexecuted |
+
+| Delivery or update object | Trusted source, identity, and decision | Integrity and validation trust source | Invalid, older, or incompatible package behavior | Failure preservation, rollback, and fix notice | Actual platform status |
+| --- | --- | --- | --- | --- | --- |
+| Unprovided | Unprovided | Unprovided. Establish publisher identity independently of a same-channel hash. | Unprovided | Unprovided | Unverified |
+
+Specify fix distribution for delivery without an updater. Include background updates only where committed. Keep response time pending when there is no agreed basis.
+
+## 8. Trace controls to actual verification
+
+| Requirement or decision version | AST and DF/TB versions | TH version | CTRL version and SEC rule | MOD/API/DATA versions and task | Original acceptance text and ST version | Platform, build, and configuration | Required level and actual status | EV, issue, and decision |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Unprovided | Unprovided | Unprovided | Unprovided | Unprovided | Unprovided | Unprovided | Unexecuted | Unprovided |
+
+### ST test card for each positive or negative case
+
+| Field | Project record |
+| --- | --- |
+| ST ID, version, CTRL, TH, and acceptance versions | Unassigned / unprovided |
+| Platform, build, runtime and configuration, environment, and synthetic data snapshot | Unprovided |
+| Effective operation, egress, cost, and resource authorization and remaining allowance | Unprovided |
+| Prerequisites, trusted actor, project, and object state | Unprovided |
+| Actual operation, input, and failure or misuse condition | Plan pending. Record actual operation after execution. |
+| Allow, denial, failure, and side-effect assertions | Unprovided. Make each assertion observable. |
+| Evidence capture and protection, including outputs, files, payloads and required screenshots | Pending plan |
+| Status, such as planned, unexecuted, passed, failed, unverified, or inapplicable with reason | Unexecuted |
+| Actual actor, method, time, command and raw output location | Unexecuted. Record design review separately. |
+| EV ID, object and build binding, evidence identity and content verification | No actual evidence |
+| Finding, impact, revision, retest, and history | No actual trial finding |
+
+For cancellation and recovery, record commit, completed egress, subprocess, and checkpoint state. Recheck permission, object version, configuration, and budget before resuming. Keep applicable Windows trials unverified when the environment is unavailable.
+
+## 9. Checks, issues, and conclusions
+
+| Check ID, `CUSTOM:SECxx`, and rule version | Actual object ID and own version | Required levels, actual actor, and method | Satisfied, unsatisfied, unchecked, or inapplicable with reason | Evidence location | Issue, affected tasks, and next action |
+| --- | --- | --- | --- | --- | --- |
+| Unassigned | Unprovided | Unpinned / unchecked | Unchecked | None | Pending |
+
+| ISS ID and status | Finding, rule, and object version | Impact and blocking reason | Revision, verification, or pending decision | Closure and required evidence | Recheck, reopen, and recovery history |
+| --- | --- | --- | --- | --- | --- |
+| Unassigned | Unprovided | Pending | Open | Pending | Unchecked |
+
+- Design review is unchecked. Pin actual applicable objects and denominator before reporting coverage.
+- Actual execution is unexecuted. Record actual pass, failure, score, or certification only after obtaining the required evidence and applicable decision.
+- Platform, environment, permission, and budget gaps are unprovided.
+- Residual risks and required user decisions are pending.
+- Phase confirmation awaits the user's decision for the current version.
+- Derive next actions and recovery conditions from actual gaps. Keep unresolved issues through cancellation or completion of the review record.

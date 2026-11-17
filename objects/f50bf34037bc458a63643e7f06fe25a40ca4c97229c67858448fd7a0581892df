@@ -1,0 +1,9 @@
+{
+  "source": "技术SOP自检研究/量化评判指标.md",
+  "source_sha256": "ad74c9d0209110c4e554d1288cdba0c66ef1ce9c39e39af52366446a237be898",
+  "selected_section_patterns": [
+    "^## [12345]\\."
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "c022cf04685db624dff650c4b66563f913b5b83c9e02fc2a84cffc5c72581bbe"
+}

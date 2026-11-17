@@ -1,0 +1,144 @@
+# Technical decisions and planning
+
+This English guidance derives from sections 1, 2, 12 and 14 of the
+technical design baseline v0.2. The [preserved Chinese export](技术决定与规划.md)
+and its [source provenance](技术决定与规划.provenance.json) identify the original
+version and selected sections. Use the technical template selected for the run
+to write the requested document language.
+
+## 1. Technical baseline and design maturity
+
+Record actual project details in the selected template. Keep missing material
+explicit as not supplied, pending clarification, pending source verification or
+pending a trial. State scope and reason for inapplicable items. Missing
+material or an unavailable environment remains a gap. The required conditions
+guide review, and reference material supplies a method. Actual project
+verification needs its own evidence.
+
+Record the project ID, technical document ID and revision, and effective
+requirements, product design and acceptance versions with source locations and
+stable IDs. Identify the current stage, any actual confirmation records and
+what remains draft. For each target platform, retain OS and CPU architecture.
+Record candidates and effective choices, authorized execution scope and
+exclusions, permissions, costs, outbound data and resource limits. Keep unknown
+limits pending. Pin the knowledge snapshot, source version, adoption scope and
+applicability. Record design review, feasibility trials and application tests
+separately, with their actual status.
+
+Use the original four stages as a model of increasing design maturity.
+
+| Maturity stage | Technical work and evidence |
+| --- | --- |
+| Initialization | Identify runtime and delivery platforms, the existing system, data and permission boundaries, and technical prerequisites that can affect the objective. Pin the constraints and unknowns with the scope. |
+| Discovery | Derive external service, input, output, persistence, failure and environment needs from complete user tasks. Investigate core feasibility early. Connect technical questions to original wording, scenarios and candidate requirements. |
+| Requirements modeling | Map product behavior, states, rules and acceptance to modules, interfaces and data. Investigate conflicts, implied permissions and edge cases. Keep unsupported commitments as unknowns. |
+| Planning | Complete applicable technical sections, the dependency graph, rolling task detail, test and delivery plans. Establish critical facts or run required trials within scope. Check the product handoff and resolve the blockers on each item before its execution. |
+
+Apply the [shared conventions](共同约定.md) and the
+applicability and version supplement (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-workflow/references/sop-rules-addendum-20261016/applicability-and-version.md`) for current
+interaction and approval. Reuse established preferences for planning
+suggestions and effective authorization. When clarification is needed, group
+the initially known questions for independent answers and ask about later
+findings or conflicts individually. Consider edge cases before review. Explain
+understanding through goals, tasks, boundaries and unresolved evidence.
+The baseline's 90% confidence figure is historical. Follow the project's
+explicit clarification criteria and hold affected execution while a critical
+intent remains unclear.
+
+Show changes between maturity stages. Confirm scope and the final concrete
+document by default, and collect version-bound decisions at each stage when
+the user requires them. Keep draft and confirmed versions distinct. For
+material changes to requirements, design or permissions, show the differences,
+impact and new version and return to the applicable decision. Retain earlier
+versions and decisions.
+
+Investigate technical facts through primary sources for the applicable
+version. Turn assumptions that require the target environment into trials.
+Return product goals, scope and tradeoffs to the user when a decision is
+needed. Early research may proceed within its effective authorization.
+Expenses, side effects, new permissions and substantial design changes
+require the applicable decision. Before execution, verify the pinned input
+versions, confirmations, permissions, prerequisites and critical evidence.
+Give each open item a type, impact, next step and entry conditions.
+
+## 2. Bidirectional traceability and technical scope
+
+Reuse stable IDs. Assign new requirement, flow, feature, acceptance, module,
+interface, data, decision and task IDs using the project's existing convention.
+Preserve IDs when reorganizing the document.
+
+Trace each effective source or decision through the requirement ID and
+version, product flow or behavior, acceptance ID and original text, technical
+module, interface, data and scenario, decision or trial, implementation task,
+platform and open gap. Verify that the design supports the promised result
+and that the task and assertion cover it. Trace every added module, dependency,
+permission, storage object and task back to a requirement or a confirmed
+delivery purpose. Keep infrastructure scoped to that purpose. Added user
+functionality or outbound data transfer requires applicable authority.
+
+Record missing or conflicting mappings and orphaned objects separately.
+Verify meaning in addition to link presence. Retain the acceptance wording.
+Technical tests may add precise assertions. Return changes to user-visible
+results for confirmation. Assign necessary actions to responsible owners and
+keep every applicable acceptance and platform row, including unavailable
+environments.
+
+## 12. Decisions, unknowns, and feasibility
+
+For each decision, record its ID, question, related requirements and modules,
+constraints, drivers and assumptions with their sources and evidence. Compare
+applicable options and record why alternatives were declined. Separate the
+recommendation, costs and risks from the user's effective choice. Pin primary
+source version and location, the supported conclusion and its limits. Link
+required trials. Record proposed, pending research, pending trial, pending
+decision or confirmed status and the actual confirmation. State revisit
+conditions and impacts on interfaces, data, permissions, tasks, acceptance
+and platforms.
+
+| Type of open item | Action and closure evidence |
+| --- | --- |
+| Technical fact | Read primary documentation, standards or pinned source for the applicable version. Reconcile conflicting facts and record the locator, version, applicability and conclusion supported. |
+| Critical technical assumption | Define the environment, versions, input data, actions and success or failure assertions in advance. Run only with effective scope, side-effect permissions and budget. Record real inputs, outputs, assertions, limitations and evidence locations. An unrun or failed trial remains open. |
+| Product or technical tradeoff | Present the alternatives, costs, recommendation and affected versions. Obtain the user's decision for the exact version, scope and permission. |
+| Environment, permission or budget blocker | Record the affected tasks and resume conditions. Continue independent authorized work. Once prerequisites are met, execute the original required verification before recording completion. |
+
+Identify the hypothesis and related objects in each trial record. Include
+environment, versions and data, predefined steps and conditions, authorized
+side effects and budget, evidence location, actual result, limits and current
+status. Keep failed, unverified and inapplicable conclusions distinct. Hold
+affected tasks and their dependents when a critical unknown remains. Retain
+older decisions and show differences on design changes before collecting the
+applicable new confirmation.
+
+The source provenance lists RS06 as historical architecture decision record
+reading. Apply this project's effective approval, stage and trial-budget
+rules.
+
+## 14. Overall planning and rolling implementation
+
+Include all goals, modules, dependencies, key risks, assumptions, milestones,
+deliverables and acceptance scope. Detail upcoming work to executable steps.
+For future work, retain known dependencies, interfaces and risks even when
+steps are deferred.
+
+Record each task or milestone ID, goal and requirement or delivery purpose,
+module and output, dependencies, risks and assumptions, entry conditions,
+acceptance and platform, and refinement status. Resolve dependency cycles or
+record a workable way to handle them.
+
+Use the task packet for the run's selected document language for imminent
+work. Pin the task ID, allowed scope, requirement, module, acceptance, current
+version and applicable approval. Record prerequisites, environment, inputs,
+permissions and budget. Specify the steps, affected objects, observable
+intermediate results, deliverables, behavior assertions, evidence and actual
+status. Define failure and stop conditions, what to retain and how to qualify
+a restart. Hold execution until its prerequisites are valid.
+
+For each assumption or risk, record the ID, source, affected objects, method
+of judgment or trial, response on trigger, owner or next action and status.
+Check the latest dependencies, open decisions and permissions before refining
+work. Record review when refining approved steps. Obtain a new decision for
+changes to requirements, design or permissions. Plan tests, evidence capture
+and delivery alongside implementation. Keep blocked tasks distinct from
+independent work and make each upcoming task executable, verifiable and
+recoverable.

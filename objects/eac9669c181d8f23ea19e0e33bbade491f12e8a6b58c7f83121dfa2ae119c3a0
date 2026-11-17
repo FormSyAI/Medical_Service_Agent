@@ -1,0 +1,4 @@
+interface:
+  display_name: "FormSy SOP Knowledge and Citations"
+  short_description: "Organize SOP sources, citations, and knowledge decisions"
+  default_prompt: "Use modules/formsy-sop-knowledge/GUIDE.md to organize sources and citations for the current SOP. Record adoption, scope, versions, and gaps in the selected document language."

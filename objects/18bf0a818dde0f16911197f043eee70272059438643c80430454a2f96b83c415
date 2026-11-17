@@ -1,0 +1,5 @@
+# Retired progress interface
+
+Use the native `record`, `activity-index`, and `milestone-context` commands in
+the [progress contract](progress-recording.md) for new FormSy records. Keep
+legacy progress and Evidence data in their original form and authorization scope.

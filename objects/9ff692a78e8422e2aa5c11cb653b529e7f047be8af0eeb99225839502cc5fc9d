@@ -1,0 +1,56 @@
+# Candidate report contract 0.1
+
+Use this portable candidate file for the Skill's output. The TraceAudit engine
+and six-module handoff have their own response formats. The rules are the ten
+unchanged files from `audit/traceaudit-r12` in FormSyAI/formsy-sop commit
+`8a57dcf33658844f6852fb144c3943ab4a3fed4d`. The release SHA-256 is
+`f749e17f38821844b3c5322f3b295bae25c37f1011d91887e608a84c6202ef08`.
+The digest identifies the frozen bytes. Verify the publisher and its claims
+separately.
+
+The nine entries in frozen `release.json` are seven rule sources, the
+compiled catalog, and the README. The script checks the release file against
+the fixed hash above. Retain `reference_only=true`,
+`source_authenticated=false`, interpretation revision `1.9.1`, and machine
+contract `1.9`. The compiled catalog contains 33 rules, 144 conditions, and
+184 atomic obligations. Use `coverage_manifest` to distinguish retained source
+text from compiled coverage. Upstream source-code provenance, relative links,
+and engine commands are historical references.
+
+Use the top-level fields in the candidate template.
+
+| Field | Requirement |
+| --- | --- |
+| `schema_version` | `traceaudit-candidate-0.1` |
+| `task_id`, `target_version`, `round_id` | Nonempty values for this round. Use a new round for reinterpretation or retest. |
+| `rule_binding` | Match the frozen release, release and compiled SHA-256 values, interpretation revision, machine contract and digest, and both source flags. |
+| `profile` | `code_fix` or `full_sop`, chosen before evaluation. Keep the chosen scope when a check fails. |
+| `scope` | Use mode `selected_conditions` or `all_registered_conditions` and distinct `condition_ids`. The latter mode requires all 144. Omitted conditions remain unreviewed. |
+| `triggers` | Use the three keys `design_full`, `formal_closure`, and `full_security`, each with `status`, `reason`, and `source_refs`. Use `triggered`, `not_requested`, or `uncertain`. The first two triggers require original user or assistant citations. Without a source, use `uncertain`. |
+| `sources` | Each row contains `id/path/revision/task_id/target_version/role/sha256/read_extent`. Use a path relative to the report directory or an absolute local path. Record the source's own revision. Roles are user/assistant/source/test/commit_diff/context/runtime. Use one-based inclusive line coordinates for the actual extent read. The script checks bytes and quotes. Verify role and metadata authenticity independently. |
+| `conditions` | Provide a row for every selected condition with `condition_id/status/reason/source_refs/items`. Include all registered items under each condition, with `item_id/status/reason/source_refs`. Use satisfied/unsatisfied/unverified/not_applicable. Cite evidence for determinate statuses and explain any unverified result. |
+| `analysis_failures`, `known_limits` | Record unexecuted stages, truncation, extraction and citation failures, coverage gaps, and known upstream residuals. |
+| `analysis_complete` | Use true only when all 144 conditions have complete rows and analysis has no failures. Keep unverified results and assess evidence sufficiency and semantic accuracy separately. |
+| `capabilities` | Keep `source_identity_checked/runtime_identity_checked/execution_performed` false. Evaluate identity and execution separately from file hashes. |
+| `formal_closed` | Keep false. Record actual closure, approval, and stage confirmation separately. |
+
+Every `source_ref` includes
+`source_id/revision/task_id/target_version/start_line/end_line/quote`. Match
+the source metadata and report task, keep the coordinates inside
+`read_extent`, and quote the exact text within that range. Source files can
+be uploaded or manually prepared text. Treat their metadata binding as a
+report claim. Require a trusted adapter for a trusted runtime conclusion.
+Check source, role, coverage, and support for the finding separately from
+the byte and quote checks.
+
+Aggregate composite conditions using the original contract and retain
+independent parent evidence gates. The model must separately record semantic
+checks, role authenticity, TC14 coverage, interpretation of trigger scope,
+root-cause reasoning, and the resulting gaps. Explanations such as
+`semantic_basis` may be added to items. Follow the evidence contract for 1.9
+before declaring a gate met. An entirely unverified report can still pass
+structural validation.
+
+Bind new reports explicitly to `interpretation_revision=1.9.1`. Keep r11
+for retrospective review. Validate historical reports with their original
+Skill version and rules and preserve their bindings and conclusions.

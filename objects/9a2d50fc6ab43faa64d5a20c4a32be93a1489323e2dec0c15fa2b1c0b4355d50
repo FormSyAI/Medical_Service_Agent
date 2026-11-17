@@ -1,0 +1,20 @@
+{
+  "source": "SOP设计基准-0.2/产品文档SOP.md",
+  "source_sha256": "49c37d26870fffbacde839fb79428cf98da4789f5afa31c0c82a7ca0a57f6914",
+  "selected_section_patterns": [
+    "^## 2\\.",
+    "^## 3\\.",
+    "^## 5\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "知识库自检规则",
+      "original_reference": "知识库设计/知识库自检规则.md"
+    },
+    {
+      "label": "模块接口与数据契约",
+      "original_reference": "知识库设计/模块接口与数据契约.md"
+    }
+  ],
+  "exported_sha256": "872125ce55ac8d3969944155c7449af3fe75f971a996fe1bf790b766b440b864"
+}

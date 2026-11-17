@@ -1,0 +1,183 @@
+# Product scoring rubric PM01–PM10
+
+Use this maintained English guidance for sections 1–6 of the [frozen Chinese
+product scoring export](PM量表.md). Its [provenance](PM量表.provenance.json) records
+the original `产品SOP自检研究/产品SOP量化指标.md`, source digest, and selected
+sections. Apply the [common contract](共同约定.md) and the current project's
+decisions. Use the rubric when scoring is requested and record only actual
+evidence and results.
+
+## 1. Record conclusions separately
+
+| Conclusion | Question | Applicable basis |
+| --- | --- | --- |
+| Product document design score | Are goals, tasks, interaction, and business rules clear, consistent, transferable, and testable? | Current document, effective decisions, locatable sources, and design review. |
+| Technical document design score | Are implementation design, modules, interfaces, data, and critical feasibility ready? | Technical design, required facts and trials, and the separate technical rubric. |
+| Actual product acceptance | Does the specified artifact meet the required actions and assertions on the specified platform? | Current artifact identity, actual operation, persisted results, screenshots, and assertions. |
+| Evidence for need and value | Do target users need it, intend to use or pay for it, and obtain the intended value? | User feedback, behavior, or business data from a stated research method. |
+| User confirmation | Did the user accept the specified stage version and scope? | Effective user decision, time, scope, and version. |
+
+Report each conclusion and its blockers separately. A full document score
+covers the declared design checks. Evidence for need, business outcomes, and
+runtime behavior has its own scope. Attribute an individual user's request to
+that user and verify any broader market claim separately.
+
+## 2. Pin the baseline and complete object set
+
+Record versions for the project, stage, product document, requirements,
+acceptance, page flows, effective user decisions, technical handoffs, rules,
+and object inventory. Record target platforms, scope, scorer, and time. State
+whether the review concerns a draft, a stage handoff, or the full pre-execution
+baseline.
+
+Derive the object set from user goals, confirmed scope, and required tasks.
+Reconcile problems, goals, requirements and scope, sources, assumptions,
+journeys, pages, features, business rules, exception scenarios, data,
+permission and cost behavior, quality goals, acceptance conditions × platform,
+design objects, technical handoffs, and historical and current issues.
+
+Give each known required missing page, flow, rule, or acceptance object a
+placeholder ID and the required check rows. Retain unknowns, missing
+environments, and pending decisions in the denominator. Mark a dimension
+unscorable when the complete object set is unknown.
+
+The unique scoring unit is `baseline ID + PM dimension ID + object ID + platform or scope ID + fixed check item ID`.
+
+For each row, record object version and locator, preset satisfaction criteria,
+applicability basis, result, evidence, identities of checker and semantic
+reviewer, issue, and recheck links. Use the fixed expansion below. Create a new
+rule revision when the rule changes. Keep existing denominators free of
+duplicate checks, synonyms, and changes made to inflate the score.
+
+## 3. Ten dimensions and 100 points
+
+Each fixed item has equal weight within its dimension. Use the dimension
+weights below. Name the semantic reviewer and record the rationale for
+content judgments. Field presence, working links, and model opinion provide
+only their own evidence. Record reviewer identity, version, and relationship
+to the author whether the reviewer is a person or a model.
+
+| Dimension | Weight | Object expansion and required content | Related product checks |
+| --- | ---: | --- | --- |
+| PM01 Clear user problems and goals | 15 | Four rows per user problem. (1) User and scenario. (2) Specific problem and current approach, with evidence if no approach exists. (3) Source, strength of evidence, and unverified status. (4) Intended change and scope. Three rows per goal. (1) Observable user outcome. (2) Criterion, applicability and time bounds, or a stated qualitative method. (3) Correct link to the user problem. A known problem or goal without substance is unsatisfied. Unknown problem or workaround facts remain unsatisfied or unverified. A truthful unknown may satisfy only the source or status record. | PC01/PC02 |
+| PM02 Decidable scope and priority | 10 | Four fixed rows per round. (1) First-release scope. (2) Explicit exclusions or later scope. (3) Version boundary and target platforms. (4) Scope tradeoffs and effective or pending decisions. Four rows per requirement. (1) Specific content and boundaries. (2) Priority and reason. (3) Target version assignment and basis, distinguishing proposals and decisions. (4) Inclusion or exclusion consistent with overall scope. Keep missing required tradeoffs unsatisfied or unverified in the corresponding content row. A complete pending-decision record satisfies only that record. | PC03/PC15 |
+| PM03 Traceable sources and assumptions | 10 | Five rows per source. (1) Identity and type. (2) Version or acquisition time and whether it is pinned. (3) Exact locator. (4) Specific supported claim. (5) Applicability, limits, and conflict handling. Four rows per assumption. (1) Assumption and impact. (2) Support level, unknowns, and verification status. (3) Predefined fact-check, user decision or research method and criterion. (4) Actual required evidence and applicability. Use actual evidence for row 4 and effective user decisions for product tradeoffs. | PC01/PC04 |
+| PM04 Complete user tasks and journeys | 15 | Six rows per required journey. (1) User, entry, and prerequisites. (2) Goal and identifiable outcome. (3) Continuous actions and feedback. (4) Applicable branches and navigation. (5) Destination after exit, cancellation, or recovery. (6) Correct feature or page links. Check primary tasks and applicable first use, repeat use, configuration, and recovery first. Add rows for missing journeys. Explain why branching or interruption recovery falls outside scope where applicable. | PC05/PC06/PC09 |
+| PM05 Clear pages and interaction states | 10 | Six rows per page or visible interaction surface. (1) Purpose and journey. (2) Entry, exit, and navigation. (3) Key content and available controls. (4) Trigger and visible feedback. (5) Applicable normal, empty, loading, success, and failure states. (6) Applicable focus, input, or next action after state changes. Check what users can see and do. Component code and process implementation belong to technical design. Verify the scope before excluding a product without UI. | PC06/PC11 |
+| PM06 Concrete features and business rules | 10 | Seven rows per feature. (1) Purpose and requirement source. (2) User, trigger, and prerequisites. (3) Input and constraints. (4) Output and user-visible meaning. (5) Normal action sequence. (6) Resulting data or state change. (7) Completion condition. Four rows per business rule. (1) Applicable object and condition. (2) Permitted, prohibited, or transition rule. (3) Boundary values and repetition. (4) Consistency with feature, journey, and acceptance. A combined document presentation still uses the fixed check objects. | PC07/PC08 |
+| PM07 Understandable failures, data, and side effects | 10 | Five rows per required exception or edge case. (1) Trigger and prior state. (2) Visible message. (3) Retained or changed input and existing data. (4) Next action such as retry, cancel, or seek help. (5) Recovery or stop criterion. Five rows per product-level data, permission, or cost behavior. (1) Objects, actors, and purpose. (2) Visible action and impact. (3) Permission, limits, and required decision. (4) Applicable withdrawal, deletion, export, disablement, or cost stop. (5) Consistency with page messages, exceptions, and acceptance. Give the scope basis for the absence of transfer or billing. Keep unknowns visible. | PC09/PC10 |
+| PM08 Assessable quality and acceptance | 10 | Four rows per quality goal. (1) Applicable users, scenario, and scale. (2) Criterion and basis. (3) Measurement or observation method. (4) Planned data, results record, and evidence method. Seven rows per acceptance condition × applicable target platform. (1) Requirement link. (2) Environment and version. (3) Prior state and data. (4) Concrete operation. (5) Observable assertion. (6) Evidence collection and locator plan. (7) Semantic consistency with rules and platform. Assess design executability. Retain required platforms with unavailable runtime environments. Record actual passes separately. | PC11/PC12 |
+| PM09 Consistent traceability and technical handoff | 5 | Four rows per requirement. (1) User problem or goal link. (2) Journey link. (3) Feature or rule link. (4) Acceptance link. One reverse trace row per design object for its requirement or confirmed product purpose. Four rows per required technical handoff. (1) Product behavior and constraints. (2) Receiving design objects, tasks and test design with versions. (3) Semantic review of consistency with those objects, tasks and tests. (4) Open differences, owners, and progression limits. Keep pending technical ownership and unverified state visible in standalone drafts. Establish complete pre-execution handoff only with the required evidence. | PC13/PC14 |
+| PM10 Reliable issues, versions, and recheck | 5 | Four fixed rows per round and three rows per historical unresolved or current issue, as specified below. Record current versions, evidence, and user confirmation. Assess closure independently of handoff. | PC15 |
+| **Total** | **100** | Assess product design from its objects and evidence. Keep module and interface field counts separate. | |
+
+### Fixed check IDs
+
+- PM01 uses `PM01-P01`–`PM01-P04` for problems and `PM01-G01`–`PM01-G03` for goals.
+- PM02 uses `PM02-B01`–`PM02-B04` for the baseline and `PM02-R01`–`PM02-R04` per requirement.
+- PM03 uses `PM03-S01`–`PM03-S05` for sources and `PM03-A01`–`PM03-A04` for assumptions.
+- PM04 and PM05 each use their own `PMxx-C01`–`PMxx-C06`.
+- PM06 uses `PM06-F01`–`PM06-F07` for features and `PM06-B01`–`PM06-B04` for business rules.
+- PM07 uses `PM07-X01`–`PM07-X05` for scenarios and `PM07-D01`–`PM07-D05` for behaviors.
+- PM08 uses `PM08-Q01`–`PM08-Q04` for quality and `PM08-A01`–`PM08-A07` for acceptance.
+- PM09 uses `PM09-R01`–`PM09-R04` for requirements, `PM09-D01` per design object, and `PM09-H01`–`PM09-H04` for handoff.
+- PM10 uses `PM10-R01`–`PM10-R04` per round and `PM10-P01`–`PM10-P03` per issue.
+
+An evidence item can support different judgments. State the specific assertion
+it supports each time. Count an assertion once per applicable fixed object and
+check ID.
+
+## 4. PM10 separately scores records, resolution, and closure
+
+| Fixed check per round | Required conditions |
+| --- | --- |
+| PM10-R01 Scope and versions | Locate the object inventory, rules, document and decision versions, and actual review scope. Report unchecked scope. |
+| PM10-R02 Results and evidence | Give each conclusion a current object locator, required evidence, and reviewer identity. Record semantic review for content judgments and actual evidence for value and testing. |
+| PM10-R03 History and unknowns | Reconcile prior issues, current findings, required unknowns, and pending decisions. Preserve the basis and necessary decisions for expiry, cancellation, and handoff. |
+| PM10-R04 Recheck and confirmation | Recheck closed items against their closure conditions. List open blockers and unchecked scope. Record actual confirmation and version. |
+
+Expand three checks per issue. `PM10-P01` records the issue, locator, impact,
+blocking rationale, next action, and original closure condition. `PM10-P02`
+requires the current and valid revision, fact check, research, or user decision.
+`PM10-P03` requires recheck of the original and affected objects, evidence
+supporting closure, and visible residual issues.
+
+An open issue can satisfy its record check. Keep resolution and closure checks
+unmet until the required work and evidence exist. Preserve open status through
+technical handoff, pause, waiting for an answer, or adding a risk note. Obtain
+the valid decision for the corresponding version and review impact where
+required. Close research or runtime issues using the actual evidence required
+by the original condition.
+
+With zero issues the denominator still includes the four fixed round checks.
+All unverified checks score zero. An unknown object set remains unscorable.
+An empty issue log earns points only through the reviewed fixed checks.
+
+## 5. Status and calculation
+
+### 5.1 Four unit states
+
+- **Satisfied S** means all preset conditions, current-version evidence, identity, and required semantic review are complete.
+- **Unsatisfied F** means review found a concrete gap, conflict, error, or required verification, decision, or recheck still incomplete.
+- **Unverified U** means review is incomplete, evidence is missing or stale, or applicability remains under review. Retain known required unknowns as rows.
+- **Not applicable N** requires an actual scope reason and named review. Keep applicable rows with missing environments, time, decisions, or current attention in scope.
+
+For each dimension, record `T=S+F+U+N` and applicable denominator `A=S+F+U`.
+Report satisfaction rate `S/A` and completion rate `(S+F)/A` separately. The
+ordinary dimension raw score is `p=W×S/A`. Round only the displayed result
+to one decimal place.
+
+### 5.2 Empty denominators and total score
+
+| Case | Treatment |
+| --- | --- |
+| Complete object set and A greater than zero | Score by the formula. Retain unverified rows in the denominator. |
+| Unknown object set or rule expansion | Leave that dimension and the overall score blank. Other dimensions may show raw scores. |
+| Every required row reviewed as not applicable and A=0 | Mark the dimension not applicable, show raw score `—`, and exclude its weight from E. Keep the rows and reasons. |
+| Zero objects with applicability unchecked | Leave the dimension unscorable pending review. |
+| All dimensions not applicable and E=0 | No scorable scope and no overall score. |
+
+When all dimensions are scorable or validly excluded and `E>0`, calculate the
+total as `100 × sum of applicable dimension raw scores / effective weight E`.
+
+Partial exclusions reduce only the dimension's A. Report E, each dimension's
+T/S/F/U/N/A, exclusion reasons, and all unsatisfied or unverified units. Compare
+scores directly only when scope, effective weight, and rule version match.
+
+### 5.3 Recheck after changes
+
+Establish a new baseline when requirements, platforms, objects, applicability,
+rules, acceptance, or effective user decisions change. Preserve old scores,
+objects, and evidence. Show changes to T/A/N by dimension and distinguish
+content improvements from changes to the scoring basis. Mark affected
+evidence for recheck. Reuse it only after a named impact review confirms the
+preset reuse conditions.
+
+Track scoring completion, issue closure, and stage confirmation independently.
+An accurately recorded unknown still needs evidence for the underlying fact.
+
+## 6. Critical blockers and proposed handoff conditions
+
+For each of these conditions, identify the object, impact, and progression
+limit. Report them independently of the total score.
+
+1. A required user task lacks an identifiable outcome, or core business or data rules conflict.
+2. A core goal, scope, or acceptance condition is unassessable, or a required user tradeoff remains pending.
+3. Permission, credentials, outbound data, deletion, or cost behavior lacks an effective decision, or a material risk of misleading behavior or loss remains open.
+4. A key assumption is presented as a product fact without the required evidence, or a reference project's choices are presented as the user's requirements.
+5. A required requirement, feature, or acceptance link is missing, or a material conflict with technical ownership remains unresolved.
+6. Current version, confirmation, or evidence is invalid, a key issue lacks recheck, or an open issue was incorrectly closed.
+
+The historical proposed pre-execution handoff uses a 95-point product design
+target only when adopted for the current project. It calls for zero critical
+blockers, reviewed required journeys and business or data rules, reviewed
+requirement-to-acceptance links, executable design for all applicable
+acceptance-by-platform combinations, consistent required technical handoffs,
+and current user confirmation for the corresponding version. Evaluate
+technical readiness separately. Execute actual product acceptance after
+implementation and with the required prerequisites.
+
+When user need or value has yet to be validated, record it as pending with
+its risk scope. Determine any required research from the confirmed project
+goals. A personal tool can use its user's explicit requirements as the
+applicable design basis.

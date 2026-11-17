@@ -1,0 +1,30 @@
+{
+  "source": "SOP设计基准-0.2/汇总SOP模板.md",
+  "source_sha256": "5b166ffbf6092395fdc7772008d109d43e90ff17765c74d85b5b32a6429b4765",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "总体基准",
+      "original_reference": "SOP设计基准-0.2/SOP设计基准.md"
+    },
+    {
+      "label": "产品标准",
+      "original_reference": "SOP设计基准-0.2/产品文档SOP.md"
+    },
+    {
+      "label": "技术标准",
+      "original_reference": "SOP设计基准-0.2/技术文档SOP.md"
+    },
+    {
+      "label": "知识库标准",
+      "original_reference": "知识库设计/知识库SOP.md"
+    },
+    {
+      "label": "自检标准",
+      "original_reference": "SOP设计基准-0.2/自检SOP.md"
+    }
+  ],
+  "exported_sha256": "f1843308b7f29a2b351714f088e11689099d7c2c7034765990823e68ac2f12b1"
+}

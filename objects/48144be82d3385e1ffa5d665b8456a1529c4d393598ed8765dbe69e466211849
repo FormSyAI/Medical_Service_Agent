@@ -1,0 +1,168 @@
+# Modules, interfaces, and data
+
+This English guidance derives from sections 3–7 of the technical design
+baseline v0.2. The [preserved Chinese export](模块接口与数据.md) and its
+[source provenance](模块接口与数据.provenance.json) identify the original version
+and selected sections. Use the technical template selected for the run to
+write the requested document language.
+
+## 3. Architecture context and module boundaries
+
+Identify system boundaries and where the client, local processes, files and
+external services run. Record actors, external systems, input sources and
+untrusted inputs. Show main data flows and call directions, including
+persistence, model or API calls, export and user-visible results. Explain the
+module dependencies and why they are needed, alternatives and decisions,
+single points of failure, isolation, failure propagation, and traceability to
+the product commitments in section 2. Link each diagram boundary to a module
+card or interface.
+
+Divide by stable responsibility, data ownership, trust boundary and reason
+for change. Assign each necessary action one primary owner. Distinguish
+business rules, interaction and display, persistence, external services and
+knowledge governance. These boundaries can share a process. Tailor granularity
+to the risks and the ability to verify and recover. Explain broad
+abstractions, redundant wrappers or modules without an immediate use.
+
+Name the owners of data writes, state transitions and error handling.
+Require callers to use the owner's contract and observable success result.
+Keep dependency direction clear and avoid cycles. Where callbacks or
+events are needed, define ownership, ordering, duplicates, failure and
+consistency. Access shared support through interfaces. Knowledge governance
+owns sources, versions, adoption and scope. Product rules and stage decisions
+have their own authorities.
+
+Check that the complete set of modules covers requirements and data flows.
+Complete the section 4 cards and resolve gaps or conflicting ownership.
+The Chinese export cites historical S01, S05 and S06 through its reading
+index and cites RS04 and RS05 for engineering and design review. The source
+provenance identifies the unbundled references. Treat these citations as
+method background. Choose architecture for the current project and its
+constraints.
+
+## 4. Module cards and collaboration review
+
+Complete a card for every module in scope. Refer to shared details through
+stable IDs and size the card by responsibility and risk. Describe enough
+behavior to determine inputs, state changes, reads and writes, call order,
+failure feedback and assertions.
+
+Record the following in each card.
+
+- Source requirement, feature or product behavior, acceptance and delivery
+  purpose with IDs and versions. State responsibility, exclusions, guarantees,
+  provider and callers, process or environment and position in the actual user
+  path.
+- Input types, required and nullable fields, range, size, format, version,
+  source and validation failure. Output type, success semantics, partial
+  result indicators, user feedback and return timing.
+- Provided and called interface IDs, contract versions, synchronous or
+  asynchronous calls and call order. Cover initial, running, waiting,
+  completed, failed, canceled and recovery states with entry and exit
+  conditions or a reason for inapplicability.
+- Owned and read data IDs, location, sole writer, consistency, retention and
+  deletion. State actor, project and material scope, authorization checks,
+  credential handles, outbound data and side effects.
+- Normal processing, rules, commit boundaries and scenario IDs. Record errors,
+  visible feedback, responsible owner, retained originals or intermediate
+  results and downstream effects. Define cancellation points, results after
+  commit, duplicate detection, idempotency scope and uncertain outcomes.
+- Checkpoints, restart prerequisites, reauthorization and version checks,
+  startup and exit order and the failure exit.
+- Dependencies and versions, caller and provider prerequisites,
+  configuration, source of defaults and when they apply. For needed time,
+  storage, memory or concurrency constraints, state units, scale, threshold
+  source and measurement method. Keep unsupported limits pending.
+- Primary feasibility evidence with source, version, locator, conclusion
+  and limits. Identify hypothesis, trial and actual evidence. Retain
+  alternatives, selection rationale, costs, risks, revisit conditions and
+  effective user decisions.
+- Task IDs, entry conditions, dependencies, outputs and allowed scope.
+  Link normal, counterexample and failure assertions to acceptance and test
+  IDs, applicable platforms and evidence methods. Record open items, affected
+  tasks, next action, owner, closure and resume conditions.
+
+For each provider and caller, compare the interface, data or event ID,
+provider guarantee and caller expectation. Resolve any conflict. Check that
+input limits have handling, success is observable, ownership matches the
+writer, failure has an owner and an exit, and tests cover actual behavior.
+A complete card can document a blocker. Execution waits for critical unknowns
+to be resolved.
+
+## 5. Interfaces, calls, and errors
+
+Record each interface ID and version, provider, caller and process, file or
+external service boundary. Describe input fields, types, ranges, nullability,
+sizes, version, encoding and source validation. Describe output types and
+semantics for success, partial completion, waiting and durable commit. Pin
+preconditions, postconditions, required state and permissions, observable
+results and call order. Include synchronous, asynchronous, event or streaming
+behavior as applicable, including concurrency and races.
+
+Define error codes and when the caller should retry, clarify, reauthorize,
+recover or stop. Record timeout basis, attempt and cost limits, cancellation,
+duplicate recognition and handling of uncertain outcomes. Identify the source
+of actor identity, scope, outbound data and the actual read or execution
+authorization check. Cover compatibility for field changes, old callers and
+old data, with clear feedback for incompatibility. Verify the contract on both
+sides against module cards, scenarios and assertions.
+
+Use pseudotypes, tables or state and sequence diagrams to describe input,
+output and errors. Distinguish receipt of an async request from saved success.
+Resolve the outcome or qualify a safe retry before repeating a potentially
+chargeable or side-effecting request.
+
+For each error ID, specify its trigger, owner, visible result, data and
+side-effect status, conditions for retry, cancel or recover, downstream
+effects and tests. Protect credentials and unauthorized data in error output.
+Define the outcome of cancellation racing with commit. Analyze effects on
+consumers, data, tests and user decisions when the contract changes.
+
+## 6. Runtime scenarios, states, and sequence
+
+Select representative complete user paths. Cover applicable normal operation,
+startup and exit, cancellation, partial failure, duplicates and recovery.
+Expand background concurrency, long-running work, offline or disconnected
+behavior, external APIs and multiple windows where capabilities and risks
+warrant it.
+
+For each scenario ID, record the product path, requirement and acceptance,
+environment, prior state, inputs and authorization. Trace user actions and
+module calls in order. Show intermediate data and state, temporary versus
+committed data, and waiting versus partial completion. Describe success and
+visible feedback, errors, cancellation, timeout, duplicates, exit, restart
+and when recovery or a new selection is needed. Record the evidence plan and
+actual status.
+
+For each transition, record the object, current state, trigger and
+conditions, checks and calls, next state, data and side effects, visible
+result and exit when the transition fails. Give key reachable states a clear
+exit. Check commit semantics in success and failure. After cancellation,
+stop further calls outside the effective authorization. Ensure duplicate
+operations avoid duplicate records and charges and that visible state
+matches actual state. Verify reachability and reliability as required. A
+state table records the design.
+
+## 7. Data model, storage, and lifecycle
+
+For each data ID, record fields, types, ranges and sourced defaults, primary
+keys, relationships, uniqueness and invariants, including cross-object
+constraints and version relationships. Identify ownership, readers, sole
+writer and project isolation. Distinguish temporary, durable, backup and
+cache storage, with location, format and version. Specify consistency,
+commit, concurrency and data retained after failure.
+
+Cover creation, update, retention, deletion, recovery and cleanup. Trace
+derived index, cache, summary, export and citation invalidation. Define the
+scope of compatibility, migration and rollback. For corruption, storage
+exhaustion or denied access, record user feedback, preservation of originals
+and recovery steps. Record actual evidence, assumptions and verification for
+storage guarantees using the applicable source or trial.
+
+State when the application can report a save and what survives interruption.
+Specify how to restore a backup and separately verify restoration. For
+deletion, distinguish stopping future use, deleting controlled objects,
+cleaning derived data, historical references and the limits on remote copies
+already sent. Verify that data relationships, normal and failure reads and
+writes, retention, recovery and migration agree with the scenario and
+delivery scope.

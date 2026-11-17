@@ -1,0 +1,116 @@
+# Requirement acceptance and associated Verifier checks
+
+The acceptance scope includes existing requirements and the original Verifier
+checks associated with project rules and business experience actually adopted
+during requirements, clarification, or planning. Recall records availability.
+Adoption carries the corresponding Verifier into the same scope without a
+separate candidate selection. At `constitution`, read project principles and
+the published Birdview rule catalog. Experience retrieval and Verifier details
+belong to later stages. Rules, knowledge, SOP, and architecture without an
+original Verifier provide guidance. Retain the actual status if a Verifier
+is missing, has no checks, or could not be read.
+
+At `preview`, show both groups with their sources, original stages, pinned
+versions, adoption decisions, and Verifier associations and status. Reuse
+actual decisions for this scope. The engine can carry forward saved checks.
+Initial recall happens in the earlier stages.
+For an applicable [numeric precision rule](numeric-precision-domain.md), carry
+its real requirement IDs and original checks as normal requirement items.
+Record domain card review separately from those execution results.
+Review the original definitions, determine applicability, and run the checks
+at `finish/reverify`. Continue to use the existing authorization for stage
+confirmation and upload.
+
+## Pin and carry forward
+
+Save and archive `FEATURE/acceptance-scope.json` through the normal stage
+output contract. Pin it from `preview.json` with
+`acceptance_scope: {path, sha256}`. Execution preparation validates the
+reference and freezes it in `execution_context/frozen`. Stage approval uses
+its own decision. Implementation and acceptance use the same list and
+associate current results and evidence with individual items. Use the
+existing revision flow for scope changes and retain history. Show a gap
+when a legacy workflow lacks Verifier evidence.
+
+Use `schema: "formsy.acceptance-scope.v1"`, the actual `project_id` and
+`run_id`, `items`, and `coverage`. Each item has a unique stable `id`,
+`assertion`, and `sources`. It may include `title`, `references`, or
+`task_ids`.
+
+- Requirement items use `kind=requirement` for all sources. Refer to the
+  original requirements registered in the same run and stage and preserve
+  their assertions. Use `methods` for the original local verification plan.
+  For a newly enabled independent acceptance chain, include exact artifact
+  references in each local program or manual method. A program method also
+  needs its exact `argv` and, for secondary repositories, the absolute
+  `worktree`. Match that command in Preview execution and cite its current
+  native receipt when assessing the requirement.
+- For a Verifier, include `verifier: {verifier_id, check_id, definition_source}`.
+  The definition source has `kind`, `stage`, `path`, and `sha256`. It must
+  come from the original saved `knowledge_read_verifier` result for this task
+  and have a corresponding candidate, direct read, or adoption record.
+  Require a ready `formsy.knowledge-verifier.v1` package, verifiable project
+  and binding identity, and a check present in the original definition.
+- Use the exact original `check.expected` for the Verifier assertion. The
+  engine reads `expected`, `applies_when`, `criteria`, and `methods` from
+  the definition. Keep an explicit read gap for a Verifier whose source
+  cannot be verified.
+- Include at least one source with the exact `kind`, original `stage`,
+  `path`, and `sha256`. Valid kinds are `requirement`, `project_rule`,
+  `knowledge`, `project_sop`, and `architecture`. Register source and
+  definition references in their original stage of this run. Use
+  `snapshot_ref: {path, sha256}` for the complete original snapshot registered
+  in that stage. Validate both digests.
+
+Set `coverage.status` to `complete` or `partial` with explicit `gaps`
+and `sources` dispositions. Each source references its original snapshot
+path and digest and has a real reason and one disposition from
+`incorporated`, `guidance_only`, `not_applicable`, `superseded`, or `gap`.
+Link incorporated sources to specific acceptance items. A complete read of
+guidance with no Verifier may remain `guidance_only`. Retain the rationale
+for actual experience adoption or exclusion. Evaluate each adopted Verifier's
+applicability during acceptance. Mark failed or partial reads as gaps.
+
+In `coverage.project_rules`, record the existing disposition for every
+successfully recalled project rule. Include `worktree`, Server `project_id`,
+the original `knowledge_ref`, `source: {path, sha256}`, `decision`, and
+a concrete `reason`. Valid decisions are `adopted`, `not_applicable`,
+and `reference_only`. A disposition for an aggregate source leaves individual
+rule obligations in place. Carry all original Verifier checks for adopted
+rules and preserve their identities, assertions, and definitions. Rules
+without an original method remain guidance. Reuse the current adoption
+decisions without adding a separate approval or selection. A gap in an
+optional source leaves verified rule obligations in place.
+
+Carry every declared FR and SC requirement ID into the same list. Keep
+the exact spelling and leading zeros. Preview recognizes bold declarations
+followed by a colon, plain or bold IDs in the first table column, and IDs
+in explicitly labeled requirement or success-criteria traceability columns.
+A traceability cell can list multiple IDs separated by a comma or slash.
+Use the already registered specification bytes. A change to those bytes
+uses the existing upstream revision checks and preserves the old record. For
+example, retain the lint success condition for SC-007 in planning and
+acceptance. The completion gate requires a current result for every
+applicable original Verifier. A missing plan binding, an unexecuted check,
+an unknown or failed result, stale evidence, or an invalid receipt blocks
+completion. Verify current source and scope versions before using results.
+
+Each list can contain up to 200 items and 1 MiB. Each item can have up to
+20 sources and 20 methods. Reading observes only explicit references,
+definitions, and snapshots. Recall, adoption, execution, and upload are
+separate actions. Program receipts and document self-checks can support
+acceptance evidence. Preserve the original acceptance items.
+
+## Resume acceptance
+
+At `finish/reverify`, use the same frozen list and retained receipts.
+Check unexecuted, failed, unknown, invalid, stale, and actually affected
+items. On first acceptance, assess every requirement that lacks current
+evidence. Preserve valid unaffected judgments and previous failures.
+Assess requirements individually with `flow acceptance-record` and run
+original Verifiers through the local runner. Invalid requirement sources,
+non-passing requirements, unresolved findings or tasks, and failing
+Verifiers block completion. Acceptance uses actual execution evidence
+and its existing scope. When assertions or evidence change, rerun
+affected checks. Explicit independent audits retain their original
+assertions and actual results.

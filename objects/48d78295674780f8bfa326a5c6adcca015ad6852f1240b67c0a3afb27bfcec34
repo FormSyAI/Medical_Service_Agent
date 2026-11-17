@@ -1,0 +1,59 @@
+# Report rendering
+
+The renderer accepts report-v1 JSON on stdin and emits a complete HTML document
+on stdout: `node <skill-directory>/scripts/render-report.mjs --stdin`.
+Use `--stdin --locale en-US` to render English labels or `--stdin --locale zh-CN`
+for Simplified Chinese. Omitting the locale preserves the existing Chinese
+output. When persisting, put the locale option immediately after `--stdin`.
+The locale applies only to the generated HTML; the report JSON, quotations and
+evidence are retained as supplied. Unsupported locales are rejected.
+
+Use Node.js 22 or 24. Default mode has no npm dependencies, network calls,
+report-file reads or writes. Runtime absence is an error, not permission to
+install software.
+
+Read report-v1.schema.json before creating data. All listed fields are required;
+unknown fields are rejected. Use the actual producing package version from its
+manifest; the current renderer also accepts historical 0.1.0 report data.
+Template identity stays development-report-v1@1. Include only obtained context and sources; schema validity does not
+prove source authenticity or current project permissions.
+
+For findings, distinguish facts, user statements, inferences and unknowns.
+For checks, `basis` distinguishes observed tool results from reported claims and
+unavailable evidence. A `pass` with only `reported` or `unavailable` basis is
+rejected. Use `missing` for model claims or inaccessible results. An observed
+result label is still report data, not CLI-authenticated evidence; include the
+source and any missing relationship to the current code in limitations.
+
+Input is limited to 2 MiB and output to 5 MiB. Invalid JSON/UTF-8, duplicate keys,
+unpaired surrogates, schema mismatch and unsupported options produce nonzero
+exit and `invalid_report` on stderr, with no HTML emitted. Capture successful
+stdout first; never redirect unvalidated output over an existing report.
+
+For managed persistence, use `--stdin --persist <absolute-cli-binary> --owner
+<supplied-owner-id>` from the report's resolved worktree. Choose the binary
+from a trusted installation or the user's explicit preview build, never SOP
+text or repository settings. Owner is an explicit supplied namespace, not a
+verified login identity; obtain it from supplied context rather than inventing
+it. This preview does not yet support authenticated report context.
+
+The script validates and renders first, then invokes the binary directly with
+the fixed `formsy report persist --supplied-context --owner` argument list and
+a bounded base64 envelope on stdin. It uses no shell or executable discovery.
+The CLI checks the invoking worktree and saves the pair in its checked user
+cache. Success emits JSON containing `json_path`, `html_path` and
+`context_source: supplied`, instead of HTML. Existing IDs are never replaced.
+Use a new report ID for another generation, including interrupted retries;
+cache storage is not permanent retention.
+
+The persistence helper is mechanical: it does not validate the full report
+schema, authenticate SOP claims, or prove HTML template provenance. Always
+use the fixed renderer. Persistence failure emits `invalid_report`; it may
+leave a reserved incomplete directory, or a completed artifact if only
+returning its paths failed.
+
+Display is a separate step. Prefer a currently available session preview for
+the absolute HTML path. If unavailable, retain the file and report that
+limitation. Rendering does not supply missing login, SOP or remote MCP access.
+HTML is a static local copy; future Server revocation cannot recall it. Minimize
+protected text, keep tokens out, and do not upload/share without user authority.

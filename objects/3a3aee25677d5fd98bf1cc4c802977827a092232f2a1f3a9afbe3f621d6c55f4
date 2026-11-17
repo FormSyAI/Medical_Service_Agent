@@ -1,0 +1,9 @@
+{
+  "source": "任务细化补充-0.1/任务包模板.md",
+  "source_sha256": "2e5062f45ecc886990266003c891051382c0078e6efe628b26bea9e6dcce1ec8",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "55c8c3a166cad1d0513f862a436185076d006ac3bfd8cddde88e8a12885a2f0e"
+}

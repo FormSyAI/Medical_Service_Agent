@@ -1,0 +1,316 @@
+# Product review rules PC01–PC15
+
+Use this maintained English guidance for sections 1–7 and 9 of the [frozen
+Chinese product review export](PC规则.md). Its [provenance](PC规则.provenance.json)
+identifies `产品SOP自检研究/产品SOP自检方案.md`, the source digest, and the selected
+sections and citations. Use the frozen source for original quotations and
+machine catalog bindings. Apply the [common contract](共同约定.md), current
+applicability and version supplement (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-workflow/references/sop-rules-addendum-20261016/applicability-and-version.md`), and effective
+project decisions.
+
+## 1. Product review scope
+
+Check whether the SOP accurately records the user's problem, explains how the
+user completes the task, and aligns features, interaction, data, and
+acceptance. Identify product tradeoffs that need decisions. Technical review
+checks implementation feasibility, modules, interfaces, data, and environment.
+Connect the two reviews through requirement, feature, and acceptance IDs and
+record their findings independently.
+
+The historical Q checklist covers product concerns through Q07/Q08/Q09/Q13/Q16/Q21.
+Use the following PC rules to expand applicability, satisfaction conditions,
+evidence, findings, and recheck. The provenance retains the historical
+checklist citation.
+
+### 1.1 Conclusions and evidence
+
+| Conclusion | Question | Basis and boundary |
+| --- | --- | --- |
+| Product document review | Are the required objects complete, consistent, understandable, and ready for handoff? | Current document, rules, sources, and evidence for each level. Record actual product acceptance separately. |
+| Technical document review | Are implementation design, handoff, and feasibility ready? | Independent technical rules and their required facts or trials. Use the technical result for technical readiness. |
+| Product claim support | What supports claims about users, problems, tasks, or outcomes? | Original wording, applicable research or observation, with sample, environment, limits, and unverified assumptions. |
+| Stage confirmation | Has the user accepted this version's goals, requirements, or plan? | Effective user decision for the corresponding stage and version. |
+| Actual product acceptance | Does this build meet formal conditions in the target environment? | Actual operations, files, logs, screenshots, and assertions. Attribute design, prototype, and build checks separately. |
+
+Use the user's explicit requirements as the design basis for their personal
+tool. For a product serving external users, record the evidence level for
+claims about need, efficiency, or willingness to pay. Establish commercial
+claims with evidence appropriate to the claim.
+
+### 1.2 Three review levels
+
+| Level | Method | Supported conclusion | Scope limit |
+| --- | --- | --- | --- |
+| L1 structural check | Check fields, placeholders, IDs, references, covered objects, and versions with repeatable rules. | Results of the actual structural rules checked. | Evaluate need, usability, outcomes, and trials separately. |
+| L2 product content review | Walk goals, tasks, pages, features, states, and acceptance against original requirements. Trace new behavior backward and verify relevant external facts. | Behavior consistency, gaps, conflicts, and design judgments within the evidence. | Obtain real evidence for user comprehension, scenario coverage, commercial claims, and approval. |
+| L3 verification, research, or prototype evidence | Record actual interviews, observation, document walkthroughs, prototype tasks, or target-environment trials against a predefined question. | Results for the stated method, sample, and environment. | Limit results to exercised tasks, users, and platforms. |
+
+Declare the required levels for every check. Use official sources for the facts
+they state. Use actual user or prototype work when required and mark a planned
+trial unexecuted. Attribute model-generated personas, simulated users, and
+model review as proposals or review activity.
+
+Use `satisfied`, `unsatisfied`, `unverified`, or `not_applicable` with rationale.
+Record actual research and trial observations, results, and limits separately.
+For application tests record passed, failed, unverified, or not applicable with
+rationale. An applicable check is satisfied when all required levels have
+supporting evidence.
+
+## 2. Inputs and outputs
+
+| Object | Minimum record |
+| --- | --- |
+| Product baseline | Project, document and rule versions, stage, user decisions, users, scope, platforms, original locators, and content identity. |
+| Users and tasks | Known users and scenarios, tasks, current problems, intended outcomes, and classification as fact, suggestion, assumption, or unknown. |
+| Product design | Scope and priority, journeys, applicable pages and entry points, feature cards, state rules, data, and permissions. |
+| Acceptance design | Requirement and acceptance IDs, conditions, environment, data, operations, observable assertions, evidence plan, and platform applicability. |
+| Check inventory | PC01–PC15, object set, applicability, required levels, satisfaction conditions, and evidence. |
+| Research or prototype card | Question and hypothesis, method, sample or environment, authorization, preset judgment criteria, actual observations, results, and limitations. |
+| Issue log | Issue, locator, impact, severity, blocker, owner, next action, recheck, and history. |
+| Handoff | Product object to technical object, task, and acceptance mapping, conflicts, decisions, stage confirmation, and impact. |
+
+Use the applicable feature and journey cards from the locale-matched Product
+SOP template. Preserve existing IDs and formal wording. Use the technical
+self-check method for mapping to technical objects. Product document review
+can proceed before implementation where its required evidence is available.
+
+## 3. Seven review steps
+
+### 1. Pin versions, objects, and applicability
+
+Read the product baseline, originals, decisions, platforms, and scope. Fix
+the rule version and inventories for requirements, tasks, features, pages,
+states, and acceptance. Review a draft with its draft status visible.
+
+Use actual capabilities to decide applicability. Omit login design when login
+is outside scope and billing design when the scope excludes paid services.
+Record unknown scope, missing material, and unavailable environments as gaps.
+
+### 2. Check structure and references
+
+Check required fields, placeholders, duplicate IDs, broken references, source
+identity, object versions, and missing requirements and platform combinations.
+Record actual structural execution. For an entry such as “show an error,”
+verify the concrete message and retained state at L2.
+
+### 3. Walk through the complete user task
+
+Follow entry, user action, system feedback, state and data changes, outcome,
+or exit on the normal path and applicable branches. Compare feature cards,
+pages, rules, and acceptance. Trace new features, permissions, costs, and
+outbound data back to their sources.
+
+Use another reviewer or review round where appropriate and retain disagreements
+and locators. Resolve them with originals, applicable facts, actual observation,
+or user decisions. Attribute repeated review by the same model accurately.
+
+### 4. Route unknowns
+
+| Unknown | Example | Next action | Closure evidence |
+| --- | --- | --- | --- |
+| Verifiable fact | Platform interaction constraint, service support, or error meaning. | Read a primary source and record version and applicability. | Locatable support for the fact and an explanation of any conflict. |
+| User tradeoff | Undoable deletion, overwrite or save as, transfer, or cost. | Present options, consequences, and a recommendation where relevant. Ask the highest-impact individual question using the current clarification policy. | Effective decision for the current version. |
+| User problem or outcome hypothesis | Task difficulty, comprehension, or time saved. | Design an applicable interview, observation, or prototype task. Perform only authorized research. | Actual record, preset criterion, sample, and limits. |
+| Technical feasibility | A target platform can meet a promise or restore data. | Link the technical issue and verification card. | Required technical fact or actual trial. |
+| Environment, permission, or budget blocker | No target environment, permission, or usable quota. | Retain the blocker and continue independent work. | Valid prerequisites and completion of the original required checks. |
+
+Use web references for methods and scoped facts. Establish product tradeoffs
+and claims about this project's users from their own evidence. Keep failures
+and counterexamples from research and trials.
+
+### 5. Prepare an evidence-based revision
+
+Record original wording, finding, proposal, source or observation, applicability,
+cost, and affected objects. Retain user requirements, suggestions, and unknowns
+separately. Keep formal wording until an applicable decision changes it.
+
+A research or prototype card includes question or hypothesis ID, related
+decision, method and sample or recruitment scope, actual environment and
+version, authorization and data handling, prerequisites and task, predefined
+observations and judgment method, original record, result, limitations, and
+next action. Report participants, interviews, satisfaction, timing, and
+success rates only when supported by actual evidence. Use a walkthrough for
+low-risk copy questions where suitable. Hold dependent work when a required
+behavior hypothesis lacks its necessary evidence.
+
+### 6. Recheck impact and obtain applicable confirmation
+
+Preserve old and new versions and trace affected requirements, journeys, pages,
+features, data, acceptance, technical interfaces, and tasks. Reassess on rule
+or scope changes, counterexamples, and stale sources. Show material changes to
+requirements, design, or permissions and obtain applicable confirmation.
+Follow the saved workflow and current user decisions for confirmation.
+
+Check copy changes for meaning. Reuse unrelated research or trials with a
+documented impact assessment. Keep original evidence bound to its version
+and environment. Mark affected objects pending recheck until checked.
+
+### 7. Report and conclude the round
+
+Report the version, scope, PC levels, evidence, issues, blockers, claim support,
+actual research or trials, platform gaps, confirmation, budget, and next action.
+Use scoring to identify weak areas and report blockers, value evidence, and
+confirmation independently. State the actual scope of the outcome. A draft can
+need work, design can be ready for handoff, affected tasks can be blocked, a
+decision can be pending, or work can pause on environment or budget.
+
+## 4. Product rules PC01–PC15
+
+Use the applicable rule per actual object. Apply L3 where needed for specific
+claims or feasibility. The original rule rows and evidence locations stay
+bound to their source version.
+
+| ID | Object and applicability | Satisfaction conditions | Levels and evidence | Basis |
+| --- | --- | --- | --- | --- |
+| PC01 | Users, problems, and value basis in every project. | Identify actual or proposed users, scenarios, tasks, difficulties, and expected benefit. Distinguish facts, user wording, suggestions, assumptions, and unknowns. Limit value claims to evidence. Record verification or a blocker for key assumptions. | L1/L2 and L3 as needed for key claims. User, problem, and evidence table. | Q07/Q21 and PS01/PS02/PS04. |
+| PC02 | Product goals and success criteria in every project. | State user outcomes aligned to the problem and give the source. Provide a criterion or pending decision for claims such as ease, speed, and stability. Give numeric source, unit, environment, and method. | L1/L2 and L3 as needed for outcomes. Goals and success criteria. | Q09/Q17 and PS01/PS04/PS06. |
+| PC03 | Scope and priority in every project. | Define first-release inclusions, exclusions, required work, and later work. Give priority and rationale. Distinguish proposals from requirements. Cover every required task path. Record impact and confirmation of scope changes. | L1/L2. Scope, priority, and diff. | Q07/Q13/Q22 and PS01/PS02. |
+| PC04 | Sources, assumptions, and unknowns in every project. | Make formal wording, decisions, suggestions, references, assumptions, and unknowns distinct and locatable. Obtain authority from actual decisions. For key unknowns, record impact, owner, and next action. Limit verification to source applicability. | L1/L2 and L3 as needed for material assumptions. Source and unknown register. | Q05/Q06 and PS01/PS03/PS04. |
+| PC05 | Every key user task. | Include entry, prerequisites, continuous actions, feedback, outcome, and applicable exit. Ensure paths are reachable and dependencies are present. Cover risk-relevant exceptions and transitions across pages or sessions. | L1/L2 and L3 as needed for key behavior assumptions. Journey and branch table. | Q08/Q21 and PS04/PS05. |
+| PC06 | Pages and interaction states when a UI exists. Explain the entry point without a UI. | Define page, window, or entry relationships, key actions, and navigation. Provide feedback and next action for applicable empty, loading, success, failure, and unavailable states. Account for target-platform interaction constraints. | L1/L2 and L3 as needed for comprehension or operability. Page and state table. | Q08/Q09, PS01 design links, PS05 observation. State requirements are local design. |
+| PC07 | Inputs and outputs for all applicable features. | Identify actor, trigger, prerequisites, input types and constraints, normal behavior, visible output, and side effects. Source limits and defaults. Distinguish success and failure in the feature card. | L1/L2. Feature card and field table. | Q08 and PS03 clarity and verifiability. Card fields are local design. |
+| PC08 | All applicable rules and states. | Align conditions, branches, prior and resulting states, and data changes. Describe repetition, order, and conflicts by capability. Use consistent terminology and rules across pages, features, and acceptance. Leave unresolved rules pending decision. | L1/L2. Rules, states, and conflicts. | Q08/Q13 and PS03 consistency and clarity. State rules follow project scope. |
+| PC09 | Normal tasks and other failures or boundaries by actual risk. | Define applicable empty or invalid input, repetition, cancellation, interruption, failure, recovery, and unavailable dependencies. Show message, data retention, next action, and exit. Include retries and undo where supported by scope. | L1/L2 and L3 as needed for key recovery or experience assumptions. Exception and boundary matrix. | Q08/Q14 and PS02 risk identification. Matrix is local design. |
+| PC10 | Data, permissions, costs, and external services. Check side effects and concrete items by capability. | Tell the user what is saved, changed, deleted, or shared. Define configuration, defaults, and effective timing. Base accounts, credentials, transfers, billing, and repeats on effective decisions. Expose material side effects and keep them within authority. | L1/L2 and L3 as needed for prerequisites. User data and side-effect table. | Q08/Q14/Q23 and effective user decisions. |
+| PC11 | Declared quality goals and necessary constraints. | Define observation objects and criteria for applicable experience, usability, and accessibility. Use consistent labels and messages with a feasible next action. Support claims needing real users with actual observation. | L2 and L3 as needed. Quality goal, walkthrough, or prototype record. | Q09/Q15/Q17 and PS05/PS06. Specific goals follow project scope. |
+| PC12 | Every formal condition × applicable platform. | Include original requirement, platform, environment, data, prerequisites, operations, observable assertions, and evidence plan. Exercise the user task. Match automated and manual methods to observable assertions. Keep missing environments in design scope with blockers. | L1/L2. Acceptance cards and platform coverage. | Q16/Q18/Q21 and PS03/PS05/PS06. |
+| PC13 | Forward and reverse traceability for all requirements, features, tasks, and acceptance. | Map every requirement to a matching feature or flow and acceptance. Give each new behavior a requirement or confirmed delivery purpose. Verify link meaning and address missing links, omissions, and unsourced side effects. | L1/L2. Bidirectional traceability and orphan objects. | Q03/Q13 and PS03. |
+| PC14 | Product and technical handoff at planning and when technical design exists. | Bind data, permission, failure, and experience commitments to actual technical objects. Align product rules with interfaces, states, data, tasks, and tests. Show impact and route infeasibility, unknowns, and any proposed change in commitments. | L1/L2 and L3 as needed for core feasibility. Handoff and diff. | Q10/Q13/Q23 and TC02/TC04/TC05/TC07. |
+| PC15 | Every finding and stage record. | Locate object and rule versions. Record issue basis, impact, status, and next action. Close with applicable revision, verification, recheck, and confirmation. Retain history and open issues. | L1/L2. Issue and version log. | Q06/Q20/Q22/Q23 and TC15. |
+
+### 4.1 Judgment boundaries
+
+- Attribute a user's request to that user. Verify wider claims about similar users separately.
+- PC01 and PC11 require an honest evidence level. Keep an unverified assumption unsatisfied or unverified if it is required for handoff.
+- PC12 covers acceptance design. Record actual test results separately.
+- PC15 covers the issue log. An accurate record can satisfy that condition while a required issue remains open and blocking.
+- Use non-applicability only with a scope basis. Keep missing material, incomplete work, unavailable environments, and difficult checks in the applicable inventory.
+- Attribute external practices and record the adoption reason and impact before treating them as project rules.
+
+## 5. Issues, closure, reopening, and blockers
+
+### 5.1 Issue card
+
+Record issue ID, PC ID and level, object version, original wording and locator,
+requirement, finding, evidence, affected requirements, pages, features,
+acceptance, technical objects and tasks, severity rationale, blocked scope,
+action type, owner, next action, closure condition, status, diff, recheck,
+necessary confirmation, and history. Track pending, investigating, awaiting
+decision, environment-blocked, revising, awaiting recheck, and closed. A
+failure, evidence gap, or missing decision retains the applicable open state.
+
+### 5.2 Closure by issue type
+
+| Type | Closure requirement |
+| --- | --- |
+| Structural gap | Current required fields or references are correct and checked. |
+| Unclear or conflicting product rule | Current design is clear and consistent, affected objects were reviewed, and material tradeoffs have applicable confirmation. |
+| User or outcome hypothesis | Obtain the predefined evidence or an effective decision that changes goal or scope. Retain research limitations. |
+| Technical feasibility conflict | Obtain required facts or actual trials on the related technical issue. Confirm changes to product, design, or permissions. |
+| Permission, cost, or environment | Establish valid prerequisites and complete the originally required check. |
+
+Keep the rationale and links for false positives, duplicates, and inapplicable
+conditions. Preserve adverse findings. Reopen on a material counterexample and
+retain the old closure history and new evidence.
+
+### 5.3 Block by actual impact
+
+| Severity | Examples and action |
+| --- | --- |
+| Critical | Goal or baseline conflicts, a broken core path, unauthorized transfer or cost, possible significant data loss, or infeasible core commitment. Block affected objects and dependencies. Obtain decisions on requirement, design, or permission changes. |
+| Important | A concrete feature, state, rule, or acceptance gap prevents reliable implementation or judgment. Block dependent tasks and continue independent work. |
+| General | Noncritical wording or maintenance issue with behavior and basis established. Record revision and the reason for progression. A user-defined required condition remains binding. |
+
+Determine severity by actual consequence. Analyze unknown impact before
+reclassifying it. Follow real dependencies when propagating blockers.
+
+## 6. Versions, confirmation, budget, and recovery
+
+### 6.1 Stage checkpoints
+
+Use current confirmation policy. The four stages describe content maturity.
+Use scope and final document confirmation for standalone work under the
+current default, follow explicit stage-by-stage requests, and follow the
+saved workflow decision contract in an active run. The table describes the
+historical stage-by-stage checkpoints when applicable.
+
+| Stage | Objects and review focus | Confirmation boundary |
+| --- | --- | --- |
+| Initialization | Users, problems, goals, scope, platforms, and constraints. Focus on PC01–PC04. | Confirm the current initialization version and retain unknowns. |
+| Requirements discovery | Scenarios, tasks, candidate requirements, sources, assumptions, and issues. | Confirm the current discovery result. Keep candidate requirements identifiable. |
+| Requirements modeling | Journeys, feature cards, rules, states, acceptance, and traceability. Focus on PC05–PC13. | Confirm the current model and retain blockers for key unresolved rules. |
+| Planning | Quality, product and technical handoff, tasks, and verification design. Focus on PC12–PC15. | Confirm the current plan and verify execution prerequisites separately. |
+
+Use genuine user decisions for applicable approvals and follow required stage
+progression independently of the document score.
+
+### 6.2 Version impact
+
+For changed requirements, scope, or rules, recheck journeys, features, pages,
+acceptance, technical objects, and tasks. Check whether copy changes affect
+meaning and comprehension evidence. Reassess interaction, data, cost, and
+environment on platform, external-service, or permission changes. Reopen on
+new user counterexamples or source conflicts.
+
+Keep confirmations bound to the original version. Obtain applicable new
+confirmation for affected changes. Reuse evidence after documented impact
+assessment and retain the original execution or research version and limits.
+
+### 6.3 Stop and resume
+
+Conclude when applicable review and reporting finish. Pause affected actions
+when a user decision is needed, the user pauses or cancels, a prerequisite
+expires, an effective time, cost, request, output, or resource limit is reached,
+or the next action may exceed the remaining budget. When repetition produces
+no new evidence, follow the effective stop rule and preserve results.
+
+Use the actual user authority and budget for research, trials, or contact
+with others. Count failed calls, retries, and resources under the effective
+rules. Keep unknown charges or limits visible. On resume, check baseline
+changes, decisions, permission, environment, and remaining budget. Recheck
+invalidated objects and continue unresolved issues. The historical design
+round records no paid calls or real research.
+
+## 7. Reporting and scoring boundaries
+
+Use the [PM scoring rubric](product-scoring-rubric.md) only for an explicitly
+requested score. For each PC check record rule, object inventory, applicability,
+required and actual levels, status, evidence locator, issue, blocked scope,
+and next action. Count the fixed objects and sub-items for coverage.
+
+Report document design score, user and value evidence, blockers, confirmation,
+and actual passes independently. Give each level its own evidence. Retain
+required missing and unverified objects in the denominator. Keep critical
+blockers visible at any score. Apply the historical 95-point proposal only
+where the project adopts it. Report actual scores and product claims only
+from corresponding evidence.
+
+## 9. Methods and sources
+
+The IDs, statuses, blocker and handling rules are local design. External
+sources support methods. Obtain authority, project thresholds, and stage
+decisions from the current project.
+
+### Local basis
+
+- The historical SOP checklist maps Q07 to user, problem, and scope, Q08 to feature behavior, Q09 to assessable quality, Q13 to consistency, Q16 to acceptance design, and Q21 to complete user tasks. Use Q05/Q06/Q14/Q17/Q18/Q22/Q23 as applicable.
+- The Product SOP template supplies feature cards, traceability, acceptance cards, complete user tasks, and version and stage records in the selected document locale.
+- Technical self-check design 0.2 supplies level, issue lifecycle, version, blocker, and stop methods. Review product and technical objects separately and link handoff. The frozen provenance preserves local source identities.
+
+### External method mapping
+
+The historical study recorded online reads of PS01–PS06 on 2026-09-30. Use
+the source index in the frozen provenance for recorded titles, URLs, and
+adoption boundaries. Attribute a fresh read only after actual access.
+
+| Source ID | Primary source and method adopted | Boundary |
+| --- | --- | --- |
+| PS01 | [Atlassian Product Requirements template](https://www.atlassian.com/software/confluence/templates/product-requirements) covers goals and success metrics, assumptions, user stories, priorities, design links, open items, and exclusions. It supports organization for PC01/PC02/PC03/PC04/PC06. | Use project evidence for goals and metrics. |
+| PS02 | [Basecamp Write the Pitch](https://basecamp.com/shapeup/1.5-chapter-06) covers problems, appetite, solution, risks, and exclusions for PC01/PC03/PC09. | Use the current project's schedule and budget. |
+| PS03 | [NASA guidance on writing a good requirement](https://www.nasa.gov/reference/appendix-c-how-to-write-a-good-requirement/) covers clarity, verifiability, source, and assumptions for PC04/PC07/PC08/PC12/PC13. | Feature fields and check IDs are local design. |
+| PS04 | [GOV.UK Start by learning user needs](https://www.gov.uk/service-manual/user-research/start-by-learning-user-needs) covers real users, current approaches, problems, goals, assumptions, and traceability for PC01/PC02/PC04/PC05. | Use the current project's audience, roles, and actual research. |
+| PS05 | [GOV.UK Moderated usability testing](https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing) covers observing tasks for PC05/PC06/PC11/PC12. | Record prototype and application results separately and use actual authorized research scope. |
+| PS06 | [NASA product realization](https://www.nasa.gov/reference/5-0-product-realization/) distinguishes requirements verification from intended-use validation and actual result evidence for PC02/PC11/PC12. | Apply the evidence distinction without adopting the aerospace process. |
+
+PC01–PC15 are local rules. PC14 and PC15 draw primarily on local handoff,
+self-check, and confirmation procedures.

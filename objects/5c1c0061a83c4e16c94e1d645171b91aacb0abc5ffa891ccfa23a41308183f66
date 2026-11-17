@@ -1,0 +1,544 @@
+# Local knowledge base module interfaces and data contracts
+
+This English reference follows the research design 0.1, dated 2026-09-30. The [Chinese export](知识模块契约.md) and [provenance](知识模块契约.provenance.json) retain the original wording, source and export hashes, and the identity of the unbundled source index. Use this design to review responsibilities, entities, interfaces, and invariants. The research round ended at design. Model API calls and application tests were unexecuted. Retrieval quality and parsing feasibility remain pending. The TypeScript examples are interface sketches. Choose an implementation stack through the applicable project decision.
+
+## 1. Design baseline
+
+- Save, parse, index, retrieve, resolve citations, and assemble context locally. The first release covers documents. Repository analysis is outside this design's scope.
+- Materials include standards, templates, product and technical references, and project requirements, designs, and decisions. General material can be shared. Project material belongs to its own project by default.
+- Cross-project use requires explicit selection of the source project, material, and version and effective permission for the use. Verify permission independently of what the interface displays.
+- Manual imports and system-discovered candidates share a lifecycle. An explicit manual decision can adopt the selected version and scope in the import action. Keep other manual imports as candidates. Confirm system-discovered candidates before adoption. Include only valid adopted material in formal SOP model context.
+- A configured model API receives the fragments and citations needed for the task. `ContextBuilder` produces a local context draft. The network adapter owns the API call.
+- Local keyword retrieval is the initial research proposal. Evaluate and select local semantic indexing, hybrid retrieval, reranking, and storage separately. Keep external vector APIs off by default.
+
+Record source classification, read permission, adoption, and version validity separately. Use an actual user decision where adoption requires one. Source reliability, matching content, search hits, and model utility judgments are separate facts.
+
+## 2. Module responsibilities and dependencies
+
+```mermaid
+flowchart LR
+  I[Import] --> P[DocumentParser]
+  P --> C[Catalog + Version]
+  C --> X[Index]
+  X --> R[Retriever]
+  C --> A[Adoption + Citation]
+  R --> A
+  A --> B[ContextBuilder]
+  C --> M[ImpactReview]
+  A --> M
+  B --> M
+  S[ScopePolicy] --> C
+  S --> X
+  S --> R
+  S --> A
+  S --> B
+  S --> M
+```
+
+Edges represent calls or data constraints. Validate `ScopePolicy` independently at every access entry.
+
+| Module | Responsibility and output | Input and boundary |
+| --- | --- | --- |
+| `Import` | Accept explicit import objects and target scope, save the local original, and create a recoverable `Job`, source record, and import receipt. When manual adoption is explicit, coordinate adoption of the exact version. | Manual files or text, system candidates, and user action evidence. Keep adoption explicit and user project decisions separate. |
+| `DocumentParser` | Generate local normalized text, locator mappings, segments, warnings, and parse artifacts. | Authorized original handle, parser identity, and resource limits. Preserve source wording and report missing text. Determine applicability separately. |
+| `Catalog + Version` | Manage source metadata, immutable versions, segments, and lifecycle events. Publish parsing results atomically. | Import and parse receipts and expected revision. Preserve old versions and their own adoption decisions. |
+| `Index` | Index published versions locally. Report version coverage, configuration, and generation. | Versions and segments in the authorized index scope. Adoption and permission remain separate from indexing and deduplication. |
+| `Retriever` | Search and rank within allowed versions. Return sourced hits and a no-match reason. | Query, request project, purpose, version selection, and authorization plan. Keep retrieval in scope and leave adoption to its owning module. |
+| `ScopePolicy` | Verify principal, project, version, and explicit cross-project selections. Produce a filter plan executable in storage. | Trusted local principal, request scope, and grant and revocation events. Validate authority independently of UI state or model output. |
+| `Adoption + Citation` | Record project adoption, rejection, or withdrawal. Create and verify immutable citations and distinguish candidate review and SOP use. | Exact version, segments, and user action. Keep the source's original classification. |
+| `ContextBuilder` | Pin a knowledge snapshot, verify citations, assemble fragments and reference list within budget, and retain a use receipt. | Authorized formal SOP hits or selected citations. Limit assembly to the provided material and local draft. |
+| `ImpactReview` | Track effects of version, grant, deletion, and adoption changes on snapshots, citations, and SOPs. Create review items. | Local version differences, reverse citation links, and use receipts. Apply any confirmed SOP changes or closure through their own decisions. |
+
+The shared `Job` contract owns task states. The modules may live within one application.
+
+## 3. Entities and invariants
+
+| Entity | Key fields | Invariant |
+| --- | --- | --- |
+| `Source` | `sourceId`, owner scope, material type, source class, original location, creation method, and metadata revision | Imports of identical content in different projects retain separate source IDs and permissions. Store original locations locally. |
+| `DocumentVersion` | `versionId`, `sourceId`, original and normalized text hashes, parser and configuration fingerprint, creation time, and previous version | Published content is immutable. Preserve the original class and parsing basis per version. Changed content or reparsing creates a new version. |
+| `Segment` | `segmentId`, `versionId`, text range, segment hash, page, heading, and location map | A segment belongs to one version. Its range stays within that version's normalized text. |
+| `ScopeGrant` | Source and receiving project, exact material and version, optional segments, purpose, user action evidence, validity interval, and revocation | A grant and adoption are independent. Future versions are excluded by default. Revocation immediately blocks later reads and egress. |
+| `Adoption` | Receiving project, version and segments, adoption state, applicability, confirmation action, and revision | Bind confirmation to exact versions and segments. New versions start pending. Rejection or withdrawal preserves the source content. |
+| `Citation` | Source, version and segment IDs, original and normalized text hashes, original location, page, heading, offsets, and excerpt hash | Verify citations against pinned content with sufficient identity and locator data. |
+| `KnowledgeSnapshot` | Request project, purpose, version and adoption revisions, authorization evidence, index generation, citations, and snapshot hash | Pin the exact selection. Recheck current permission and lifecycle on reuse. |
+| `UsageImpact` | Trigger, affected citations, snapshots and SOP versions, difference evidence, review items, and outcomes | Separate potential impact from confirmed change. Preserve historical confirmation under its original inputs. |
+| `Job` | Type, target scope, input hash, idempotency key, state, checkpoint, error, retry and cancellation records | Publish only complete artifacts as formal versions or index generations. Reverify permission and inputs on resume. |
+| `LifecycleEvent` | Delete, restore, purge or revoke event, object, actor, time, reason, and revision | Trace lifecycle changes. Preserve historical version content and decisions. |
+
+### 3.1 Source classification and adoption
+
+`authority` describes the nature and decision basis of content.
+
+| `authority` | Meaning | SOP use boundary |
+| --- | --- | --- |
+| `user_decision` | An explicit user decision with original wording and effective confirmation | Apply only to the recorded project, version, scope, and conditions. Verify external technical facts separately. |
+| `project_material` | Project requirements, design, research, or records | Verify applicability. Keep assumptions and unverified results marked. |
+| `general_standard` | Shareable standards, templates, and methods | Bind use to project adoption and applicable conditions. Project requirements require their own decision. |
+| `external_reference` | External documents, papers, or websites | Preserve source, version or acquisition date, and limitations. Verify external facts independently of local import. |
+| `model_suggestion` | Model-generated suggestion, summary, or inference | May be reviewed and explicitly adopted. Keep original source classification. |
+
+`adoption.state` is `pending | accepted | rejected | withdrawn`, independent of `authority`. An adopted model suggestion retains its source class. Record a new explicit user decision as a linked record with decision evidence. `applicability` is `active | review_required | inapplicable` and tracks review after version or condition changes.
+
+Treat index hits and model scores as relevance. Establish truth, user approval, and product test results separately.
+
+### 3.2 Locators and citations
+
+Store separate hashes of the original and normalized text. Offsets use UTF-16 code units in the stored normalized text and half-open `[start, end)` ranges. The parser supplies a mapping to original locations. Page numbers begin at 1 and headings use their complete paths. Use headings and offsets for formats without page numbers.
+
+Record the local original path or record ID, the original URL at import when available, and page, heading, and original-format location. Page and heading aid reading. Hash and range verify the citation. Take exact excerpts from saved normalized text. Store display omissions or formatting separately from the bound excerpt.
+
+Retain meaningful negation, code blocks, table relationships, and warnings during normalization. Return locator quality and warnings for uncertain mappings. `Adoption` can exclude those fragments where exact evidence is required. Record successful parsing, semantic fidelity, and layout accuracy separately.
+
+## 4. Shared requests and results
+
+```ts
+type Id<T extends string> = string & { readonly kind: T };
+type ProjectId = Id<"Project">;
+type SourceId = Id<"Source">;
+type VersionId = Id<"DocumentVersion">;
+type SegmentId = Id<"Segment">;
+type GrantId = Id<"ScopeGrant">;
+type AdoptionId = Id<"Adoption">;
+type CitationId = Id<"Citation">;
+type SnapshotId = Id<"KnowledgeSnapshot">;
+type JobId = Id<"Job">;
+type Hash = string; // Store the hash algorithm and value together. Storage choice remains open.
+type Revision = number;
+
+type OwnerScope =
+  | { kind: "shared_general" }
+  | { kind: "project"; projectId: ProjectId };
+type Purpose = "candidate_review" | "sop_context" | "impact_review";
+type Authority = "user_decision" | "project_material" | "general_standard"
+  | "external_reference" | "model_suggestion";
+
+interface CrossProjectSelection {
+  fromProjectId: ProjectId;
+  sourceId: SourceId;
+  versionId: VersionId;
+  segmentIds?: SegmentId[]; // Omission means the within-version range permitted by the grant.
+  grantId: GrantId;
+}
+interface ReadRequest {
+  // Use the principal from a trusted local application session. Ignore actorId from model output or documents.
+  principal: TrustedPrincipal;
+  projectId: ProjectId;
+  purpose: Purpose;
+  scope: {
+    includeSharedGeneral: boolean;
+    crossProjectSelections: CrossProjectSelection[]; // Default [].
+  };
+  versions:
+    | { mode: "pinned"; versionIds: VersionId[] }
+    | { mode: "latest_for_review"; sourceIds: SourceId[] | "all_in_authorized_scope" };
+  snapshotId?: SnapshotId;
+  signal?: AbortSignal;
+}
+interface CommandRequest {
+  principal: TrustedPrincipal;
+  projectId: ProjectId;
+  idempotencyKey: string;
+  expectedRevision?: Revision;
+  signal?: AbortSignal;
+}
+interface AuthorizationPlan {
+  opaqueHandle: string; // ScopePolicy verifies the handle independently of its type brand.
+  purpose: Purpose;
+  projectId: ProjectId;
+  policyRevision: Revision;
+  authorizedSourcesHash: Hash;
+  authorizedVersionsHash: Hash;
+  expiresAt: string;
+}
+type Result<T> =
+  | { ok: true; value: T; warnings: Diagnostic[] }
+  | { ok: false; error: KnowledgeError };
+interface KnowledgeError {
+  code: ErrorCode;
+  retryable: boolean;
+  recovery: "retry" | "reimport" | "review" | "reauthorize" | "none";
+  safeMessage: string;
+  diagnosticId: string;
+  jobId?: JobId;
+}
+```
+
+Use `latest_for_review` only for review. Resolve it to exact local versions before searching. `all_in_authorized_scope` explicitly browses the permitted project and shared material without expanding cross-project permission. `sop_context` requires pinned versions and a snapshot. Keep those versions throughout the request. Return no match for an empty pinned set.
+
+Define recovery paths for `INVALID_REQUEST`, `SCOPE_DENIED`, `GRANT_REVOKED`, `STALE_POLICY`, `REVISION_CONFLICT`, `IDEMPOTENCY_CONFLICT`, `UNSUPPORTED_FORMAT`, `INPUT_REQUIRED`, `PARSE_FAILED`, `LOCATOR_UNVERIFIABLE`, `INDEX_NOT_READY`, `NO_MATCH`, `CANDIDATE_NOT_ADOPTED`, `REVIEW_REQUIRED`, `CITATION_BROKEN`, `SOURCE_TOMBSTONED`, `CONTEXT_BUDGET_TOO_SMALL`, and `CANCELLED`. Keep titles, paths, counts, and the existence of unauthorized material private.
+
+## 5. Module interface sketches
+
+Unexpanded helper types describe local data objects. Validate every public request shape first. Record the user or system action origin for every persistent command.
+
+### 5.1 Import and DocumentParser
+
+```ts
+interface ImportModule {
+  preparePreview(req: CommandRequest & {
+    targetScope: OwnerScope;
+    input: LocalFileHandle | ManualText;
+  }): Promise<Result<{ jobId: JobId; preparedImportId: string }>>;
+  preview(req: ReadRequest, preparedImportId: string):
+    Promise<Result<PreparedImportPreview>>; // Pin the original, parse version, segment range, and content hashes.
+  submit(req: CommandRequest & {
+    targetScope: OwnerScope; // Current project or explicitly selected shared general scope.
+    origin: "manual" | "system_candidate";
+    input: LocalFileHandle | ManualText | PreparedImportHandle;
+    sourceId?: SourceId; // Updates to an existing source require expectedRevision.
+    declaredAuthority: Authority;
+    userActionRef?: string;
+    adoptionIntent?: { // For explicit manual adoption only. Omit for system candidates.
+      decision: "accept";
+      preparedVersionId: VersionId;
+      expectedOriginalHash: Hash;
+      expectedNormalizedTextHash: Hash;
+      segmentIds: "all" | SegmentId[];
+      applicability: ApplicabilityConditions;
+      userActionRef: string;
+    };
+  }): Promise<Result<{ jobId: JobId; sourceId: SourceId; adoptionId?: AdoptionId }>>;
+  status(req: ReadRequest, jobId: JobId): Promise<Result<Job>>;
+  cancel(req: CommandRequest, jobId: JobId): Promise<Result<Job>>;
+  resume(req: CommandRequest, jobId: JobId): Promise<Result<Job>>;
+}
+interface PreparedImportPreview {
+  preparedImportId: string;
+  sourceId: SourceId;
+  preparedVersionId: VersionId;
+  originalHash: Hash;
+  normalizedTextHash: Hash;
+  parserFingerprint: string;
+  segmentIds: SegmentId[];
+  locatorQuality: "exact" | "partial" | "unverifiable";
+  expiresAt: string;
+}
+interface DocumentParser {
+  capabilities(): ParserCapability[]; // Format capability, limitations, and verification status.
+  parse(req: {
+    authorization: AuthorizationPlan;
+    blob: ScopedBlobHandle;
+    expectedOriginalHash: Hash;
+    parserFingerprint: string;
+    limits: ParseLimits;
+    jobId: JobId;
+    signal?: AbortSignal;
+  }): Promise<Result<{
+    artifactId: string; // Staged, unpublished artifact.
+    normalizedTextHash: Hash;
+    segmentManifestHash: Hash;
+    locatorQuality: "exact" | "partial" | "unverifiable";
+    diagnostics: Diagnostic[];
+  }>>;
+}
+```
+
+Verify write permission to the import target. Use the current project or an explicitly selected authorized scope. The local manual preview can support a single explicit import-and-adopt action. Preview uses only authorized staging data and stays out of ordinary version retrieval. A submit with `adoptionIntent` checks the preview version, both hashes, and segments. After publishing, coordinate `Adoption.decide` and record both receipts in the same logical submission. When publication succeeds and adoption fails, return partial completion and keep the version as a candidate. Without adoption intent, publish as a candidate. Version or scope changes invalidate the prior intent. Retain the difference and obtain the applicable user decision.
+
+For a system candidate with only external URL or metadata, save a candidate card. A usable SOP version and citation require a local original and parsing result. Use `Adoption.decide` after explicit confirmation. Obtain original material through a separate authorized operation within its collection scope.
+
+Identify the file by the saved original hash. Parse that pinned original. Diagnose corruption, encryption, scans without text, and unavailable table recovery. Verify supported formats, OCR, size limits, and quality thresholds through experiments. Report empty text or inaccurate locations at their actual state.
+
+### 5.2 Catalog + Version and Index
+
+```ts
+interface CatalogVersion {
+  publishParsed(req: CommandRequest & {
+    sourceId: SourceId;
+    artifactId: string;
+    expectedOriginalHash: Hash;
+    expectedPreviousVersionId?: VersionId;
+  }): Promise<Result<DocumentVersion>>;
+  readVersion(req: ReadRequest, versionId: VersionId):
+    Promise<Result<{ source: Source; version: DocumentVersion; segments: Segment[] }>>;
+  list(req: ReadRequest, cursor?: string): Promise<Result<ScopedSourcePage>>;
+  tombstone(req: CommandRequest & { sourceId: SourceId; reason: string }):
+    Promise<Result<LifecycleEvent>>;
+  restore(req: CommandRequest & { sourceId: SourceId; tombstoneEventId: string }):
+    Promise<Result<LifecycleEvent>>;
+}
+interface IndexModule {
+  schedule(req: CommandRequest & {
+    versionIds: VersionId[];
+    indexProfile: LocalIndexProfile;
+  }): Promise<Result<{ jobId: JobId }>>;
+  coverage(req: ReadRequest): Promise<Result<IndexCoverage>>;
+  scopedSearch(req: {
+    authorization: AuthorizationPlan;
+    query: string;
+    limit: number;
+    indexGeneration: string;
+    signal?: AbortSignal;
+  }): Promise<Result<IndexHit[]>>;
+}
+```
+
+`publishParsed` atomically registers the version, segments, locator map, and integrity receipt. A published version can be index pending. Preserve the original after an index failure and report the version's actual search availability. Direct authorized citation reads use the exact version independently of the index.
+
+Stage each index generation and switch atomically after it finishes and its manifest is verified. Exclude failed or cancelled generations from queries. A configuration rebuild leaves user decisions and older citations attached to their original objects.
+
+### 5.3 ScopePolicy and Retriever
+
+```ts
+interface ScopePolicy {
+  authorize(req: ReadRequest): Promise<Result<AuthorizationPlan>>;
+  validate(plan: AuthorizationPlan): Promise<Result<AuthorizationPlan>>;
+  grant(req: CommandRequest & {
+    fromProjectId: ProjectId;
+    receivingProjectId: ProjectId;
+    selections: { sourceId: SourceId; versionId: VersionId; segmentIds?: SegmentId[] }[];
+    purposes: Purpose[];
+    userActionRef: string;
+    expiresAt?: string;
+  }): Promise<Result<ScopeGrant>>;
+  revoke(req: CommandRequest & { grantId: GrantId; reason: string }):
+    Promise<Result<LifecycleEvent>>;
+}
+interface Retriever {
+  retrieve(req: ReadRequest & {
+    query: string;
+    limit: number;
+    retrievalProfile: string;
+  }): Promise<Result<{
+    hits: RetrievalHit[];
+    resolvedVersionIds: VersionId[];
+    authorization: AuthorizationPlan;
+    indexGeneration: string;
+    coverage: IndexCoverage;
+    noMatchReason?: "empty_scope" | "no_relevant_segment" | "no_eligible_adoption";
+  }>>;
+}
+interface RetrievalHit {
+  sourceId: SourceId;
+  versionId: VersionId;
+  segmentId: SegmentId;
+  score: number;
+  reason: string; // Explain keyword or local relevance. Establish trust separately.
+  authority: Authority;
+  adoptionId?: AdoptionId; // Optional for candidate_review and required for sop_context.
+  locatorQuality: "exact" | "partial" | "unverifiable";
+}
+```
+
+`ScopePolicy.grant` checks authorization in the source project and actual user action evidence. Model input, source documents, and tool parameters cannot create a grant. Require explicit selections on each cross-project request, including later requests that might use the same permission.
+
+For formal retrieval, intersect pinned versions, source access, effective adoption of the project's segments, and current applicability. Candidate review intersects requested versions and source access and clearly labels unadopted results. Both use the permission module. Formal context requires its own eligible outputs.
+
+### 5.4 Adoption + Citation
+
+```ts
+interface AdoptionCitation {
+  decide(req: CommandRequest & {
+    readScope: ReadRequest;
+    versionId: VersionId;
+    segmentIds: "all" | SegmentId[];
+    decision: "accept" | "reject" | "withdraw";
+    applicability: ApplicabilityConditions;
+    userActionRef: string;
+    reason: string;
+  }): Promise<Result<Adoption>>;
+  createCitation(req: ReadRequest & {
+    versionId: VersionId;
+    segmentId: SegmentId;
+    excerptRange: { start: number; end: number };
+  }): Promise<Result<Citation>>;
+  resolveCitation(req: ReadRequest, citationId: CitationId):
+    Promise<Result<{ citation: Citation; originalExcerpt: string; status: CitationStatus }>>;
+}
+interface Citation {
+  citationId: CitationId;
+  projectId: ProjectId;
+  createdFor: Purpose;
+  sourceId: SourceId;
+  versionId: VersionId;
+  segmentId: SegmentId;
+  originalHash: Hash;
+  normalizedTextHash: Hash;
+  segmentHash: Hash;
+  excerptHash: Hash;
+  sourceLocator: PrivateSourceLocator;
+  page?: number;
+  headingPath: string[];
+  documentRange: { start: number; end: number; unit: "utf16" };
+  authorityAtVersion: Authority;
+}
+type CitationStatus = "valid" | "superseded" | "review_required"
+  | "tombstoned" | "purged" | "grant_revoked" | "broken";
+```
+
+Candidate review citations can support discussion and show their purpose and adoption gap. Formal context creation and resolution verify the `Adoption` project, version, segments, and conditions. Verify access separately from citation identity. After adoption, create a formal-use citation with the same content binding and a link to the review citation. Compute citation status from current permission and lifecycle. Keep historical citations immutable.
+
+### 5.5 ContextBuilder and ImpactReview
+
+```ts
+interface ContextBuilder {
+  build(req: ReadRequest & {
+    purpose: "sop_context";
+    citationIds: CitationId[];
+    taskDescription: string;
+    budget: { maxTokens: number; tokenizerProfile: string; reservedOutputTokens: number };
+    expectedAdoptionRevision: Revision;
+  }): Promise<Result<{
+    snapshot: KnowledgeSnapshot;
+    context: ModelContextDraft;
+    usageReceipt: LocalUsageReceipt;
+    omittedCitationIds: CitationId[];
+  }>>;
+  validateForEgress(req: ReadRequest & { snapshotId: SnapshotId; contextHash: Hash }):
+    Promise<Result<EgressValidationReceipt>>;
+}
+interface KnowledgeSnapshot {
+  snapshotId: SnapshotId;
+  projectId: ProjectId;
+  purpose: "sop_context";
+  versions: { versionId: VersionId; normalizedTextHash: Hash }[];
+  adoptions: { adoptionId: AdoptionId; revision: Revision }[];
+  grantIds: GrantId[];
+  policyRevision: Revision;
+  indexGeneration?: string;
+  citationIds: CitationId[];
+  snapshotHash: Hash;
+  createdAt: string;
+}
+interface ModelContextDraft {
+  fragments: {
+    citationId: CitationId;
+    text: string;
+    authority: Authority;
+    applicabilityNote: string;
+    sourceLabel: string; // Display label permitted for egress. Omit default local absolute paths.
+  }[];
+  references: PublicCitationProjection[];
+  contextHash: Hash;
+  tokenCount: number;
+  answerPolicy: "cite_available_evidence_or_abstain";
+}
+interface ImpactReview {
+  assess(req: CommandRequest & {
+    trigger: VersionChange | GrantChange | LifecycleEvent | AdoptionChange;
+  }): Promise<Result<UsageImpact[]>>;
+  list(req: ReadRequest): Promise<Result<UsageImpact[]>>;
+  resolve(req: CommandRequest & {
+    impactId: string;
+    outcome: "keep_pinned_version" | "adopt_new_version" | "remove_usage" | "needs_research";
+    userActionRef: string;
+    evidenceRefs: string[];
+  }): Promise<Result<UsageImpact>>;
+}
+```
+
+Cross-project changes can trigger impact computation internally. Show a receiving project its own authorized material and use records. Keep other project names, material counts, and SOP content out of notifications. Closing with `adopt_new_version` requires effective adoption of the new version. Keep `needs_research` unresolved.
+
+## 6. Enforce authorization in storage queries
+
+Expose only scoped reads to the UI and model. Keep unscoped forms such as `searchAll()`, `getVersion(id)`, and `getBlob(hash)` private. Storage reads of sources, originals, index entries, segments, citations, and usage records require a valid `AuthorizationPlan` issued by the policy owner. Verify the plan and its revision independently of caller-provided values.
+
+```text
+allowedVersions = requested pinned versions
+  JOIN currently effective source access scope
+  JOIN explicit cross-project selections and active, unrevoked grants when another project owns the source
+  JOIN current source lifecycle eligibility for this purpose
+
+if purpose == sop_context:
+  allowedSegments = allowedVersions
+    JOIN this project's accepted Adoption for the exact versionId
+    JOIN the segmentId and active applicability allowed by Adoption
+else:
+  allowedSegments = readable segments within allowedVersions
+
+index query = IndexEntry JOIN allowedSegments before matching, scoring, counting, sorting, or paging
+original or citation read = object JOIN allowedVersions/allowedSegments before reading
+```
+
+List unpublished candidate cards through `allowedSources`. Return authorized source metadata only. Read originals and segments through their separate contracts. Require explicit cross-project selection and effective permission even for candidate metadata.
+
+Filter authorization before reading or scoring. If a semantic index cannot restrict candidates before searching, isolate indexes by scope or first obtain the authorized candidates. Keep post-search UI filtering out of the authorization decision.
+
+Resolve authority and read through a consistent policy revision. If revocation or deletion races the read, return `STALE_POLICY` and recalculate. Revalidate policy revision, citations, and `contextHash` after context assembly and before model egress. The network adapter must consume a valid egress receipt. Its implementation is outside this design.
+
+Apply scope to queries, paging, diagnostics, and caches. Include principal, request project, purpose, explicit versions, cross-project selections, permission and adoption revisions, index generation, and query configuration in the cache key. Invalidate affected entries on revocation. Diagnostic IDs point to local records. Preserve privacy in user-visible errors.
+
+## 7. Deduplication, updates, deletion, and recovery
+
+| Situation | Handling |
+| --- | --- |
+| Exact original and parse fingerprint for the same source and scope | Return the existing version and idempotent receipt. Record the duplicate import. Keep confirmation tied to the original action. |
+| Identical content imported into projects A and B | Reuse immutable original or text blocks internally where applicable. Retain separate sources, versions, index records, adoptions, and grants. Scope deduplication lookups so other projects' possession remains private. |
+| Source title or acquisition time changes only | Record a metadata revision. Keep the labels and evidence on older citations. Classification and source content have separate contracts. |
+| Content, parser, or normalization changes | Create a version and retain older versions and citations. A new parse fingerprint requires new version identity even with the same original hash. |
+| A new version of an adopted source | Start the new version as `pending`. Retain the old adoption state, mark its applicability `review_required`, and record impact. Exclude use pending review from new SOP context by default. Obtain an explicit decision to retain the pinned older version or adopt the new one. |
+| Citation to an old version | Historical SOPs and snapshots retain their citation and `superseded/review_required` status. A review can restore current applicability for the older pinned version. Preserve the original excerpt binding. |
+| Candidate rejection | Record `rejected` and the reason. Avoid repeated automatic recommendations. A new review decision preserves the old rejection. |
+| Withdrawal of adoption or cross-project grant | Block future formal context and flag affected usage. Preserve original confirmations and historical documents and display the citation's actual status. |
+| Tombstone | Block new retrieval and model context. Keep the minimal source, version, citation relationship, and deletion event. Show deletion on historical documents and verify recovery permission. |
+| Restore a tombstone | Restore readable state when the original remains and hash and locators verify. Recheck permissions and adoption applicability. Keep revocations and withdrawals effective. |
+| Physical purge | Use an explicit separate operation. Report affected citations and history, then apply retention rules. Consider all shared deduplication references before clearing blocks. |
+| Recovery after purge | Return `purged` when the original is unavailable. Verify old citations after reimport only if all content, parser, and locator hashes match. Otherwise create a new version and rebind through the applicable decision. |
+
+Reclaim physical blocks based on references from all effective and retained records. A broken external URL and local deletion have distinct meanings. Cite a retained, verified local version with its acquisition date and current URL status. Establish current external content separately.
+
+## 8. Jobs, cancellation, recovery, and idempotency
+
+```ts
+interface Job {
+  jobId: JobId;
+  projectId: ProjectId;
+  kind: "import" | "parse" | "index" | "impact_review";
+  state: "queued" | "running" | "blocked_input" | "cancel_requested"
+    | "cancelled" | "failed" | "succeeded";
+  inputHash: Hash;
+  configFingerprint: string;
+  idempotencyKey: string;
+  checkpoint?: { stage: string; artifactHashes: Hash[]; lastCommittedRevision: Revision };
+  attempt: number;
+  error?: KnowledgeError;
+  completionReceipt?: {
+    versionId?: VersionId;
+    adoptionId?: AdoptionId;
+    publication: "not_published" | "published";
+    adoption: "not_requested" | "accepted" | "failed" | "stale_intent";
+  }; // Final asynchronous receipt. Preserve error on partial completion.
+}
+```
+
+| Rule | Contract |
+| --- | --- |
+| Idempotency scope | Isolate keys by principal, project or target scope, and command type. The same key and request replay the same receipt. A different request hash returns `IDEMPOTENCY_CONFLICT`. |
+| Repeated submission | Updating a source requires its expected revision. A concurrent publisher that loses the race receives `REVISION_CONFLICT`. Preserve the newer version. |
+| Cancellation | `cancel_requested` records a request. Mark `cancelled` after module acknowledgement. Disable staging artifacts before commit. If commit already completed, report actual completion. |
+| Interrupted recovery | Check original and artifact hashes, parser configuration, target scope, permissions, revision, and checkpoint. Resume from a reliable checkpoint or explicitly rerun the stage. |
+| Authorization on resume | Obtain current authorization. A revoked grant stops the job with an authorization error. |
+| Index failure | Retain verifiable originals and versions. Continue serving the versions covered by the previous generation. Report missing coverage and partial results. |
+| Retry | Retry retryable errors within a bound. Use the stated recovery path for format, permission, broken citation, and missing input errors. |
+| Job diagnostics | Record stage, version, configuration, error, and recovery. Omit full originals and model contexts from logs by default and keep credentials out. |
+
+Accept cancellation signals for reads and context assembly. Prevent model egress after cancellation. Record cancellation, failure, no match, and insufficient source quality distinctly.
+
+## 9. Context and traceable use
+
+1. Retrieve for the actual task and pinned scope. For no match or no effective adoption, return `NO_MATCH` and the current scope. Allow abstention or a request for more evidence. Keep the search within scope.
+2. Resolve a complete citation for each selected fragment. Check hashes, range, adoption, and applicability. Include conflicts, assumptions, model suggestions, and stale or unverified conditions with the fragment.
+3. Create a local `KnowledgeSnapshot` with pinned versions, citations, adoption revisions, and authorization basis. Use its hash for integrity. Verify approval and authority separately.
+4. Reserve budget for task instructions, citation metadata, and output. Trim the least relevant complete units of fragment, citation, and required context first. If shortening a fragment, recalculate the excerpt range and hash and create an exact sub-citation. Preserve citations, negation, and table context.
+5. Return `CONTEXT_BUDGET_TOO_SMALL` if even one complete unit cannot fit. List omitted citation IDs and reasons. Keep uncited text out of the remaining space.
+6. Project only needed citation IDs, public source labels, version and hash summaries, and page, heading and excerpt ranges for the model. Keep full local locators, other project catalogs, and unrelated content local.
+7. Verify before sending. Record the hash of the content actually sent, budget, snapshot, and citations. Keep the receipt locally as evidence of material use. Check citation and answer correctness separately.
+
+Validate output citation IDs against the actual snapshot and verify each claim against the corresponding excerpt. Flag incorrect citations, claims beyond the excerpt, and new suggestions for review. Track formal SOP confirmation by version. Recheck current permission before reproducing an earlier send. Viewing historical material leaves egress inactive.
+
+## 10. Required experiments and implementation checks
+
+| Area | Required actual evidence | Design status |
+| --- | --- | --- |
+| Parsing and locators | Compare original documents, normalized text, and page and heading ranges for representative samples. Include tables, scans, damage, and reparsing. | Pending verification of actual supported formats. |
+| Keyword retrieval and explanation | Hits and misses for Chinese text, acronyms, synonyms, version differences, and zero-match samples. | First-release proposal. Implementation stack remains open. |
+| Local semantic or hybrid retrieval | Compare relevance, unsupported hits, latency, resources, and authorization filtering on the same pinned corpus and queries. | Experiment pending. |
+| Scope and revocation races | Identical content in projects A and B, explicit cross-project access, cache, citation and egress after revocation, and pre-ranking filters. | Design constraint requiring implementation-level automation. |
+| Citation integrity | Actual behavior for changed hashes, bad locators, budget trimming, older versions, deletion, recovery, and purge. | Design constraint. Application checks remain unexecuted. |
+| Job reliability | Parsing or indexing interruption, cancellation boundaries, duplicate import, conflicting updates, and reauthorization on resume. | Design constraint. Crash recovery remains unverified. |
+| Model response | Incorrect citations under fixed context, abstention on no match, and suggestions separate from facts. | Requires an authorized model experiment. The research round made no API calls. |
+
+For implementation acceptance, verify that unauthorized project information stays private in candidates, formal retrieval, counts, caches, logs, and citation resolution. Verify that candidates stay out of formal context, new versions require new confirmation, deduplication preserves permission boundaries, and citations remain verifiable. Exercise cancellation and recovery around partial publication and retain complete evidence units when trimming. Record these as required implementation and verification checks until actual results exist.
+
+The source index in provenance records the research sources and their limits. Select and validate the technical stack, performance thresholds, and supported parsing formats in the applicable project.

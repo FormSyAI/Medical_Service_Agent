@@ -1,0 +1,51 @@
+# Map FormSy product content to one specification
+
+Use this mapping when drafting requirements in `specify` and making
+substantial changes in legacy `clarify`. Use the upstream Spec Kit
+specification template and stage instructions for the document structure.
+Apply the FormSy product module's requirements quality and source rules
+within the same specification and workflow.
+
+## Read the applicable resources
+
+Use `.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-product/` as the product resource root.
+Read `GUIDE.md` and the resources that apply to the current object:
+
+- `references/stages-and-sources.md` for the stage depth, sources, and treatment of unknowns.
+- `references/product-fields.md` for user tasks, journeys, pages, features,
+  business states, inputs, outputs, and acceptance fields.
+- Use `assets/product-sop-template.en-us.md` for `en-US` or `assets/产品SOP模板.md`
+  for `zh-CN` and legacy runs without a saved document locale. Incorporate only
+  the material relevant to the feature scope into `spec.md`.
+- `references/product-review-rules.md` for PC01–PC15 applicability, concrete
+  findings, evidence, and unchecked items. Follow its frozen source link for
+  original quotations.
+
+The packaged `provenance.json` identifies the source of the included
+snapshot. Record fresh reads separately. Leave technical objects, APIs, and
+implementation decisions to `plan`.
+
+## Minimum section mapping
+
+| FormSy content | Location in spec.md | Identity and source |
+| --- | --- | --- |
+| User, problem, scenario, goal, scope, and priority rationale | Input, User Scenarios & Testing, and a short Scope & Sources section when needed | Preserve the original user reference. Use stable story IDs such as US1 for this feature. |
+| Journey from entry point to an observable outcome, applicable page states, feature inputs and outputs, and side effects | User Story and Acceptance Scenarios, with exceptions in Edge Cases | Describe simple behavior directly. Preserve existing J/UI/F/B IDs and map them to US/FR IDs. |
+| Required behavior, boundaries, permissions, data states, and applicable quality requirements | Functional Requirements, with applicable quality constraints under Requirements | Use stable IDs such as FR-001. Map existing requirement IDs and preserve them. |
+| Observable acceptance results, environment, and boundaries | Given/When/Then scenarios and Success Criteria | Use IDs such as SC-001 and preserve mappings for existing acceptance IDs. Record planned checks as planned. |
+| Business entities and the meaning of their states | Key Entities | Describe product semantics. Leave table structure and implementation to planning. |
+| Original request, actual decisions, source snapshots, assumptions, and unresolved issues | A short Scope & Sources or Clarifications section | Cite the actual request or material and its version. Mark material ambiguities NEEDS CLARIFICATION. |
+| Initial PC findings and items requiring recheck | A short Product Review section or the existing stage review report | Record PC IDs, reviewed objects, status, evidence, and problems under the existing review and approval contract. |
+
+In `clarify`, use the upstream categories to identify questions that change
+scope, acceptance, or implementation. Resolve the critical choices and
+reuse existing answers. Update the related FRs, scenarios, and SCs along
+with the clarification log. Resolve conflicts in the document body. When
+no material ambiguity remains, record the basis and continue.
+
+`active required` is a current constraint and `active advisory` is guidance.
+`pending` and Birdview artifact rules are proposals. List conflicts between
+principles, requirements, and rules. Record official activation from its
+actual source. At the end of `specify/clarify`, save the complete current
+draft and material revisions with their versions and sources. Review the
+draft through the stage decision contract.

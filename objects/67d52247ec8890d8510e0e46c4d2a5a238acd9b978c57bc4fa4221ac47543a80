@@ -1,0 +1,194 @@
+# Acceptance, delivery, and knowledge support
+
+This English guidance derives from sections 13 and 15–17 of the technical
+design baseline v0.2. The [preserved Chinese export](验收交付与知识支持.md) and
+its [source provenance](验收交付与知识支持.provenance.json) identify the original
+version and selected sections. Use the technical and review templates
+selected for the run to record outcomes in the requested document language.
+
+## 13. Knowledge as an independent support module
+
+Use this section when the project has the applicable knowledge capability.
+Knowledge supports retrieval, SOP writing and review. Product rules and user
+decisions have their own authorities. Tailor and confirm the applicable
+knowledge interface and data contract. Establish actual application
+integration separately from the existence of its design.
+
+For each consumer and purpose, record requested project and version scope,
+sources, citations and snapshots, adoption and applicability, permitted
+outputs and outbound data, and the handoff for failures, zero matches and
+impact review.
+
+- Separate responsibility for local originals, parsing, catalog versions,
+  indexing, retrieval, scope policy, adoption and citation, context and
+  impact review. The baseline first release handles document material, with
+  code analysis reserved for later extension.
+- Share general references and isolate project material. For cross-project
+  reads, explicitly select the source project, source version, purpose and
+  effective permission. Apply scope filters in the storage query before
+  content reads, ranking, counting, caching and transmission.
+- A single explicit manual import action may also adopt the selected version
+  and scope. Record import and adoption as separate receipts. When the action
+  covers both, reuse its decision. Otherwise retain the source as a candidate.
+  Obtain confirmation before adopting system-collected candidates. Keep
+  default bulk adoption disabled.
+- Record source type independently of adoption. Distinguish user decisions,
+  project material, general standards, external references and model
+  suggestions. Preserve their authority and evidence scope when adopted as
+  references.
+- Pin formal context to source version, original and extracted-text hashes,
+  excerpt, page, heading or offset, and project adoption. Record differences
+  and assess impact after updates. Preserve earlier confirmations and the
+  identity of old citations.
+- Deduplicate identical content without combining project permissions,
+  adoption or revocation state. Define deletion, tombstones, recovery and
+  historical references.
+- Send only relevant, authorized excerpts and citations to the configured
+  model. Treat embedded document instructions as data and verify authority
+  from the effective project decision. Keep complete evidence units when
+  trimming to budget. Report missing evidence on zero matches and allow
+  abstention. Keep retrieval within the selected scope.
+- Evaluate keyword, local semantic and hybrid retrieval, parsers and storage
+  as candidates. Keep external vector APIs disabled by default. Test Chinese
+  retrieval, parsing fidelity, isolation, citations and recovery in the
+  applicable environment.
+
+Trace findings from source version and excerpt to SOP section, requirement
+or feature, then to module, task, acceptance and the relevant PC or TC issue.
+A retrieval hit alone leaves a feasibility blocker open. Obtain the user's
+confirmation through the applicable decision, independently of adoption.
+Assess impact before reusing older evidence.
+
+Verify that requests carry effective scope and pinned versions, the formal
+knowledge context includes only adopted knowledge sources, references and
+project decisions stay distinct, and derived data respects the same
+isolation. Review applicable implementation results separately against
+KB01–KB18.
+
+## 15. Tests, acceptance, and actual evidence
+
+Record each acceptance ID, original wording and requirement for each
+applicable platform. Pin build and configuration, data and prior state,
+operations, observable assertions, automated or manual method and rationale,
+planned evidence and actual result. Keep rows for unavailable environments
+and checks that have yet to run.
+
+Select module, contract, integration, real UI, persistence and complete
+post-install task checks according to risk. Assert the original user
+behavior. For saving, observe visible feedback, actual stored data and
+reading it again after a restart. Treat the presence of a button, file or
+function as structural evidence.
+
+Cover key normal paths and applicable counterexamples. Include missing
+input or permission, resource shortages, duplicates, concurrency,
+cancellation, disconnection, missing API keys, API errors and unknown
+outcomes, partial commits, restart recovery, version changes and installation
+differences. For knowledge, use controlled examples for identical content
+across projects, unadopted candidates, revocation, old citations, zero
+matches, citation budget trimming and untrusted document instructions. Keep
+tests within authorized data.
+
+Calculate automation and manual coverage using the effective project rules.
+When the project explicitly limits manual verification to at most 10%, fix
+the acceptance-by-platform denominator and retain missing environments and
+unrun items. Capture observable real UI behavior, persisted results and
+failure screenshots or logs when the environment allows. Use manual review
+for experience that reliable automation cannot judge and for actual user
+decisions. Identify simulations as simulations.
+
+Record actual results as passed, failed, unverified, or not applicable with a
+reason. Attach original evidence and environment. Record document coverage,
+structure, content review, feasibility and application acceptance separately.
+Keep their result counts and rates separate. Link failure evidence to the
+issue, version and retest. Retest the affected assertions after repair and
+retain the prior failure evidence.
+
+Check that each applicable acceptance has concrete operations and assertions
+able to detect the relevant defect, as well as environment, data and evidence
+methods. Bind actual passes to the current build and platform. Record Windows
+as unverified when its environment is unavailable. Verify the installed
+product separately from unit and build checks.
+
+## 16. Delivery, installation, and verification reports
+
+Use the applicability and version supplement (`.formsy-sop/skills/formsy-development-kit/modules/formsy-sop-workflow/references/sop-rules-addendum-20261016/applicability-and-version.md`)
+and effective project decisions to determine the deliverables and credential
+responsibility. Plan the applicable source, build instructions, platform
+packages, verification report, operating and configuration instructions,
+license obligations and known gaps. Require an installer when the agreed
+delivery needs one. For each supported platform, determine its package type,
+architecture, signing or notarization, compatibility, upgrade and rollback
+requirements. Use the current project and platform requirements.
+
+For each deliverable, record version, build and platform, path and content
+identity, runtime and configuration prerequisites, verification and actual
+use, and current result or gap.
+
+- Verify reproducible build, dependencies and scope for source delivery.
+- Where an installer applies, test installation, startup, core tasks,
+  saving and reopening, and the applicable upgrade, rollback or uninstall.
+- Connect the verification report to acceptance, environment and original
+  evidence. Keep failed, unverified and inapplicable results traceable.
+- When users own API credentials under the effective design, explain setup,
+  missing or configured keys, replacement, deletion and error recovery.
+  Keep actual credentials out of source, packages, configuration examples,
+  logs and reports.
+
+Record baseline and effective confirmations, build and platform, actual
+execution scope, acceptance denominator, automated and manual methods,
+passed, failed and unverified results, failure evidence and repair retests,
+open issues, use of permissions and costs, and delivery limitations. Record
+deliverable presence, application startup and complete task acceptance
+separately.
+
+Locate delivery and evidence for every agreed platform. Record unavailable
+environments explicitly, and test the installed tasks where applicable.
+Final acceptance requires the user's decision. A self-review score remains
+a separate record.
+
+## 17. Technical and knowledge review mapping
+
+Use the existing TC01–TC15 meanings. Record satisfied, unsatisfied, not
+reviewed, or not applicable with a reason. Record L1 structure, L2 semantics
+and any required L3 trial independently. Complete each required layer before
+marking a rule satisfied. The section numbers below refer to the technical
+design baseline.
+
+| TC rule | Sections | Required evidence and judgment | Parallel knowledge rules when applicable |
+| --- | --- | --- | --- |
+| TC01 Baseline and scope | 1, 8, 13 | Object and rule versions, effective decisions, target platforms and draft or confirmation boundary | KB09, KB10 |
+| TC02 Bidirectional traceability | 2, 4, 14, 15 | Requirement to design, task and acceptance, reverse source, orphan and conflict handling | KB10, KB11 |
+| TC03 Module responsibility | 3, 4, 6 | Responsibility, boundaries, inputs and outputs, owners, dependencies, failure and lifecycle ownership | KB01–KB18 module responsibilities as applicable |
+| TC04 Interface contracts | 4, 5, 9, 13 | Agreement on types, limits, errors, permissions, versions, timeouts and duplicate behavior | KB04, KB06, KB13, KB16 |
+| TC05 Data, persistence, and recovery | 7, 10, 13 | Data constraints, ownership, consistency, retention, deletion, migration and failure recovery | KB03, KB04, KB07, KB15, KB16 |
+| TC06 Critical scenarios | 4, 6, 10, 15 | Applicable normal, startup and exit, cancellation, partial failure, duplicate and recovery paths | KB08, KB15, KB16, KB18 |
+| TC07 Critical feasibility | 8, 11, 12, 13 | Triage, predefined method and conditions, actual sources or trials, and limitations | KB02, KB08, KB11, KB17 |
+| TC08 Quality and thresholds | 4, 11, 15 | Environment, scale, response, units, basis and measurement method | KB02, KB08, KB18 |
+| TC09 Trust and side effects | 9, 10, 13 | Actor, permissions, credentials, outbound data, revocation and deletion | KB01, KB06, KB13, KB14, KB15 |
+| TC10 External dependencies | 8, 9, 12 | Pinned versions, licensing, platforms, limits and failure handling | KB01, KB02, KB09 |
+| TC11 Installation and environment differences | 8, 10, 16 | Delivery prerequisites on specified platforms, compatibility, upgrade and rollback, and environment gaps | KB11, KB15, KB16 for the applicable capability |
+| TC12 Executable acceptance | 2, 15, 16 | Environment, data, operation, assertion and evidence plan for acceptance by platform | Applicable KB rules and related KBT design |
+| TC13 Assertions verify requirements | 2, 6, 15 | Review of behavior and outcomes and critical counterexamples, beyond presence of implementation | KB04, KB06, KB08, KB17 |
+| TC14 Sources and versions | 1, 12, 13 | Source, date, version, locator, supported scope, conflicts and basis for reuse | KB03, KB04, KB05, KB09, KB12 |
+| TC15 Resolution and impact review | 1, 10, 12, 14, 15 | Issue log, revision differences, impact, closure evidence, confirmation, reopening and history | KB10, KB11, KB12, KB17, KB18 |
+
+Review KB and TC independently. Keep critical trial issues open until the
+required trial evidence supports closure. Track unresolved decisions and
+environment blockers without treating their presence in a log as closure or
+readiness.
+
+For project review, gather actual requirements, product behavior, original
+acceptance and effective approvals. Gather module, interface, data, state,
+dependency and candidate designs, target platform and installation,
+signing and upgrade boundaries, and available test environments. Keep the
+critical assumptions, thresholds, scale, trials, API and credential
+responsibilities, permission, outbound and cost boundaries, and knowledge
+versions, adoption, authorization and citations explicit. Retain actual
+source, packages, UI, file and failure evidence and the verification report
+as applicable. Record missing material with its current status and intended
+use.
+
+The source provenance retains historical demonstrations and reading indexes.
+Use demonstrations as method examples and record project decisions and
+results from actual evidence. Apply thresholds, budgets and approval
+procedures from effective project requirements.

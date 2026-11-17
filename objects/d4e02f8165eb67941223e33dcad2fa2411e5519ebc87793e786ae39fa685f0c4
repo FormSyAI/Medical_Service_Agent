@@ -1,0 +1,9 @@
+{
+  "source": "知识库设计/知识库自检规则.md",
+  "source_sha256": "ecc51ac143bd93cd8bf565188d96d8f8a1593bbdd8de734cfa8b464b850ec4cc",
+  "selected_section_patterns": [
+    "^## [23]\\."
+  ],
+  "unbundled_links_as_provenance": [],
+  "exported_sha256": "f55936e2527a25b5eaaaa4451213d756e9f8150ba687d8a9effc0e55ebd07bb8"
+}

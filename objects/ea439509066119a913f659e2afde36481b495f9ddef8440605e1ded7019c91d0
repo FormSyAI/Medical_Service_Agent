@@ -1,0 +1,42 @@
+# Standalone defect workflow (`bugfix-v1`)
+
+Use `formsy flow enter PROJECT --profile bugfix --feature .formsy-sop/specify/bugs/SLUG --request-file REPORT` for a standalone defect. The run proceeds through `assess`, `fix` and `test`. Save the stage reports as `assessment.md`, `fix.md` and `test.md`. Apply the relevant project principles and constraints. Use the report template selected by `method_reading` for the run locale. Keep feature-development artifacts in their own workflow.
+
+Read the pinned native Spec Kit bug instructions from context. The pinned CLI installs the original instructions through `extension add bug` and checks their exact digest. Restore the trusted managed installation when the bytes differ.
+
+During `assess` and `test`, write only the current stage report and internal records. The workflow refuses a result if it detects application or test source changes and retains the actual changes. This is a workflow check. During `fix`, edit within the scope of the current assessment.
+
+Submit `advance` with the existing `run_id`, `operation_id`, `expected_revision`, `stage`, `input_digests`, `outcome`, `summary` and `outputs`. Include only the exact report for the current stage in `outputs`. Add the matching `bug` object.
+
+- `bug.assessment` contains `verdict` (`valid`, `likely_valid`, `invalid`), `report_sha256`, `reproduction` (`description`, `status`, `evidence_refs`), `proposed_paths` and `risks`. For a `valid` or `likely_valid` assessment, put `execution` at the request root alongside `bug`. It contains `allowed_paths`, `checks` (unique `id`, `purpose` of `reproduction`, `regression` or `quality`, an `argv` array and boolean `required`) and `max_repairs` (integer from 0 to 10, default 3).
+- `fix` contains `assessment_sha256`, `report_sha256`, `status` (`applied`, `partial`, `not_applied`) and `deviations` (`path`, `reason`, `evidence_refs`). Use the actual diff to verify scope and changes.
+- `verification` contains `assessment_sha256`, `fix_sha256`, `report_sha256`, `verdict` (`verified`, `partial`, `failed`), `reproduction_receipt_refs`, `check_receipt_refs` and `gaps`. Use current receipt IDs from `bug_checks_current` returned by `flow check`.
+
+### Objectives and evidence for new Bug runs
+
+Read the entire original request and saved clarifications before recording `bug.assessment.objectives`. Use `entry.request_path` when entering through `flow enter`. When starting directly, save the original at `FEATURE/request.md`. Each objective has a stable `id`, `source` with the request or `FEATURE/clarifications.md` path and an exact quote from one source line, the observed `symptom`, the `expected` behavior, a `method`, and a `prerequisites` list. Include each objective's ID, symptom, and expected behavior in the current assessment report. Map all remaining source text with `source_review: [{source: {path, quote}, reason}]` for headings, background, and supplemental details. The engine checks exact coverage and retains the caller's classification for review. Keep every original objective and required check when only the budget changes.
+
+- Use `method: {kind: "program", check_id: ID, failure_exit_code: N}` with a distinct required reproduction command in `execution.checks`. Run `flow check` on the unchanged original candidate at the start of `fix`. When the program observes the documented symptom, make `FORMSY_BUG_RED OBJECTIVE_ID` its final stdout line, leave stderr empty and exit with the recorded nonzero code. A missing dependency, collection failure, interrupted check batch, or mismatched exit code leaves the baseline unverified. Keep the same command and assertion inputs for the passing run. Use an existing test or an exact driver under the run's private directory when the assessment must stay read-only.
+- Use `method: {kind: "manual", procedure: {path, sha256}, baseline_evidence: [{path, sha256}]}` for a real manual operation. Preserve the observed original failure before code changes. If it is genuinely inapplicable, use `baseline_not_applicable: true` and a `baseline_gap` explaining why. If the evidence is missing, use `baseline_gap` alone and leave the goal open. Manual observations carry their own source and remain caller records. A non-defect assessment may use `kind: "diagnostic"` and a sourced `reason`.
+- Record each applicable runtime prerequisite in `prerequisites` with a stable `id`, `status` (`met`, `blocked` or `not_applicable`), and `detail`. A `met` prerequisite needs exact `evidence` references. When no prerequisite applies, record that decision and its reason. An unmet prerequisite holds the affected objective. Other authorized local checks may still run.
+- To add, remove or redefine an objective or a required check, include `objective_change: {reason, source: {path, quote}}` with the real scope decision saved in `FEATURE/clarifications.md`. The assessment waits for a separate confirmation. Copy `objective_coverage.change_sha256` into `interact` as `objective_change_sha256` and record the actual decision in `message`. A generic stage or budget confirmation does not accept an objective change.
+- For `verified`, submit `bug.verification.objectives` with one `{id, status: "pass", check_receipt_id}` per program objective and add each receipt to both receipt lists. For a manual objective, save the observed results under `bug_manual_observation.directory` for this test attempt. Submit `{id, status: "pass", target_sha256, evidence}` using its `target_sha256` and those exact references. The program rejects reuse of baseline bytes as a current passing observation. Keep platform, actual user path, package health, and synthetic checks distinct. An omitted objective or a stale, blocked, or missing result keeps verification open.
+
+Existing saved Bug runs retain their earlier policy. `objective_coverage.status: "legacy_unrecorded"` identifies the missing historical inventory without assigning objectives or baseline evidence retrospectively.
+
+The following outline shows where these two fields belong in a valid assessment result.
+
+```text
+result
+  bug
+    assessment
+  execution
+```
+
+Use `flow check` during `fix` and `test`. It streams results from the existing local runner with `shell=False`. To record `verified`, retain original symptom evidence, a current original-reproduction check, required regression checks and applicable adopted Verifier results. Missing evidence leaves the run at `test` with `partial`. A failing symptom or regression returns the same run to `fix` with `failed`. Each new repair attempt uses the existing cumulative budget. Exact replay preserves that budget. A non-defect verdict ends diagnosis. To correct the diagnosis or change scope, use `interact revise` or `interact rerun` with the actual decision and return to `assess`. Retain previous source artifacts, failures and patches.
+
+Existing assertions remain protected independently of the write scope. To propose an assertion change, include `path`, `before_sha256`, `proposed_content` and `reason` under `assessment.assertion_changes`. The workflow retains the original and proposed bytes and digests. Obtain the actual user's answer tied to that exact assessment version, including in automatic mode. Apply only the accepted byte transition and verify again. Preserve failed checks and their original assertions in history.
+
+Optional Server context uses the existing FormSy login and each project's permissions. Recall `understand` at `assess` from the original request and pinned principles, `execute` at `fix` from the assessment, and `verify` at `test` from the assessment and patch. Apply global constraints regardless of keyword matches. Preserve source versions, excerpts and truncation markers. Adopted experience carries its original Verifier. Guidance without a definition contributes guidance only. Continue authorized local work when the Server is unavailable and retain gaps that block verification. Use the existing stage and authorization boundaries for selection and upload.
+
+Use the native version-bound answer in guided mode. The workbench is read-only. Automatic execution uses existing task authorization and requires separate authorization for adopting principles, adopting sources or uploading. Existing feature runs and their repairs keep their saved workflow. After interruption, retain the unknown result and logs, inspect actual side effects, and use an explicit decision before retrying.

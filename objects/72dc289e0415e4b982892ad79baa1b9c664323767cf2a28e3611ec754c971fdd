@@ -1,0 +1,76 @@
+# [Project and revision] Task packet
+
+Use this English authoring template with the [original task packet](../references/任务细化/任务包模板.md) and its [provenance](../references/任务细化/任务包模板.provenance.json). Keep IDs, states and machine field names stable. Replace placeholders with current evidence or an explicit gap.
+
+## 1. Task packet
+
+### 1.1 Baseline and overview
+
+| Field | Current record |
+| --- | --- |
+| Project, packet ID and revision | [Actual identifiers] |
+| Stage and confirmation | [Actual stage, decision source and version] |
+| User goal and authorized scope | [Original wording, source IDs and versions] |
+| Allowed actions, tools, environment and budget | [Applicable authorization and limits] |
+| Open questions and blockers | [Unknowns, impact and next question] |
+| Overall completion criteria | [Observable user outcome and applicable platforms] |
+
+| R/G and version | Deliverable or module | T and its single outcome | Dependencies and entry conditions | Owner and execution order | Current state and next refinement |
+| --- | --- | --- | --- | --- | --- |
+| [Source] | [Deliverable] | [Stable ID and outcome] | [Prerequisites] | [Owner] | draft |
+
+### 1.2 Task card
+
+**T-[stable ID] · Revision [revision] · Type `document` / `development` / `research` / `decision`**
+
+| Field | Current record |
+| --- | --- |
+| Single objective, parent and sources | [Requirement, deliverable and source versions] |
+| State and reason | [State and its current evidence] |
+| Executor and completion reviewer | [Actual person, model or script for each role] |
+| Allowed actions and protected content | [Write scope, permissions, protected requirements, acceptance and contracts] |
+| Environment, resources, costs and outbound activity | [Actual tools, data and authorization] |
+| Interface and data invariants | [Inputs, outputs, commit semantics, ownership and sources] |
+| Deliverables and completion assertions | [Artifact IDs, locator status and observable outcome] |
+| Shared work and integration | [Single writer, dependencies and integration owner] |
+| Failure, cancellation and recovery | [What to retain, stop conditions, checkpoints and retry prerequisites] |
+| Blockers and next action | [Gap IDs, effects and conditions to resume] |
+
+| Input ID and role | Source revision | Locator and locator kind | Actual read scope | Allowed use |
+| --- | --- | --- | --- | --- |
+| [Source] | [Revision or unknown] | [Locator, or `planned` / `to-locate` with reason] | [Actual scope] | [Purpose] |
+
+| Entry condition ID | Dependency, version or permission | Check and evidence | Current state | Action if unmet |
+| --- | --- | --- | --- | --- |
+| [Condition] | [Prerequisite] | [Evidence] | unknown | [Blocked action] |
+
+| STEP ID | Input or target | Action | Expected intermediate result | Failure handling and retained material |
+| --- | --- | --- | --- | --- |
+| [STEP] | [Target] | [Operation] | [Observation] | [Action and evidence] |
+
+| TEST ID and original acceptance ID | Input, prior state and environment | Operation | Expected behavior and counterexample | Planned evidence | Actual result and evidence |
+| --- | --- | --- | --- | --- | --- |
+| [TEST] | [Setup] | [Operation] | [Observable result] | [Expected proof] | not_run |
+
+| TASK01–TASK10 and task revision | Actor, tool and review level | Observations and evidence | Applicability and result | Impact and next action |
+| --- | --- | --- | --- | --- |
+| [Applicable rule] | [Actor and level] | [Actual evidence] | [Result with reason] | [Finding or action] |
+
+At handoff, list planned delivery, actual changes, checks, remaining issues and next entry conditions. Retain integration and complete user-path results separately.
+
+## 2. Optional JSON task object
+
+Use the existing machine fields and examples in the original task packet and the [handoff contract](../references/交接约定.md). Preserve `source_ids`, `requirement_ids`, `input_bindings`, `entry_conditions`, `steps`, `planned_tests` and their IDs. Preserve locators and quotations. Keep `runtime_results: []` until a real application check runs.
+
+## 3. Status conventions
+
+| Status | Meaning |
+| --- | --- |
+| draft | Task details are still being written. |
+| blocked | A required entry condition is unmet or unknown. |
+| ready | Current prerequisites are satisfied under existing authorization. |
+| running | Execution has started. |
+| needs_recheck | A change affected the task inputs, contracts or evidence. |
+| completed | Current evidence supports this task's deliverables and assertions. |
+| failed | The actual result failed an assertion. |
+| cancelled | Execution stopped. Retain partial work and recheck conditions before resuming. |

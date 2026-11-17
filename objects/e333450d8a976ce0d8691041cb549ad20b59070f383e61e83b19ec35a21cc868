@@ -1,0 +1,14 @@
+{
+  "source": "SOP设计基准-0.2/技术文档SOP.md",
+  "source_sha256": "553fa812f99d794691ba2b3fbe427a1a85f0824ae6764a37ee18ae13ac2a5084",
+  "selected_section_patterns": [
+    "^## (1|2|12|14)\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "RS06 ADR 流程",
+      "original_reference": "SOP设计参考资料-20260930/技术/RS06-AWS架构决策流程阅读笔记.md"
+    }
+  ],
+  "exported_sha256": "cd241e03daa33aca4fd98176a2d4b75eabe6f34207957da36e1c2ee029673d1a"
+}

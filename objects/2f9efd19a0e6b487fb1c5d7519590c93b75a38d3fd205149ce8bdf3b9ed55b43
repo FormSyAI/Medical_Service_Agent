@@ -1,0 +1,118 @@
+> This guide is an internal module of formsy-development-kit. Use the Kit entry to select it for the current task.
+
+# FormSy candidate audit of execution evidence
+
+Review the supplied evidence independently. Scope can cover a single condition,
+and the document modules are optional for this audit.
+TraceAudit uses release `traceaudit-r12`, interpretation revision `1.9.1`,
+machine contract `1.9`, and candidate report schema
+`traceaudit-candidate-0.1`. The document modules use their separate
+`formsy-sop-contract-0.2`.
+
+## Bind the sources and available capabilities
+
+Read the [candidate report contract](references/候选报告约定.md) and the
+[r12 reading guide](references/traceaudit-r12-reading-guide.md). Run
+`python3 scripts/validate_traceaudit.py` to verify the nine manifest entries
+and the 33 rules, 144 conditions, and 184 atomic obligations. Record the
+execution gap if Python is unavailable. The ten r12 files retain their
+original bytes. The r11 material remains available for historical review.
+Treat external relative links and upstream commands in those records as
+provenance.
+
+Keep `reference_only=true` and `source_authenticated=false`. Establish the
+actual user task, target version, effective requirements, readable input
+extent, and rules cited for this round. For historical work with an unknown
+original rule set, label the result as retrospective reference analysis.
+Obtain current authorization and confirmation from actual user decisions.
+Record source requirements, assistant claims, tool observations, and current
+inferences separately. Verify quotation accuracy, semantic support, version
+binding, and source identity independently.
+
+## Select scope and read the applicable rules
+
+Freeze the `code_fix` or `full_sop` profile before seeing results. Use
+`code_fix` for a draft when the scope is unspecified, and disclose the
+choice. Read [interpretation sections 0–5](references/traceaudit-r12-reading-guide.md#0-freeze-the-audit-profile-and-triggers).
+Use the [compiled catalog](references/traceaudit-r12/compiled-catalog.json)
+to locate each selected rule's parent clause, conditions, all atomic
+obligations, dimensions, triggers, and gates. Check the actual technical,
+security, or code-fix source. Use `coverage_manifest` to identify the material
+outside compiled coverage.
+
+- For `code_fix`, cover every substantive diff and the calls, data, and
+  side effects needed to assess it. Derive `design_full`, `formal_closure`,
+  and `full_security` from the original user and assistant material.
+  Record uncertain evidence or meaning as `uncertain` and restore the
+  corresponding full check. Defer an item only when supported as
+  `not_requested`. Keep deferred items `unverified` in the original matrix.
+  The SEC10 release and update identity obligation remains in scope even
+  when product governance is deferred.
+- For `full_sop`, assess the complete original SOP for applicability and
+  evaluate each condition within the available capability and evidence.
+  Deliver a partial candidate with the unreviewed scope when inputs are incomplete.
+- Record missing source identity, program gates, frozen quotations,
+  independent stage reviews, or runtime adapters. Keep affected definitive
+  conclusions `unverified`. Describe the stages actually executed.
+
+## Review and deliver
+
+1. Separate mandatory acceptance, requested fixes, compatibility constraints,
+   observations, diagnosis, and workarounds in the original request. Combine
+   identical triggers and expectations when appropriate. Attribute chosen
+   implementation details to their actual source. Retain frozen originals
+   and versions. Under interpretation revision 1.9.1, distinguish effective
+   new requirements, old test assertions, and explicit test deliverables.
+   Keep unresolved conflicts between effective requirements `unverified`.
+2. Review every atomic obligation under each selected condition. Distinguish
+   design, implementation, test delivery, actual execution, and closure
+   evidence. Use `unverified` for missing evidence. Use `unsatisfied` only
+   with a direct counterexample for the same condition, object, task,
+   version, and dimension. Require affirmative exclusion evidence for
+   `not_applicable`. Apply conjunctive obligations with `all` and retain
+   independent parent gates. Propagate failure only where the corresponding
+   obligation applies.
+3. For TC14, bind the exact assistant statement and context to its
+   proposition, modality, object, property, and version. Compare that with
+   independent sources. Classify plans, user wishes, and tool output by
+   what they actually support. Evidence reuse can occur within one task.
+   Distinguish task evidence from the product's external input capabilities.
+   Record any gaps in coverage of assistant statements or properties.
+4. Cite each source's own revision, task and target binding, precise line
+   range, and verbatim text from the material read. Check sufficient context
+   for whole-file absence, conflicting contracts, and initialization causes.
+   Compare parent and target versions independently. Limit test conclusions
+   to the actual coverage. For SEC06, identify the credential object and
+   version in the audited project, dependency, or build. Track credentials
+   used by the audit tool separately. Distinguish a credential reference
+   from observed exposure or verified protection. Treat runtime identity as
+   a separate evidence requirement.
+5. Deliver the candidate report, unverified, excluded and unreviewed scope,
+   analysis failures, and known residuals. Group findings by a supported
+   common cause while retaining every original condition and citation.
+   Report the groups as candidates. Preserve old reports, failures, and
+   inputs. Record decisions, revisions, retests, and formal closure
+   separately. Keep `formal_closed=false` in every candidate report.
+
+For a machine-readable file, use the [candidate template](assets/candidate-audit.template.json)
+and run `python3 scripts/validate_traceaudit.py /absolute/path/candidate-audit.json`.
+The validator verifies frozen bytes, registered structure, and the locations
+of quotations in supplied text. Verify semantic support, input completeness,
+identity, and historical execution independently. Send document revision
+findings and version impacts to the relevant product, technical, or
+knowledge module and recheck with selfcheck. Use the candidate report schema
+for this output.
+
+## Retain limits and residuals
+
+Preserve the known TC14, SEC06, TC13, FIX03/FIX04, and TC04/TC05 residuals
+in r12. For historical test records, use the frozen sources linked by the
+r12 reading guide. A full evaluation requires the applicable input,
+actual execution, and independent review.
+
+This module reads supplied material and can run the local structural validator.
+Handle external trace retrieval, paid model calls, business execution,
+deployment, or formal closure through a separately authorized workflow. If
+material, access, or budget is missing, retain the completed portion and the
+stop point. Clarify decisions that change requirements, authorization, or user
+confirmation with the current user.

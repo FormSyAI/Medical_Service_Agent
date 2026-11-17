@@ -1,0 +1,18 @@
+{
+  "source": "知识库设计/知识库自检规则.md",
+  "source_sha256": "ecc51ac143bd93cd8bf565188d96d8f8a1593bbdd8de734cfa8b464b850ec4cc",
+  "selected_section_patterns": [
+    "^## [1234]\\."
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "产品规则 PC01–PC15",
+      "original_reference": "产品SOP自检研究/产品SOP自检方案.md"
+    },
+    {
+      "label": "技术规则 TC01–TC15",
+      "original_reference": "技术SOP自检研究/自检机制方案.md"
+    }
+  ],
+  "exported_sha256": "5b27d4c7fff490d738e031c45b43d61a55f617009f98336935848a577acb49bd"
+}

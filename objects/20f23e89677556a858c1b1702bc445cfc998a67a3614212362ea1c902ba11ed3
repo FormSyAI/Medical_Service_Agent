@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:formsy:progress:1",
+  "$comment": "Caller assertions only. Enforce 32 KiB UTF-8 bytes, duplicate-key rejection, unique local_id across collections and UTC timestamps separately; no schema proves authenticity.",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "milestone", "objective", "digest", "next_action", "decisions", "verifications", "open_loops"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "milestone": {"enum": ["start", "decision", "verification", "blocked", "handoff"]},
+    "objective": {"$ref": "#/$defs/text"}, "digest": {"$ref": "#/$defs/text"}, "next_action": {"$ref": "#/$defs/nullableText"},
+    "decisions": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/decision"}},
+    "verifications": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/verification"}},
+    "open_loops": {"type": "array", "maxItems": 20, "items": {"$ref": "#/$defs/openLoop"}}
+  },
+  "$defs": {
+    "text": {"type": "string", "maxLength": 600}, "nullableText": {"type": ["string", "null"], "maxLength": 600},
+    "localID": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+    "references": {"type": "array", "maxItems": 10, "items": {"type": "object", "additionalProperties": false, "required": ["message_id", "tool_call_id"], "properties": {"message_id": {"type": "string", "minLength": 1, "maxLength": 256}, "tool_call_id": {"type": ["string", "null"], "maxLength": 256}}}},
+    "revision": {"oneOf": [
+      {"type": "null"},
+      {"type": "object", "additionalProperties": false, "required": ["kind", "value"], "properties": {"kind": {"const": "git_sha1"}, "value": {"type": "string", "pattern": "^[0-9a-fA-F]{40}$"}}},
+      {"type": "object", "additionalProperties": false, "required": ["kind", "value"], "properties": {"kind": {"const": "git_sha256"}, "value": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}}}
+    ]},
+    "decision": {"type": "object", "additionalProperties": false, "required": ["local_id", "choice", "rationale", "alternatives", "authority", "evidence_refs"], "properties": {
+      "local_id": {"$ref": "#/$defs/localID"}, "choice": {"$ref": "#/$defs/text"}, "rationale": {"$ref": "#/$defs/text"}, "alternatives": {"type": "array", "maxItems": 5, "items": {"$ref": "#/$defs/text"}}, "authority": {"enum": ["user_confirmed", "assistant_proposed", "unknown"]}, "evidence_refs": {"$ref": "#/$defs/references"}
+    }},
+    "verification": {"type": "object", "additionalProperties": false, "required": ["local_id", "command", "result", "observed_at", "environment", "code_revision", "worktree_state", "evidence_refs", "limitations"], "properties": {
+      "local_id": {"$ref": "#/$defs/localID"}, "command": {"type": ["string", "null"], "maxLength": 2000}, "result": {"enum": ["pass", "fail", "skipped", "unknown"]}, "observed_at": {"type": ["string", "null"], "format": "date-time"}, "environment": {"$ref": "#/$defs/nullableText"}, "code_revision": {"$ref": "#/$defs/revision"}, "worktree_state": {"enum": ["clean", "dirty", "unknown"]}, "evidence_refs": {"$ref": "#/$defs/references"}, "limitations": {"type": "array", "maxItems": 10, "items": {"$ref": "#/$defs/text"}}
+    }},
+    "openLoop": {"type": "object", "additionalProperties": false, "required": ["local_id", "description", "next_action", "resolves"], "properties": {
+      "local_id": {"$ref": "#/$defs/localID"}, "description": {"$ref": "#/$defs/text"}, "next_action": {"$ref": "#/$defs/nullableText"}, "resolves": {"type": "array", "maxItems": 10, "items": {"type": "object", "additionalProperties": false, "required": ["evidence_id", "local_id"], "properties": {"evidence_id": {"type": "string", "pattern": "^[0-9a-f]{64}$"}, "local_id": {"$ref": "#/$defs/localID"}}}}
+    }}
+  }
+}

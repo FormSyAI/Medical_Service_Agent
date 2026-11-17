@@ -1,0 +1,548 @@
+> 从 SOP 设计资料导出的阅读快照。原文件：`知识库设计/模块接口与数据契约.md`；原文 SHA256：`44916d2abadb2c55fe5acf6a5f49740e3698738504cd4747e89b0bcef4829df9`。选择范围和引用转换见同名 provenance.json。资料中的历史“本轮”描述保持原意，不表示当前任务已经执行；共同约定与本次用户任务决定适用范围。
+
+# 本地知识库：模块接口与数据契约
+
+版本：研究设计 0.1；日期：2026-09-30。本文给出可供后续实现评审的职责、实体、接口与约束；未实现应用、未调用模型 API，也未验证检索效果或解析可行性。伪 TypeScript 用于表达契约，不是可直接运行的代码或已批准技术栈。
+
+## 1. 设计基线
+
+- 保存、解析、索引、检索、引用解析与上下文组装在本地完成。首版处理文档资料，不分析代码仓库。
+- 资料包括规范、模板、产品与技术参考，以及项目需求、设计、决定等项目资料。通用资料可以共享；项目资料默认仅所属项目可用。
+- 跨项目使用必须明确选取来源项目、资料及版本，并有对应授权；“能在界面看见另一个项目”不构成授权。
+- 手工导入和系统发现的候选共用资料生命周期。手工导入时可以同次明确采用选定版本与范围；未明确采用时保持候选。系统收集的候选经确认后采用；未采用资料不能进入正式 SOP 的模型上下文。
+- 已配置模型 API 接收本次所需片段与引用。本文的 `ContextBuilder` 只产出本地上下文，不负责调用 API。
+- 本地关键词检索作为首版研究建议；本地语义索引、混合检索、重排和具体存储方案需实验与选型。外部向量 API 不默认开启。
+
+来源分类、可读权限、采用状态、版本有效性是四个独立维度。来源可靠、内容相同、索引命中、模型认为有用，都不能替代用户决定。
+
+## 2. 模块分工与依赖
+
+```mermaid
+flowchart LR
+  I[Import] --> P[DocumentParser]
+  P --> C[Catalog + Version]
+  C --> X[Index]
+  X --> R[Retriever]
+  C --> A[Adoption + Citation]
+  R --> A
+  A --> B[ContextBuilder]
+  C --> M[ImpactReview]
+  A --> M
+  B --> M
+  S[ScopePolicy] --> C
+  S --> X
+  S --> R
+  S --> A
+  S --> B
+  S --> M
+```
+
+图中连线表示调用或数据约束；每个访问资料的入口仍须独立验证 `ScopePolicy`，不能因上游已检查而跳过。
+
+| 模块 | 责任与输出 | 输入与禁止承担的责任 |
+| --- | --- | --- |
+| `Import` | 接收明确的导入对象和目标范围；保存本地原件；创建可恢复 `Job`、来源记录与导入回执；手工明确采用时编排精确版本的采用命令 | 手工文件/文本、系统候选及用户动作证据；不默认采用，不把资料采用提升为用户决定 |
+| `DocumentParser` | 在本地生成规范化文本、定位映射、段落片段、解析警告和解析产物 | 已授权的原件句柄、解析器标识及资源限制；不决定资料适用性，不补写缺失原文 |
+| `Catalog + Version` | 管理来源元数据、不可变版本、片段及生命周期事件；原子发布解析结果 | 导入/解析回执、预期修订号；不覆盖旧版本、不继承新版本的采用确认 |
+| `Index` | 对已发布版本建立本地检索记录；报告版本覆盖范围、配置和索引代次 | 版本和片段、授权的索引范围；不拥有采用状态，不借去重合并权限 |
+| `Retriever` | 在请求允许的版本集合中检索、排序，返回有来源的命中和无匹配原因 | 查询、请求项目、用途、版本选择和授权计划；不跨范围回退，不自动采用 |
+| `ScopePolicy` | 验证主体、项目、版本与显式跨项目选择；产生存储端可执行的授权过滤计划 | 可信本地主体、请求范围、授权与撤销事件；不以 UI 状态或模型输出作为授权依据 |
+| `Adoption + Citation` | 记录项目的采用/拒绝/撤回决定；创建并验证不可变引用；区分候选审核与 SOP 使用 | 具体版本、片段和用户动作；不因采用而改写原始来源分类 |
+| `ContextBuilder` | 固定本次知识快照、验证引用、按预算组装片段与引用清单，留下使用回执 | 已授权的正式 SOP 命中或明确选取的引用；不搜网、不调用模型、不无依据填充 |
+| `ImpactReview` | 追踪版本、授权、删除、采用变化对快照、引用和 SOP 的影响；生成待复核事项 | 本地版本差异、引用反向关系、使用回执；不自动改写已确认 SOP 或关闭问题 |
+
+任务状态由共用 `Job` 契约描述。模块可以在同一应用中实现，接口边界不要求部署多个服务。
+
+## 3. 实体与不变量
+
+| 实体 | 核心字段 | 不变量 |
+| --- | --- | --- |
+| `Source` | `sourceId`、所属范围、资料类型、来源分类、原始定位、创建方式、元数据修订号 | 同内容在不同项目导入，各有自己的 `sourceId` 与权限；原始定位仅本地保存 |
+| `DocumentVersion` | `versionId`、`sourceId`、原件 hash、规范化文本 hash、解析器/配置指纹、创建时间、前一版本 | 发布后内容不可修改。每个版本保留当时来源分类和解析依据；改内容或重新解析产生新版本 |
+| `Segment` | `segmentId`、`versionId`、文本范围、片段 hash、页码/标题/定位映射 | 只属于一个版本；片段范围必须落在该版本规范化文本内 |
+| `ScopeGrant` | 来源项目、接收项目、具体资料/版本/可选片段、用途、用户动作证据、生效/失效、撤销状态 | 授权不等于采用；默认不含未来版本；撤销立即阻断后续读取和上下文发出 |
+| `Adoption` | 接收项目、版本/片段、采用状态、适用条件、确认动作、修订号 | 确认绑定具体版本与片段；新版本默认待确认；拒绝或撤回不改动来源内容 |
+| `Citation` | 来源/版本/片段 ID、原件与文本 hash、原始定位、页码/标题/offset、摘录 hash | 引用能验证到固定内容；不可只保存 URL、标题或“最新版” |
+| `KnowledgeSnapshot` | 请求项目、用途、版本/采用修订、授权证明、索引代次、引用集合、快照 hash | 描述本次固定选择。旧快照不是永久授权，复用时重新检查有效权限与生命周期 |
+| `UsageImpact` | 触发事件、受影响引用/快照/SOP 版本、差异依据、待复核项、复核结论 | “可能受影响”与“已确认需改”分开；不得用新索引结果替换历史确认 |
+| `Job` | 类型、目标范围、输入 hash、幂等键、状态、检查点、错误、重试/取消记录 | 未完成产物不作为正式版本或正式索引；恢复须重新验证权限和输入 |
+| `LifecycleEvent` | 删除/恢复/物理清理/撤销事件、对象、操作者、时间、原因、修订号 | 删除与恢复均可追踪；版本内容与历史决定不因事件被静默重写 |
+
+### 3.1 来源分类与采用状态
+
+`authority` 表示内容的性质和决策依据，不是一个自动排序的“可信分”。
+
+| `authority` | 含义 | 进入 SOP 的限制 |
+| --- | --- | --- |
+| `user_decision` | 用户明确作出的决定，保留原始决定及有效确认 | 只适用于记录的项目、版本、范围和条件；不能把用户决定当作外部技术事实的证明 |
+| `project_material` | 项目需求、设计、调研、记录等资料 | 需要确认适用性；资料中的假设和未验证结果保留标记 |
+| `general_standard` | 可共享规范、模板和方法资料 | 使用时绑定项目采用记录与适用条件；规范不会自动成为项目需求 |
+| `external_reference` | 外部文档、论文、网站等参考 | 保留来源、版本/获取日期与限制；本地导入不表示外部事实已核实 |
+| `model_suggestion` | 模型产生的建议、摘要或推测 | 可以审核与明确采用，但原来源仍标记为模型建议；不得伪装成原始资料 |
+
+`adoption.state` 为 `pending | accepted | rejected | withdrawn`，独立于 `authority`。已采用的模型建议仍是模型建议；若用户明确作出新决定，创建关联原建议的新决定记录并保留决定证据，不能覆盖原建议分类。`applicability` 为 `active | review_required | inapplicable`，用于表达版本/条件变化后的复核需要。
+
+索引命中和模型评分仅表示检索相关性，不表示事实成立、用户批准或产品测试通过。
+
+### 3.2 定位与引用
+
+保存原件和规范化文本两组 hash。offset 统一为存储的规范化文本的 UTF-16 code unit 下标，采用 `[start, end)`；解析器必须输出原始定位映射。页码从 1 开始，标题是完整标题路径；无页码的格式保留标题和 offset，不能编造页码。
+
+原始定位包括本地原件路径/本地记录 ID、导入时的原 URL（如有）以及页码、标题、原始格式位置。页码和标题便于阅读，hash 与范围用于验证。摘录必须直接来自保存的规范化文本；展示时可以另存省略/格式化版本，不能改变引用绑定的原摘录。
+
+规范化不能丢失影响意义的否定、代码块、表格关联或警告。无法精确映射时，解析器返回定位质量和警告；`Adoption` 应能禁止该片段用于需要精确证据的位置。解析成功与语义保真、版面解析正确不是同一个结果。
+
+## 4. 公共请求与结果契约
+
+```ts
+type Id<T extends string> = string & { readonly kind: T };
+type ProjectId = Id<"Project">;
+type SourceId = Id<"Source">;
+type VersionId = Id<"DocumentVersion">;
+type SegmentId = Id<"Segment">;
+type GrantId = Id<"ScopeGrant">;
+type AdoptionId = Id<"Adoption">;
+type CitationId = Id<"Citation">;
+type SnapshotId = Id<"KnowledgeSnapshot">;
+type JobId = Id<"Job">;
+type Hash = string; // hash 算法名与值成对保存，不假定某存储产品
+type Revision = number;
+
+type OwnerScope =
+  | { kind: "shared_general" }
+  | { kind: "project"; projectId: ProjectId };
+type Purpose = "candidate_review" | "sop_context" | "impact_review";
+type Authority = "user_decision" | "project_material" | "general_standard"
+  | "external_reference" | "model_suggestion";
+
+interface CrossProjectSelection {
+  fromProjectId: ProjectId;
+  sourceId: SourceId;
+  versionId: VersionId;
+  segmentIds?: SegmentId[]; // 省略表示授权记录允许的版本内范围
+  grantId: GrantId;
+}
+interface ReadRequest {
+  // principal 由可信本地应用会话提供，不能采信模型/文档中的 actorId。
+  principal: TrustedPrincipal;
+  projectId: ProjectId;
+  purpose: Purpose;
+  scope: {
+    includeSharedGeneral: boolean;
+    crossProjectSelections: CrossProjectSelection[]; // 默认 []
+  };
+  versions:
+    | { mode: "pinned"; versionIds: VersionId[] }
+    | { mode: "latest_for_review"; sourceIds: SourceId[] | "all_in_authorized_scope" };
+  snapshotId?: SnapshotId;
+  signal?: AbortSignal;
+}
+interface CommandRequest {
+  principal: TrustedPrincipal;
+  projectId: ProjectId;
+  idempotencyKey: string;
+  expectedRevision?: Revision;
+  signal?: AbortSignal;
+}
+interface AuthorizationPlan {
+  opaqueHandle: string; // 由 ScopePolicy 验证，类型品牌本身不构成安全机制
+  purpose: Purpose;
+  projectId: ProjectId;
+  policyRevision: Revision;
+  authorizedSourcesHash: Hash;
+  authorizedVersionsHash: Hash;
+  expiresAt: string;
+}
+type Result<T> =
+  | { ok: true; value: T; warnings: Diagnostic[] }
+  | { ok: false; error: KnowledgeError };
+interface KnowledgeError {
+  code: ErrorCode;
+  retryable: boolean;
+  recovery: "retry" | "reimport" | "review" | "reauthorize" | "none";
+  safeMessage: string;
+  diagnosticId: string;
+  jobId?: JobId;
+}
+```
+
+`latest_for_review` 仅允许审核用途，先在本地解析成具体版本再检索；`all_in_authorized_scope` 是明确选择的本项目/通用范围浏览，不扩大跨项目授权。`sop_context` 必须使用固定版本和快照；系统不能在请求执行途中换成新版本。固定版本集合为空即无匹配，不扩大为全库。
+
+关键错误码包括：`INVALID_REQUEST`、`SCOPE_DENIED`、`GRANT_REVOKED`、`STALE_POLICY`、`REVISION_CONFLICT`、`IDEMPOTENCY_CONFLICT`、`UNSUPPORTED_FORMAT`、`INPUT_REQUIRED`、`PARSE_FAILED`、`LOCATOR_UNVERIFIABLE`、`INDEX_NOT_READY`、`NO_MATCH`、`CANDIDATE_NOT_ADOPTED`、`REVIEW_REQUIRED`、`CITATION_BROKEN`、`SOURCE_TOMBSTONED`、`CONTEXT_BUDGET_TOO_SMALL`、`CANCELLED`。每个错误码必须有明确恢复路径；不暴露未授权资料的标题、路径、数量或是否存在。
+
+## 5. 模块接口草案
+
+以下未展开的辅助类型均指本地数据对象，不表示已经具备实现。所有对外请求先校验结构，所有持久化命令记录用户动作或系统动作来源。
+
+### 5.1 Import 与 DocumentParser
+
+```ts
+interface ImportModule {
+  preparePreview(req: CommandRequest & {
+    targetScope: OwnerScope;
+    input: LocalFileHandle | ManualText;
+  }): Promise<Result<{ jobId: JobId; preparedImportId: string }>>;
+  preview(req: ReadRequest, preparedImportId: string):
+    Promise<Result<PreparedImportPreview>>; // 固定原件、解析版本、片段范围与内容 hash
+  submit(req: CommandRequest & {
+    targetScope: OwnerScope; // 当前项目或明确选择的通用共享范围
+    origin: "manual" | "system_candidate";
+    input: LocalFileHandle | ManualText | PreparedImportHandle;
+    sourceId?: SourceId; // 更新既有来源时必须有 expectedRevision
+    declaredAuthority: Authority;
+    userActionRef?: string;
+    adoptionIntent?: { // 仅显式手工采用；系统候选不得带此字段
+      decision: "accept";
+      preparedVersionId: VersionId;
+      expectedOriginalHash: Hash;
+      expectedNormalizedTextHash: Hash;
+      segmentIds: "all" | SegmentId[];
+      applicability: ApplicabilityConditions;
+      userActionRef: string;
+    };
+  }): Promise<Result<{ jobId: JobId; sourceId: SourceId; adoptionId?: AdoptionId }>>;
+  status(req: ReadRequest, jobId: JobId): Promise<Result<Job>>;
+  cancel(req: CommandRequest, jobId: JobId): Promise<Result<Job>>;
+  resume(req: CommandRequest, jobId: JobId): Promise<Result<Job>>;
+}
+interface PreparedImportPreview {
+  preparedImportId: string;
+  sourceId: SourceId;
+  preparedVersionId: VersionId;
+  originalHash: Hash;
+  normalizedTextHash: Hash;
+  parserFingerprint: string;
+  segmentIds: SegmentId[];
+  locatorQuality: "exact" | "partial" | "unverifiable";
+  expiresAt: string;
+}
+interface DocumentParser {
+  capabilities(): ParserCapability[]; // 格式能力、限制及验证状态
+  parse(req: {
+    authorization: AuthorizationPlan;
+    blob: ScopedBlobHandle;
+    expectedOriginalHash: Hash;
+    parserFingerprint: string;
+    limits: ParseLimits;
+    jobId: JobId;
+    signal?: AbortSignal;
+  }): Promise<Result<{
+    artifactId: string; // 暂存产物，尚未发布
+    normalizedTextHash: Hash;
+    segmentManifestHash: Hash;
+    locatorQuality: "exact" | "partial" | "unverifiable";
+    diagnostics: Diagnostic[];
+  }>>;
+}
+```
+
+导入目标必须有写权限；不能把其他项目选作默认写入范围。手工流程可以先在本地形成版本预览，再由同一次“导入并采用”动作记录范围和采用；预览不构成采用，不额外强制一次重复确认。预览只按已授权来源范围读取暂存对象，不进入普通版本检索。带 `adoptionIntent` 的提交必须核对预览版本、两组 hash 与片段，成功发布后编排 `Adoption.decide`，并在同一逻辑提交中记录两个回执。任一步失败时不宣称已采用；若版本已发布但采用失败，返回部分完成回执，版本保持候选，任务不得显示“导入并采用成功”。缺少采用意图仅发布候选。版本/范围变化使原意图失效，保留差异并回用户决定。
+
+系统候选若仅有外部 URL/元数据，可先保存候选卡片；没有本地原件和解析结果时，不生成可用于 SOP 的版本或引用。系统收集入口不允许默认采用意图；确认后通过 `Adoption.decide` 采用。获取原件作为独立、受授权的操作记录，不能因发现候选而默认下载整站。
+
+文件身份以保存时的原件 hash 为准，不能依赖可变外部路径。解析使用该固定原件；损坏、加密、扫描无文本、表格无法恢复等情况返回具体诊断。格式、OCR、体积上限和质量门槛需试验；空文本或定位失真不能用“导入成功”遮蔽。
+
+### 5.2 Catalog + Version 与 Index
+
+```ts
+interface CatalogVersion {
+  publishParsed(req: CommandRequest & {
+    sourceId: SourceId;
+    artifactId: string;
+    expectedOriginalHash: Hash;
+    expectedPreviousVersionId?: VersionId;
+  }): Promise<Result<DocumentVersion>>;
+  readVersion(req: ReadRequest, versionId: VersionId):
+    Promise<Result<{ source: Source; version: DocumentVersion; segments: Segment[] }>>;
+  list(req: ReadRequest, cursor?: string): Promise<Result<ScopedSourcePage>>;
+  tombstone(req: CommandRequest & { sourceId: SourceId; reason: string }):
+    Promise<Result<LifecycleEvent>>;
+  restore(req: CommandRequest & { sourceId: SourceId; tombstoneEventId: string }):
+    Promise<Result<LifecycleEvent>>;
+}
+interface IndexModule {
+  schedule(req: CommandRequest & {
+    versionIds: VersionId[];
+    indexProfile: LocalIndexProfile;
+  }): Promise<Result<{ jobId: JobId }>>;
+  coverage(req: ReadRequest): Promise<Result<IndexCoverage>>;
+  scopedSearch(req: {
+    authorization: AuthorizationPlan;
+    query: string;
+    limit: number;
+    indexGeneration: string;
+    signal?: AbortSignal;
+  }): Promise<Result<IndexHit[]>>;
+}
+```
+
+`publishParsed` 在一个原子提交中登记版本、片段、定位映射和完整性回执。新版本发布后可显示为“索引待完成”；索引单独失败不会毁掉原件，但该版本不能被宣称已可检索。直接按已授权引用读取精确版本，不依赖索引成功。
+
+索引采用暂存代次；完成并核对 manifest 后原子切换。取消/失败的代次不参与查询。配置变化可以重建索引，但不创建新的用户确认，也不改旧引用。
+
+### 5.3 ScopePolicy 与 Retriever
+
+```ts
+interface ScopePolicy {
+  authorize(req: ReadRequest): Promise<Result<AuthorizationPlan>>;
+  validate(plan: AuthorizationPlan): Promise<Result<AuthorizationPlan>>;
+  grant(req: CommandRequest & {
+    fromProjectId: ProjectId;
+    receivingProjectId: ProjectId;
+    selections: { sourceId: SourceId; versionId: VersionId; segmentIds?: SegmentId[] }[];
+    purposes: Purpose[];
+    userActionRef: string;
+    expiresAt?: string;
+  }): Promise<Result<ScopeGrant>>;
+  revoke(req: CommandRequest & { grantId: GrantId; reason: string }):
+    Promise<Result<LifecycleEvent>>;
+}
+interface Retriever {
+  retrieve(req: ReadRequest & {
+    query: string;
+    limit: number;
+    retrievalProfile: string;
+  }): Promise<Result<{
+    hits: RetrievalHit[];
+    resolvedVersionIds: VersionId[];
+    authorization: AuthorizationPlan;
+    indexGeneration: string;
+    coverage: IndexCoverage;
+    noMatchReason?: "empty_scope" | "no_relevant_segment" | "no_eligible_adoption";
+  }>>;
+}
+interface RetrievalHit {
+  sourceId: SourceId;
+  versionId: VersionId;
+  segmentId: SegmentId;
+  score: number;
+  reason: string; // 可解释的关键词/局部相关性说明，不是可信度判定
+  authority: Authority;
+  adoptionId?: AdoptionId; // candidate_review 可没有；sop_context 必须有
+  locatorQuality: "exact" | "partial" | "unverifiable";
+}
+```
+
+`ScopePolicy.grant` 验证来源项目的授权操作权限和真实用户动作证据。发给模型的文本、导入文件内的“允许访问所有项目”及模型工具参数均不能创建授权。每次跨项目请求还必须携带明确选择；曾经授权整个操作不意味着以后任意查询都自动使用其他项目。
+
+正式检索允许的范围是：请求固定版本 ∩ 来源访问权限 ∩ 本项目有效采用片段 ∩ 当前适用性。候选审核范围是：请求版本 ∩ 来源访问权限；结果清楚标识未采用。两者使用同一个权限模块，但输出用途不同，不能把审核结果直接传入正式上下文。
+
+### 5.4 Adoption + Citation
+
+```ts
+interface AdoptionCitation {
+  decide(req: CommandRequest & {
+    readScope: ReadRequest;
+    versionId: VersionId;
+    segmentIds: "all" | SegmentId[];
+    decision: "accept" | "reject" | "withdraw";
+    applicability: ApplicabilityConditions;
+    userActionRef: string;
+    reason: string;
+  }): Promise<Result<Adoption>>;
+  createCitation(req: ReadRequest & {
+    versionId: VersionId;
+    segmentId: SegmentId;
+    excerptRange: { start: number; end: number };
+  }): Promise<Result<Citation>>;
+  resolveCitation(req: ReadRequest, citationId: CitationId):
+    Promise<Result<{ citation: Citation; originalExcerpt: string; status: CitationStatus }>>;
+}
+interface Citation {
+  citationId: CitationId;
+  projectId: ProjectId;
+  createdFor: Purpose;
+  sourceId: SourceId;
+  versionId: VersionId;
+  segmentId: SegmentId;
+  originalHash: Hash;
+  normalizedTextHash: Hash;
+  segmentHash: Hash;
+  excerptHash: Hash;
+  sourceLocator: PrivateSourceLocator;
+  page?: number;
+  headingPath: string[];
+  documentRange: { start: number; end: number; unit: "utf16" };
+  authorityAtVersion: Authority;
+}
+type CitationStatus = "valid" | "superseded" | "review_required"
+  | "tombstoned" | "purged" | "grant_revoked" | "broken";
+```
+
+审核用途可创建候选引用供讨论，但其用途和采用缺口必须显示。正式上下文创建/解析引用还要验证 `Adoption` 的项目、版本、片段与条件；仅有 citation ID 不是访问凭证。审核引用不能直接传入正式上下文：采用后按正式用途创建引用，保留相同内容绑定与审核引用的关联。引用状态是按当前权限和生命周期计算的结果，历史引用本身保持不可变。
+
+### 5.5 ContextBuilder 与 ImpactReview
+
+```ts
+interface ContextBuilder {
+  build(req: ReadRequest & {
+    purpose: "sop_context";
+    citationIds: CitationId[];
+    taskDescription: string;
+    budget: { maxTokens: number; tokenizerProfile: string; reservedOutputTokens: number };
+    expectedAdoptionRevision: Revision;
+  }): Promise<Result<{
+    snapshot: KnowledgeSnapshot;
+    context: ModelContextDraft;
+    usageReceipt: LocalUsageReceipt;
+    omittedCitationIds: CitationId[];
+  }>>;
+  validateForEgress(req: ReadRequest & { snapshotId: SnapshotId; contextHash: Hash }):
+    Promise<Result<EgressValidationReceipt>>;
+}
+interface KnowledgeSnapshot {
+  snapshotId: SnapshotId;
+  projectId: ProjectId;
+  purpose: "sop_context";
+  versions: { versionId: VersionId; normalizedTextHash: Hash }[];
+  adoptions: { adoptionId: AdoptionId; revision: Revision }[];
+  grantIds: GrantId[];
+  policyRevision: Revision;
+  indexGeneration?: string;
+  citationIds: CitationId[];
+  snapshotHash: Hash;
+  createdAt: string;
+}
+interface ModelContextDraft {
+  fragments: {
+    citationId: CitationId;
+    text: string;
+    authority: Authority;
+    applicabilityNote: string;
+    sourceLabel: string; // 可发出的显示标签，不含默认本地绝对路径
+  }[];
+  references: PublicCitationProjection[];
+  contextHash: Hash;
+  tokenCount: number;
+  answerPolicy: "cite_available_evidence_or_abstain";
+}
+interface ImpactReview {
+  assess(req: CommandRequest & {
+    trigger: VersionChange | GrantChange | LifecycleEvent | AdoptionChange;
+  }): Promise<Result<UsageImpact[]>>;
+  list(req: ReadRequest): Promise<Result<UsageImpact[]>>;
+  resolve(req: CommandRequest & {
+    impactId: string;
+    outcome: "keep_pinned_version" | "adopt_new_version" | "remove_usage" | "needs_research";
+    userActionRef: string;
+    evidenceRefs: string[];
+  }): Promise<Result<UsageImpact>>;
+}
+```
+
+跨项目来源的更新可以内部触发影响计算，但接收项目只能看到自身已获授权资料与自身使用记录；通知不能泄露其他项目名称、资料数量或 SOP 内容。`adopt_new_version` 的结案必须同时有新版本的有效采用记录；`needs_research` 保持待解决，不算复核通过。
+
+## 6. 权限必须进入存储查询
+
+应用核心不向界面或模型暴露无范围的 `searchAll()`、`getVersion(id)`、`getBlob(hash)`。存储适配器读取来源、原件、索引、片段、引用及使用记录都要求有效 `AuthorizationPlan`；调用方不能自建计划或直接传可信布尔值。
+
+存储查询逻辑如下，具体数据库语法留给选型：
+
+```text
+allowedVersions = 请求固定版本
+  JOIN 当前有效来源访问范围
+  JOIN 请求中的明确跨项目选择及未撤销授权（如果来源属于其他项目）
+  JOIN 当前来源生命周期（可用于本次用途）
+
+如果 purpose == sop_context：
+  allowedSegments = allowedVersions
+    JOIN 本项目 accepted 的 Adoption（完全相同的 versionId）
+    JOIN Adoption 允许的 segmentId 与 active 适用性
+否则：
+  allowedSegments = allowedVersions 的可读片段
+
+索引查询 = IndexEntry JOIN allowedSegments 后再匹配、评分、计数、排序、分页
+原件/引用读取 = 对象 JOIN allowedVersions/allowedSegments 后读取
+```
+
+尚未发布版本的候选卡片使用 `allowedSources` 范围列举，只显示已授权来源元数据；不能以卡片浏览接口读取未发布原件/片段。跨项目候选卡片仍需明确选择和有效授权，不因元数据较少而豁免范围检查。
+
+权限过滤发生在读取内容和评分前，不能先全库搜索再在 UI 隐藏。若所选语义索引不能在搜索前限制候选集合，使用按范围隔离的索引或先取授权候选集合；不能用返回结果后过滤补救。
+
+授权解析与读取采用一致的权限修订视图；发生撤销/删除竞争时返回 `STALE_POLICY` 并重算。上下文组装后、模型请求真正发出前再次验证权限修订、引用和 `contextHash`，防止组装至发出之间被撤销仍发出。网络调用适配器必须消费有效发出回执；本文不实现该适配器。
+
+查询、分页、诊断和缓存也受范围约束。缓存键至少含主体、请求项目、用途、明确版本、跨项目选择、权限/采用修订、索引代次和查询配置；撤销会使相应缓存失效。诊断 ID 指向本地记录，用户可见错误不列出未授权对象。
+
+## 7. 去重、更新、删除与恢复
+
+| 情况 | 处理规则 |
+| --- | --- |
+| 同一范围、同来源、原件与解析指纹完全相同 | 返回现有版本/幂等回执，记录重复导入；不产生新的确认 |
+| 相同内容导入项目 A 和项目 B | 可以内部复用不可变原件/文本块，但保留 A/B 独立来源、版本、索引记录、采用与授权；去重查询不暴露其他项目是否保存过该内容 |
+| 仅来源标题或获取时间更新 | 记录元数据修订，历史引用保留当时标签与依据；不能借元数据更新改来源分类或正文 |
+| 正文改变、解析器改变、规范化规则改变 | 创建新版本；旧版本与引用保留。即便原件 hash 相同，解析指纹变化也不能直接替换旧规范化文本 |
+| 已采用来源出现新版本 | 新版为 `pending`，不继承确认；旧采用状态仍保留，另标 `review_required` 并产生影响记录。新 SOP 上下文默认排除待复核用法，用户可明确保留旧固定版本或采用新版 |
+| 引用旧版本 | 历史 SOP 与快照继续显示原引用及 `superseded/review_required`。保留旧版的复核结论可恢复其当前适用性；禁止静默重定位到新版近似段落 |
+| 拒绝候选 | 记录 `rejected` 与理由，避免重复自动推荐；用户可发出新审核决定，原拒绝记录仍保留 |
+| 撤回采用或跨项目授权 | 阻断后续正式上下文；标记受影响使用。原确认及历史文档不被重写，历史引用状态清楚显示 |
+| 逻辑删除（tombstone） | 停止新检索与新模型上下文，保留最小来源/版本/引用关系和删除事件；历史文档显示来源已删除，审核恢复需具备对应权限 |
+| 恢复 tombstone | 若保留原件且 hash/定位可验证，恢复来源可读状态；授权和采用适用性重新检查，不自动重启已撤销授权或被撤回采用 |
+| 物理清理 | 作为单独明确操作，先报告受影响引用和历史记录，再依数据保留规则执行；不能用普通删除悄悄清理共享去重块 |
+| 清理后恢复 | 若原件不可得，返回 `purged`，不能声称已恢复；重导入只在所有内容/解析/定位 hash 一致时校验旧引用，否则创建新版本并要求重新绑定 |
+
+内容块的物理回收以所有有效和保留记录的引用计数为依据。外部 URL 失效与本地原件删除不同：保留且可验证的本地版本仍可被引用，并标明获取时间与原 URL 状态；不得因此宣称外部内容仍然最新。
+
+## 8. 任务、取消、恢复与幂等
+
+```ts
+interface Job {
+  jobId: JobId;
+  projectId: ProjectId;
+  kind: "import" | "parse" | "index" | "impact_review";
+  state: "queued" | "running" | "blocked_input" | "cancel_requested"
+    | "cancelled" | "failed" | "succeeded";
+  inputHash: Hash;
+  configFingerprint: string;
+  idempotencyKey: string;
+  checkpoint?: { stage: string; artifactHashes: Hash[]; lastCommittedRevision: Revision };
+  attempt: number;
+  error?: KnowledgeError;
+  completionReceipt?: {
+    versionId?: VersionId;
+    adoptionId?: AdoptionId;
+    publication: "not_published" | "published";
+    adoption: "not_requested" | "accepted" | "failed" | "stale_intent";
+  }; // 异步提交的最终回执；部分完成仍保留 error，不冒充整项成功
+}
+```
+
+| 规则 | 契约 |
+| --- | --- |
+| 幂等范围 | 幂等键按主体＋项目/目标范围＋命令类型隔离；同键同请求返回同回执，同键不同请求 hash 返回 `IDEMPOTENCY_CONFLICT` |
+| 重复提交 | 同一来源更新有预期修订号；并发更新只有一个发布成功，另一个返回 `REVISION_CONFLICT`，不覆盖较新版本 |
+| 取消 | `cancel_requested` 是请求，收到模块取消确认后才为 `cancelled`。提交前停用暂存产物；原子提交已完成则报告完成，取消不假装回滚已发布版本 |
+| 中断恢复 | 检查原件/产物 hash、解析配置、目标范围、权限、修订和检查点；可用时从可靠检查点继续，不可用则明确重跑阶段 |
+| 权限恢复 | 恢复任务时重新授权；持久化的旧授权计划不能直接复用。授权撤销使任务停在授权错误，不能靠重试绕过 |
+| 索引失败 | 保留可校验原件和版本，旧索引代次继续服务它覆盖的版本；报告缺失覆盖，不把部分结果当作完整检索 |
+| 重试 | 仅对可重试错误采用有上限的重试；格式、权限、引用损坏和缺少输入错误进入相应恢复路径 |
+| 任务诊断 | 保存阶段、版本、配置、错误和恢复动作；日志默认不保存完整原件/模型上下文，也不包含凭据 |
+
+读取和上下文组装接受取消信号；取消后不得继续发出模型请求。取消、失败、无匹配和资料质量不足分别记录，不能统一标成“成功但结果为空”。
+
+## 9. 上下文与可追踪使用
+
+1. 以本次任务和固定知识范围检索；没有匹配或没有有效采用资料，返回 `NO_MATCH` 与本次范围说明，允许模型弃答或请求补充依据，不扩大搜索到其他项目。
+2. 对每个选入片段解析完整引用并检查 hash、范围、采用和适用性；冲突、假设、模型建议、过期或未验证条件随片段呈现，不能只留下结论。
+3. 建立本地 `KnowledgeSnapshot`，固定版本、引用、采用修订和授权依据。快照 hash 表示完整性，不代表用户批准或永久授权。
+4. 预算预留任务指令、引用元数据和输出。以“片段＋引用＋必要上下文”作为最小单元裁减；先去掉低相关单元。若缩短片段，重新计算摘录范围/hash 并生成准确子引用；不得截断引用、否定条件或表格解释。
+5. 一个完整最小单元也容不下时返回 `CONTEXT_BUDGET_TOO_SMALL`；列出省略 citation ID 和原因，不能把无引用文本塞入剩余预算。
+6. 导出到模型的引用投影包含本次必要的 citation ID、来源显示标签、版本/hash 摘要、页码/标题/摘录范围；完整本地定位、其他项目资料目录和无关内容留在本地。
+7. 发出前验证，记录实际发出内容的 hash、预算、快照与引用关系。回执本地保存；它证明使用了哪些资料，不证明模型正确引用或答案正确。
+
+模型输出的 citation ID 需在本次快照中存在，并核对所引用结论是否由对应摘录支持。错误引用、引用范围外断言与新建议列为待复核；正式 SOP 的用户确认仍有独立版本记录。快照恢复时先复核现行权限，再决定是否可重现发送；历史文档浏览不自动触发重新发送。
+
+## 10. 需要实验与后续实现核查的事项
+
+| 事项 | 应取得的实际证据 | 当前状态 |
+| --- | --- | --- |
+| 文档解析与定位 | 代表性文档的原件/规范化文本/页码标题范围对照；表格、扫描、损坏和重解析行为 | 待验证；本文接口不能证明某格式已支持 |
+| 关键词检索与可解释性 | 中文、缩写、同义表达、规范版本差异、无匹配样本的命中和漏检记录 | 首版建议，未批准具体实现栈 |
+| 本地语义/混合检索 | 同一固定语料与查询集的相关性、无依据命中、延迟、资源和权限过滤对照 | 待实验；不得宣称语义检索效果已成立 |
+| 范围与撤销竞态 | 项目 A/B 同内容、显式跨项目、撤销后的缓存/引用/发出、索引评分前过滤 | 设计约束；需实现级自动验证 |
+| 引用完整性 | hash 篡改、定位错误、预算裁剪、旧版/删除/恢复/清理的真实行为 | 设计约束；未执行应用测试 |
+| 任务可靠性 | 解析/索引中断、取消临界点、重复导入、冲突更新、恢复重授权 | 设计约束；未验证崩溃恢复 |
+| 模型回答约束 | 固定上下文下的错误引用、无匹配弃答、建议与事实区分 | 需要经授权的模型实验；本轮无 API 调用 |
+
+后续实现验收应至少覆盖：未授权项目资料在候选、正式检索、计数、缓存、日志和引用解析均不可泄露；候选不能进入正式上下文；版本更新不能继承确认；同内容去重不串权限；引用可定位并校验；取消/恢复不发布半成品；预算裁剪仍保留完整证据单元。这些是待实现与待验证的进入条件，不是本轮通过结果。
+
+本方案的数据契约是设计建议。研究来源与其适用限制集中记录于来源索引〔原资料：知识库设计/参考资料/来源索引.md；未作为本模块运行依赖〕；具体技术栈、性能阈值和解析支持清单需后续确认与试验。

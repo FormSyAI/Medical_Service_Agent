@@ -1,0 +1,54 @@
+# Evidence and issue cards
+
+Copy the cards needed for the review. Keep planned work and actual observations separate. Record unavailable, unverified, or unexecuted information as such.
+
+## Check and evidence card
+
+| Field | Value |
+| --- | --- |
+| Evidence or check ID, project, and review round | [exact identifiers] |
+| Rule set, ID, and revision | [bound rule] |
+| Object, version, and location | [exact source locator] |
+| Original assertion, applicable scope or platform, and required level | [original requirement] |
+| Method, prerequisites, data, and permissions | [applicable conditions] |
+| Planned operation and decision criteria | [planned operation and assertions] |
+| Actual executor, method or tool version, and time | [actual execution or not run] |
+| Raw output or source location and read scope | [actual material or unavailable] |
+| Assertion supported and evidence limits | [observed support or unverified] |
+| Result and rationale | [`satisfied`, `unsatisfied`, `unverified`, or `not_applicable`, with reason] |
+| Actual build and environment, files, logs, or screenshots | [actual application evidence or not run] |
+| Observed failure, error, or recovery | [actual observation or not run] |
+| Current validity and basis for reuse | [current, stale, or unverified] |
+| Related finding, decision, and recheck IDs | [exact references] |
+
+## Finding and triage card
+
+| Field | Value |
+| --- | --- |
+| Finding ID and original rule or condition | [exact identifiers] |
+| Object, version, location, observation, and evidence | [actual finding and locator] |
+| Severity, actual impact, and reason for blocking | [case-specific impact] |
+| Affected requirements, sources, design, tasks, and acceptance | [affected items and versions] |
+| Finding type | [fact, user tradeoff, behavior assumption, feasibility, or permission, budget, and environment] |
+| Effective authorization, budget, owner, and next action | [verified boundary and action] |
+| Closure criteria and required evidence level | [agreed criteria] |
+| Current status | [actual status] |
+| Applied diff and new version | [observed change or unchanged] |
+| Recheck of original and affected objects | [current result or not run] |
+| Required user decision, object, version, and record | [actual decision or reason it is unnecessary] |
+| Closure and supporting evidence | [basis or still open] |
+| Reopening or invalidation reason and prior records | [reason and historical references, when applicable] |
+
+Keep the finding open after a pause, handoff, restored environment, or new plan until its original condition and required rechecks and decisions are satisfied.
+
+## Application evidence card
+
+Use this card when the task includes actual application acceptance.
+
+- Acceptance combination ID, original condition, requirement ID, platform, architecture, and build ID.
+- Prerequisites, permissions, data, budget, planned operation, and assertions.
+- Actual operation and result for each assertion, with file, log, or failure screenshot locations.
+- Actual status. Record an unavailable applicable environment as unverified or blocked and keep it in the denominator.
+- Repair. Preserve the original failure, diff or new build, affected scope, and recheck evidence.
+
+Determine all applicable condition and platform combinations first. Count automated design coverage, automated execution, observed passes, human participation, failures, and unverified cases separately. Use application combinations as the denominator for human participation and record the card independently of the check outcome.

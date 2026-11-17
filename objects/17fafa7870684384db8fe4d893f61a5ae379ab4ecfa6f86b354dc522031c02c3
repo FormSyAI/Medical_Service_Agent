@@ -1,0 +1,23 @@
+import copy
+import json
+import unittest
+from pathlib import Path
+from validate_traceaudit import validate_release, validate_report
+
+
+class CandidateBoundaryTests(unittest.TestCase):
+    def test_frozen_release_and_candidate_limits(self):
+        result, catalog = validate_release()
+        self.assertTrue(result['valid'], result['errors'])
+        source = Path(__file__).resolve().parents[1] / 'assets/candidate-audit.template.json'
+        template = json.loads(source.read_text(encoding="utf-8"))
+        self.assertTrue(validate_report(template, source, catalog)['valid'])
+        for field, value in [('formal_closed', True), ('analysis_complete', True), ('schema_version', 'unknown')]:
+            with self.subTest(field=field):
+                invalid = copy.deepcopy(template)
+                invalid[field] = value
+                self.assertFalse(validate_report(invalid, source, catalog)['valid'])
+
+
+if __name__ == '__main__':
+    unittest.main()

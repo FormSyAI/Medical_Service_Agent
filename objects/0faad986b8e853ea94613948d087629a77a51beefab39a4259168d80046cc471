@@ -1,0 +1,119 @@
+---
+name: formsy-development-kit
+description: "FormSy development entry point for authorized features, changes, fixes, and resumed workflows. Read project standards, architecture, and knowledge, record engineering milestones, and prepare product, technical, self-check, knowledge, or aggregate documents. Use ordinary answers for questions and read-only explanations."
+---
+
+# FormSy development kit
+
+This package is the public Skill entry point. Read the modules below as needed
+within this Skill.
+
+## Select the current work
+
+- When starting engineering work, switching to a separate objective, or resuming a paused one, follow the [native capture and task contract](references/progress-recording.md) to verify the actual host session and execution worktree. The existing workflow enter/select entry creates or resumes the native Task; use the native lifecycle directly only outside that workflow. Ordinary questions remain outside task capture.
+- For new or resumed development, read the [development workflow](modules/formsy-sop-workflow/GUIDE.md) and the modules needed for the current stage. Use the user's existing authorization.
+- For product, technical, self-check, knowledge, or aggregate documents, read the corresponding module below. Standalone documentation work stays outside a development run.
+- For capture milestones and handoffs, verify the actual source and business task under the progress contract below. Resolve native capture identity independently of the workflow run.
+- For reports, use the prescribed renderer below with actual inputs.
+
+Use `cli_argv` from the project's `.formsy-sop/runtime.json` when configured.
+The standalone CLI entry points are `formsy flow` and `formsy sop engine`.
+Use legacy entry points only for explicitly selected compatibility with older
+projects. Preserve the user's existing login and approval scope.
+
+For workflow entry or continuation, use
+`modules/formsy-sop-workflow/scripts/run_flow.py PROJECT ACTION [arguments]`.
+It delegates to that exact runtime and starts/reuses an independent local Web
+workbench after `enter/start/select/context`. Open the returned ready
+`workbench_web.url` with Codex `open_in_codex`, browser target and
+`placement=right`, then reuse the tab. Direct CLI callers use `flow web PROJECT`
+for the same service. The page polls saved local artifacts; it does not need an
+MCP App or render ACK. Report view availability separately and continue
+authorized work. Preserve real user pauses, stage decisions and acceptance.
+
+- [Document aggregation](modules/formsy-sop-assemble/GUIDE.md)
+- [Knowledge governance](modules/formsy-sop-knowledge/GUIDE.md)
+- [Product design](modules/formsy-sop-product/GUIDE.md)
+- [Self-check](modules/formsy-sop-selfcheck/GUIDE.md)
+- [Technical design](modules/formsy-sop-technical/GUIDE.md)
+- [Audit reference](modules/formsy-sop-traceaudit/GUIDE.md)
+- [Development workflow](modules/formsy-sop-workflow/GUIDE.md)
+- [SOP document preparation](modules/formsy-sop/GUIDE.md)
+
+## Project standards, capture, and reports
+
+FormSy SOP owns the complete local development workflow. Start or continue the
+workflow module under the user's existing authorization; the Server contributes
+only Birdview, project SOP, and knowledge with Verifier. Their absence does not
+disable built-in clarification, templates, planning, consistency, self-check,
+implementation, repair or completion checks.
+
+Use `formsy project connect --worktree ABSOLUTE --json` to prepare local resources
+and attempt verified Server matching. A unique authorized match may bind;
+ambiguous matches need an actual choice. Keep each repository's identity and
+authorization independent. Read project_context/sop_get only for optional project
+SOP, preserving its actual binding revision and published pin. Missing content
+or a failed read remains a gap, never zero-rule success or fabricated permission.
+
+The workflow module's optional-project-context reference owns source status,
+adoption and local Verifier acceptance semantics. Raw JSON stays in files and
+collapsed details; display brief progress, unresolved questions and the workbench.
+
+## Apply shared Birdview guidance
+
+Server supplies three optional project supplements: Birdview, project SOP, and
+knowledge with Verifier definitions. Follow
+[the source and acceptance contract](modules/formsy-sop-workflow/references/optional-project-context.md).
+The workflow module owns their reads and local impact preview. Missing login,
+binding, publication or connectivity does not disable the built-in SOP workflow.
+Keep actual source identity, fixed versions and coverage gaps; availability is
+not adoption, execution or acceptance. Applicable adopted Verifier failures
+still hold acceptance; authorized result synchronization is tracked separately.
+
+When MCP is not connected, describe the missing integration. If the user asks
+for CLI diagnostics, discover the installed command through `formsy --help` before using it. The preview launch path is `formsy mcp serve`.
+
+Report separately what the server returned, what remains unavailable, and what
+was actually tested. Normal clarifications can remain in the current conversation.
+
+## Record engineering milestones
+
+Before engineering work, resolve the current session through the installed capture
+configuration as described in the progress contract. A project/SOP lookup does not
+establish native capture. When capture is configured, pass the actual worktree
+to the existing flow enter/select command and read back its native Task receipt
+before implementation. The CLI creates or resumes the Task and associates that
+worktree; there is no separate bind/attach step. Reading this Skill or starting a watch does
+not record the task. If binding is unavailable, report the specific attribution
+gap and continue the user's ordinary authorized work without borrowing another
+session's state. This applies independently of the development workflow.
+
+For engineering work with an explicitly selected native FormSy capture state, read
+[the progress contract](references/progress-recording.md) before starting work,
+redirecting to a distinct deliverable, returning to a paused target, or recording
+a material decision, verification, blocker or handoff. Check the current task
+against the actual work target, not the overarching delivery goal. Same-target
+tests and commits remain within that task. For task entry, the lifecycle contract
+owns selecting actual user Activities and recording explicit trigger references.
+Local progress does not require a selected or ready SOP. Follow the context's
+legacy or explicit lifecycle interface; `formsy record` stores milestones.
+Use legacy Evidence only when explicitly selected. MCP remains read-only.
+Report the observed task receipt or the attribution gap in a short sentence,
+not stored JSON. Skill selection is not an every-turn capture guarantee,
+task approval or proof of completion.
+
+## Render a supplied report
+
+When the user requests a report and supplies actual project/SOP context or
+explicitly asks to render supplied structured data, read
+[the report contract](references/report-rendering.md). Use the supplied
+[schema](references/report-v1.schema.json) and fixed
+[renderer](scripts/render-report.mjs), with the existing
+[HTML template](assets/development-report-v1.html). Fill data; keep template,
+CSS and renderer unchanged. Never invent SOP or identity fields to bypass an
+unready project. Label fixtures as fixtures and never use them as production
+fallbacks.
+
+After generating HTML, use the current client's available preview capability
+to open it in this session. A queued/open request is not proof of rendered
+display; otherwise return an absolute file link and explain the limitation.

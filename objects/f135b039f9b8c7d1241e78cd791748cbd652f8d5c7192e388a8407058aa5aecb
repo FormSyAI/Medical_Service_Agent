@@ -1,0 +1,103 @@
+# Numeric precision domain rule
+
+Rule: `CUSTOM:DOM09` · Source version: `formsy-numeric-precision-0.1`.
+Use the existing [domain check card](sop-rules-addendum-20261016/domain-check-card.md).
+
+Enable this rule for money or any quantity whose stated contract requires
+exact representation, calculation, reconciliation, or controlled rounding.
+Record `applicable`, `not_applicable`, or `pending` and the actual trigger
+or missing decision on the card. A project that only displays text does not
+need to add money or multi-currency functionality. Payment checks in DOM08
+can coexist with this rule; reuse evidence where it applies.
+
+## Decide the precision contract before implementation
+
+In the specification state the unit (and currency where applicable), accepted
+input grammar, scale, per-value and aggregate ranges, record volume, and
+output format. Decide the bounds and precision of intermediate calculations,
+rounding mode and point of rounding, negative values/refunds, and any
+allocation remainder and its tie-break. Define the result for invalid or
+out-of-range inputs and whether rejection is atomic. Mark irrelevant
+operations as such. Bring material unknowns to clarification; don't pick an
+unapproved cap to make existing calculations pass.
+
+In the plan show the representation at input, calculation, storage, API,
+serialization, and display boundaries. For fixed-scale addition/subtraction,
+consider parsing the original string directly into integer minor units.
+Set the scale from the agreed unit and contract. Check integer range in each
+system, including database columns and API consumers. Use an exact string or an
+integer carried by an exact encoding where a consumer's numeric type cannot
+represent the value. Avoid round trips through binary floating point. Rate,
+tax, division, FX and allocation may require different intermediate precision
+and a separately declared rounding contract. The final allocation, including
+its remainder, should reconcile to the amount allocated under that contract.
+
+If using Python `Decimal`, construct from source strings. Use an explicit
+local context independent of the caller's, covering the worst legal
+intermediates, exponent range and final quantization. A finite fixed-scale
+sum can use a bound such as record count times the maximum absolute input in
+minor units to bound intermediate magnitudes. No fixed precision alone proves
+an unbounded input contract. Specify how `Inexact`, `Rounded` and
+`InvalidOperation` are handled. For example, reject unexpected inexact
+arithmetic while permitting an explicitly authorized rounding operation.
+`Rounded` can indicate that only zero digits were dropped; it does not always
+mean the value changed. Preserve the agreed error contract rather than
+silently weakening it.
+
+## Carry one card through the existing flow
+
+Keep the card ID, source version and locator, actual trigger, applicability,
+scope, and gaps together. Fill the following links on that card; use the real
+IDs and versions from the project, not the example names.
+
+| Existing stage | What to bind on the same card |
+| --- | --- |
+| Project Principles | Record the precision invariant and source if it is an authorized project principle. When reusing existing principles, record their locator or the task-specific trigger instead of rewriting them. |
+| Requirements | Link the relevant FR/SC IDs in `spec.md` to the input, precision, rounding and observable error contract. Retain decisions still awaiting clarification. |
+| Technical Planning | Link the corresponding object in `plan.md` to its representation at each boundary and the precision, limits, rounding, and recovery decisions. |
+| Task Breakdown and Preview | Link the real `tasks.md` IDs and `analysis.md` evidence. In the existing task packet's test rows, give each test a precondition, data, independent expected result, and intended receipt. Freeze the relevant existing requirement items and program artifacts/commands in the [acceptance scope](acceptance-scope.md). |
+| Self-check and Acceptance | Check the spec and plan against the actual contract. A type name or normal example alone leaves the obligation unverified. Run the original frozen [workflow checks](workflow.md) on the current candidate. Keep actual outcomes and receipts linked to those same requirements, including failures and gaps. |
+
+Document consistency and actual execution use separate evidence. For
+Workbench visibility, register the card as the current SOP or a named
+attachment through `document_changes` with its real path, revision and
+digest. Keep `CUSTOM:DOM09` out of compiled `condition_ids` and the legacy
+PM/M denominator. Add real application checks through the existing
+requirement-based acceptance scope; a domain card creates neither a Verifier
+nor a program pass. Keep frozen receipts and previous scope versions as saved.
+
+## Executable acceptance examples
+
+The following example is a single-unit CSV with an optional minus sign, a
+decimal integer or one/two fractional digits, and negative refunds. The
+original request declares no digit ceiling. Let
+`H = 100000000000000000000000000.00`. Literal expected results below are
+independent of the implementation. Preserve the old 32-case result as history.
+
+| Run and compare | Expected result and what it catches |
+| --- | --- |
+| `0.10 + 0.20` | `0.30`. This happy path also passes with the flawed Decimal sum, so it is insufficient evidence. |
+| Read CSV rows in this order: `2026-01-01,A,H`, `2026-01-01,B,0.01`, `2026-01-01,A,-H` (substitute the exact `H`). Then place the two A rows first, try other permutations, and merge independently summed batches. | Every pure sum is `0.01`; A is `0.00`, B is `0.01`, and their sum equals the total. Default precision 28 can produce `0.00` in the first order while A and B still reconcile to `0.01`. |
+| Run `10000.00 + 0.01 - 10000.00` with caller precision 6. Process the single large `H` with default caller precision 28. | Preserve `0.01` and `H`, respectively. Ambient-context addition can lose the cent; ambient quantization can raise `InvalidOperation` for the legal singleton. |
+| Round-trip `-1.2`, `0.01` and `H` through storage/API encoding and back to canonical strings. | `-1.20`, `0.01`, and `H` preserve their values; demonstrate the actual representation, not only arithmetic. |
+| If a different contract declares a magnitude/aggregate cap, test its legal limit and one minor unit past it. If the contract rounds, test ties and the agreed point of rounding with matching expected values. | For an example cap of `10.00`, accept `10.00`, reject `10.01` with the declared error and no partial result. Two exact `0.005` intermediate values give `0.02` for per-item half-up, `0.00` for per-item half-even, and `0.01` for half-up on their total. These are separate contracts, not constraints imposed on the CSV example. |
+
+For exact sums, include representative maximum record counts and cumulative
+values where the project has such limits. For business rounding or allocation,
+verify the declared operation order and reconciliation; do not require order
+invariance where the contract makes order significant. A completed check
+names the tested candidate, input and expected value, actual observation, and
+version-bound receipt. Missing or differing results do not pass.
+
+## Source notes
+
+Sources checked on 2026-11-17 (Asia/Shanghai). This rule and its examples are
+FormSy guidance, with the original counterexample from
+[issue #265](https://github.com/FormSyAI/formsy-sop/issues/265).
+
+| Source | What was used |
+| --- | --- |
+| [ISO 4217:2015 public abstract](https://www.iso.org/standard/64758.html) | Edition 8 public abstract: currency codes and the relationship to minor units where present. The full standard was not consulted; this rule makes no claim that ISO mandates integer storage. |
+| [OpenSSF Python Secure Coding Guide, pyscg-0001](https://best.openssf.org/Secure-Coding-Guide-for-Python/03_numbers/pyscg-0001/) | Engineering guidance on selecting exact numeric representations when precision matters. |
+| [Python 3.12 `decimal` documentation](https://docs.python.org/3.12/library/decimal.html) | Language behavior: precision, cancellation, `localcontext`, rounding modes, `quantize` and signals. |
+| [Stripe amount formatting](https://docs.stripe.com/currencies#specify-amounts-in-api-requests) | A provider's minor-unit request contract, with provider-specific scales, exceptions and limits. |

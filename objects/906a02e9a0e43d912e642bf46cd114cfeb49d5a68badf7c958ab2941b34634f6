@@ -1,0 +1,70 @@
+# SOP module handoff
+
+Use contract `formsy-sop-contract-0.2` and handoff schema `sop-module-handoff-0.2` for machine-readable JSON handoffs between the six SOP modules. Use Markdown for ordinary documents. The fields below apply when producing a JSON handoff under this contract.
+
+## Required fields
+
+| Field | Type and meaning |
+| --- | --- |
+| schema_version | Fixed string `sop-module-handoff-0.2` |
+| contract_version | Fixed string `formsy-sop-contract-0.2` |
+| skill_name / skill_version | Current method name and `0.2.0`. Record the tool resource version separately from the project revision. |
+| module | One of workflow/product/technical/knowledge/selfcheck/assemble |
+| project_id / revision | Nonempty project ID and current module revision. If the identity is unavailable, use an explicit temporary ID and record the pending identity check. |
+| mode / stage | Modes are generate/organize/review/assemble. Stages are initialization/discovery/modeling/planning/execution/verification/delivery. Use cross-stage when applicable. |
+| basis | Array of inputs, rules, or sources with id, revision, role, and locator. Use null for unknown values and record a gap in issues. |
+| objects | Array of actual objects with id, kind, revision, source_ids, requirement_ids, and description. Retain original IDs. |
+| artifacts | Array of outputs with path, revision, and status (draft/confirmed/stale). Use path=null and describe the content if the output has yet to be saved. |
+| sources | Array with id, revision, role, adoption (candidate/adopted/rejected/revoked/input), scope, locator, and read_extent. Record formal input and actual adoption separately. |
+| confirmations | Array with stage, revision, status (pending/user_declared/verified/stale), and record. Use an empty array or pending when actual confirmation is absent. |
+| checks | Array with id, rule_id, object_id, object_revision, level (L1/L2/L3), status (satisfied/unsatisfied/unchecked/not_applicable), evidence, and reason. Report only checks actually performed. |
+| issues | Array with id, description, object_ids, status, blocks, and next_action. Name the exact blocked actions and preserve the distinction between stopped and closed. |
+| runtime_results | Use `[]` before execution. For actual results record id, acceptance_id, platform, build_id, status, and evidence. Review whether the evidence supports each result. |
+| next_question | Null or one complete question. Keep separate decisions in separate questions. |
+
+Use `verified` when the actual confirmation wording can be located and refers to the current version. Use `user_declared` for a direct statement from the user whose original record remains unverified. User confirmation comes from the user. The structural checker checks fields and references. Verify the origin and authenticity of confirmation and evidence separately.
+
+For `runtime_results`, use status passed/failed/unverified/not_run/not_applicable. Both passed and failed require the environment, build, and evidence locator. Use not_run for unexecuted checks. Give a specific reason for not_applicable. When the target environment is unavailable, use unverified and retain the blocker in issues.
+
+## Structural validation conventions
+
+- Set `checks.object_revision` to the actual revision of the referenced object in objects, basis, or sources. Keep module, skill, and source revisions separate. Build the ID-to-revision map, fill the handoff, and run the structural checker.
+- Declare referenced object, requirement, acceptance, and source IDs in objects, basis, or sources. Record an explicitly missing object in issues.object_ids and leave it unresolved. Treat references with neither a declaration nor a recorded gap as broken.
+- Preserve PC01–15, TC01–15, and KB01–18. Assign project-specific rules IDs under `CUSTOM:<id>` and retain their defining source.
+- Record detailed tasks as task, step, or test objects in `objects` with a `details` extension, or use a controlled Markdown attachment. Review dependencies, input versions, allowed writes, steps, and completion assertions under the task refinement rules. Determine task readiness from actual checks and authorization. Use `CUSTOM:TASK01`–`CUSTOM:TASK10` for refinement checks.
+- For status `closed` or the retained alias `已关闭`, include a `closure` object. Set `evidence` to the basis for closure and `recheck_ids` to checks.id values in this handoff. Record any required effective decision separately. The checker verifies the fields and references. Evaluate the sufficiency of closure evidence separately.
+- When combining multiple handoffs, conflicting object, basis, or source revisions for the same project and ID block the structural merge. Keep historical versions separately and explicitly choose the current version after resolving the conflict.
+- The structural checker validates references without opening evidence or locator paths. Check file availability, human approval, coverage, factual accuracy, and executability separately. Drafts and empty arrays can be structurally valid with warnings and unresolved gaps.
+
+## Blank example
+
+This example is a draft with an unresolved project identity.
+
+```json
+{
+  "schema_version": "sop-module-handoff-0.2",
+  "contract_version": "formsy-sop-contract-0.2",
+  "skill_name": "formsy-sop-product",
+  "skill_version": "0.2.0",
+  "module": "product",
+  "project_id": "TEMP-project-identity-pending",
+  "revision": "draft-1",
+  "mode": "generate",
+  "stage": "modeling",
+  "basis": [],
+  "objects": [],
+  "artifacts": [],
+  "sources": [],
+  "confirmations": [],
+  "checks": [],
+  "issues": [{"id":"GAP-identity","description":"Project identity is unavailable","object_ids":[],"status":"pending","blocks":["Formal version merge"],"next_action":"Verify project identity"}],
+  "runtime_results": [],
+  "next_question": null
+}
+```
+
+Treat empty arrays as empty records and assess coverage and applicability separately. For a requested draft with unavailable inputs, use explicit placeholders and keep execution, approval, and scores tied to actual evidence. Implement persistence and access control in the application where required.
+
+## Supplemental rule versions and compatibility
+
+When adopting `sop-rules-addendum-20261016-0.1`, record its revision and local locator in basis. Use `CUSTOM:DOM01`–`CUSTOM:DOM08` for domain checks and preserve the PC/TC/KB/SEC/TASK links. These custom conditions lack a frozen atomic contract. Review their semantic coverage separately from structure. Use controlled Markdown for details and keep the existing required JSON fields and PM/M and application-acceptance denominators.

@@ -1,0 +1,33 @@
+# Domain applicability, design, and recheck card
+
+Rule revision `sop-rules-addendum-20261016-0.1`. This is the English counterpart of the [original Chinese blank card](../规范补充-20261016/领域检查卡.md). Fill in actual project decisions and evidence. Give a brief scope reason for a domain with no trigger and retain unknowns as pending judgment. This card may be included in the product, technical, acceptance, or self-check sections of the main SOP. Keep the underlying business design in one place.
+
+| DOM ID | Trigger facts and source location | Applicable, inapplicable, or pending judgment with reason | Original rules, objects, and revisions | Required depth and L1/L2/L3 | Document location or gap | Next action, owner, and blocker |
+| --- | --- | --- | --- | --- | --- | --- |
+| Screen DOM01–DOM08 | Unchecked | Pending judgment | Unbound | Pending | Unreviewed | Analyze |
+
+## Minimum design for triggered objects
+
+| Object and revision | User behavior and business invariants | Technical owner, interface, data, and commit boundary | Failure, duplication, cancellation, and recovery | Related tasks and acceptance criteria | Current basis and unresolved items |
+| --- | --- | --- | --- | --- | --- |
+| Unprovided | Unprovided | Unprovided | Unprovided | Unbound | Unreviewed |
+
+## Judgment and evidence
+
+| Check ID and original condition | Object, source, and rule version | Required level | Actual result, method, and actor | Locatable evidence and supported scope | Counterexample or gap and impact | Closure or recheck conditions |
+| --- | --- | --- | --- | --- | --- | --- |
+| CUSTOM:DOMxx | Unpinned | Pending | Unreviewed | No actual evidence | Analyze | Pending |
+
+Record scope selection, applicability, evidence judgments, user declarations, document confirmation, task readiness, and runtime acceptance separately. Mark uncompiled checks as document review only, with no atomic machine receipt. Exclude duplicate checks from legacy scoring and application acceptance denominators.
+
+## Changes and delivery
+
+| Record | Initial value |
+| --- | --- |
+| Previous and current versions or decisions, changes, and reasons | Unprovided |
+| Effects on product, technical design, tasks, acceptance, and references, including reasons where unchanged | Pending review |
+| Original failures and older evidence | Preserve their original bindings. Retesting for this version remains pending. |
+| Open item classification | Determine per item whether it is required before finalization, eligible for conditional delivery, or required before implementation. |
+| Document status | Draft |
+| Application execution | Unexecuted |
+| Confirmation and execution authority | Unobtained. Record these from their actual source. |

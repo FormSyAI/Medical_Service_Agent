@@ -1,0 +1,14 @@
+{
+  "source": "知识库设计/模块接口与数据契约.md",
+  "source_sha256": "44916d2abadb2c55fe5acf6a5f49740e3698738504cd4747e89b0bcef4829df9",
+  "selected_section_patterns": [
+    "whole_document"
+  ],
+  "unbundled_links_as_provenance": [
+    {
+      "label": "来源索引",
+      "original_reference": "知识库设计/参考资料/来源索引.md"
+    }
+  ],
+  "exported_sha256": "5e5626c176f6885819e113000a110ed0fdf43ac92be663de7f3eb3fd28cbf136"
+}

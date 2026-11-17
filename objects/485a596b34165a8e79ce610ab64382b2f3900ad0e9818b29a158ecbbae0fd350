@@ -1,0 +1,45 @@
+# Historical knowledge baseline and candidate designs
+
+Use this maintained English reference for sections 1–2 of the [frozen Chinese
+baseline export](采用基线与候选.md). The [provenance](采用基线与候选.provenance.json)
+records the original `知识库设计/需求与设计基线.md`, source digest, and selected
+sections. These choices and candidate designs describe the original FormSy
+design project. Verify this project's decisions, versions, scope, and
+permissions independently. Apply the [shared conventions](共同约定.md) to the
+current task.
+
+## 1. Recorded choices in the historical design
+
+| ID | User choice | Historical design boundary |
+| --- | --- | --- |
+| KBR01 | Support SOP generation and self-check while recording project requirements, designs, and previous decisions. | Keep general reference and project context as distinct roles with their own applicability. |
+| KBR02 | Allow manual import and collect system candidates. Adopt reference material through confirmation. | The user selects local sources. Track a separate review state for system candidates and add them to formal context only after adoption. |
+| KBR03 | Support documents in the first release and leave code analysis for a later extension. | Exclude source repository, function, and dependency-graph analysis from this release. Retain extension interfaces in parsers and source adapters. |
+| KBR04 | Share general material, isolate project material, and require explicit selection for cross-project use. | Enforce scope in retrieval, original reads, context assembly, and exports. |
+| KBR05 | Store and retrieve material locally. A configured model API may receive relevant excerpts and citations needed for the task. | Keep remote bulk indexing and whole-library upload outside the default. Actual costs require current authorization and project budget. |
+| KBR06 | Deliver the architecture diagram, knowledge SOP, module interfaces, and self-check rules for this historical round. | Deliver reviewable documents and diagrams. Keep FormSyHelper integration, project migration, and model API calls outside that documentation scope. |
+| KBR07 | Continue the earlier local-first direction and consider UnderstandAnything as a candidate. | Evaluate existing tools within the document scope. Check actual authorization before adding a dependency, using a service, or installing anything. |
+| KBR08 | Confirm the applicable stages and obtain renewed confirmation when requirements, the design, or permissions change. | Record knowledge adoption and stage confirmation independently. A source change leaves the confirmed baseline intact until the applicable decision. |
+
+KBR01–KBR06 came from the original round's individual questions and answers.
+KBR07–KBR08 came from earlier explicit choices in the same historical chat.
+Use these IDs as source locators. Use actual application approval IDs for
+application evidence. A manual import may include explicit adoption for the
+selected version and scope in the same operation. Reuse a valid adoption
+decision. Apply a valid adoption decision before using a source with no
+explicit adoption, including a system candidate, in formal generation.
+
+## 2. Candidate defaults from the historical design
+
+Review each candidate against the current project before adopting it.
+
+| ID | Proposal | Rationale and boundary |
+| --- | --- | --- |
+| KBD01 | Start with Markdown, TXT, DOCX, and text-based PDF. Save local page-content snapshots after review when applicable. | Validate parsing and locators during implementation. Report limits separately for scanned documents and OCR, encryption, and complex layouts. |
+| KBD02 | Use local source snapshots, version and metadata catalogs, and a rebuildable text index. | Preserve source and citation traceability. Confirm the storage technology independently. |
+| KBD03 | Start with local full-text search, metadata filters, and ranking as needed. Keep semantic search behind a replaceable adapter. | Establish source and scope accuracy first. Measure retrieval on annotated samples. Keep external vector API calls outside the default. |
+| KBD04 | Give a source update a new version and impact list. Use manual refresh as the proposed initial workflow. | Allow comparison and adoption. Keep original confirmation bound to the earlier version. Treat automatic monitoring as a later option. |
+| KBD05 | Retrieve from a fixed knowledge snapshot for the stage or object. Supply the model with the minimum relevant excerpts and citations. | Keep the task context reproducible. Use only authorized project material and adopted sources. |
+| KBD06 | Check confirmed project decisions and formal rules first. Register conflicts with reference material explicitly. | Triage disagreement between source claims and user requirements. Keep the goal bound to the applicable user decision. Search ranking and majority agreement provide reference signals only. |
+| KBD07 | Share general documents. Apply scope filters to project documents and indexes before retrieval. Deduplicate content without merging permissions. | Verify permission and version for original reads and model context as well as retrieval. |
+| KBD08 | Record adoption, rule applicability, factual support, stage confirmation, and real tests separately. | Adoption records consent to use the document. Check correctness, applicability, and any requirement separately. |
