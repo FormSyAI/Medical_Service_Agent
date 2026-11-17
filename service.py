@@ -3,6 +3,8 @@
 import json
 
 from model_client import ModelClient
+from privacy import mask_id_card, mask_phone, restore_arguments, sanitize_messages
+from tools.appointments import list_appointments
 from tools.bills import list_bills
 from tools.medications import list_medications
 from tools.patient_profile import patient_profile
@@ -11,7 +13,48 @@ TOOLS = {
     "patient_profile": patient_profile,
     "list_medications": list_medications,
     "list_bills": list_bills,
+    "list_appointments": list_appointments,
 }
+
+
+def _model_view(name, arguments, result):
+    """把工具结果投影为可回填给模型的最小字段：完整手机号、身份证号不进入模型请求。"""
+    patient_ref = arguments.get("patient_ref") or result.get("patient_ref")
+    if name == "patient_profile":
+        if "patient" in result:
+            patient = result["patient"]
+            view = {"patient_ref": patient_ref, "name": patient.get("name")}
+            if patient.get("phone"):
+                view["phone"] = mask_phone(patient["phone"])
+            if patient.get("id_card"):
+                view["id_card"] = mask_id_card(patient["id_card"])
+            return view
+        view = {"patient_ref": patient_ref}
+        for field, value in result.items():
+            if field == "phone":
+                view["phone"] = mask_phone(value)
+            elif field == "id_card":
+                view["id_card"] = mask_id_card(value)
+            elif field != "patient_id":
+                view[field] = value
+        return view
+    if name == "list_appointments":
+        return {
+            "patient_ref": patient_ref,
+            "appointments": [
+                {
+                    "date": row.get("date"),
+                    "time": row.get("time"),
+                    "department": row.get("department"),
+                    "status": row.get("status"),
+                }
+                for row in result.get("appointments", [])
+            ],
+        }
+    if name in ("list_medications", "list_bills"):
+        key = "medications" if name == "list_medications" else "bills"
+        return {"patient_ref": patient_ref, key: result.get(key, [])}
+    raise ValueError(f"没有为工具 {name} 定义可回填模型的视图")
 
 
 class CustomerServiceAgent:
@@ -27,8 +70,12 @@ class CustomerServiceAgent:
             "tools": sorted(TOOLS),
         }
 
+    def _send(self, messages):
+        """所有模型请求统一经此脱敏后发出：完整手机号、身份证号不进入请求体。"""
+        return self.model.send(sanitize_messages(messages))
+
     def answer(self, user_text):
-        first = self.model.send([
+        first = self._send([
             self._system_message(),
             {"role": "user", "content": user_text},
         ])
@@ -38,13 +85,14 @@ class CustomerServiceAgent:
         name = first["tool"]
         if name not in TOOLS:
             return "暂不支持该查询。"
-        arguments = first.get("arguments") or {}
+        arguments = restore_arguments(first.get("arguments") or {})
         result = TOOLS[name](**arguments)
-        self.last_result = result
+        view = _model_view(name, arguments, result)
+        self.last_result = view
 
-        return self.model.send([
+        return self._send([
             self._system_message(),
             {"role": "user", "content": user_text},
             {"role": "assistant", "tool_call": {"name": name, "arguments": arguments}},
-            {"role": "tool", "name": name, "content": result},
+            {"role": "tool", "name": name, "content": view},
         ])
